@@ -4,250 +4,195 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Firmalarımız - Antalya OSB Teknopark</title>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icons/icon-192.png">
     <meta name="theme-color" content="#1a1f3c">
 
     <style>
-        /* --- Genel Sıfırlama ve Temel Stiller --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #e8e8e8; background-color: #0a0d1e; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
-        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
-        a:hover { color: #c0c0ff; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        a { text-decoration: none; transition: color 0.3s ease; }
         ul { list-style: none; }
         img, svg, iframe { max-width: 100%; height: auto; vertical-align: middle; display: block; }
-
-        /* --- tsParticles Konteyneri --- */
         #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
-        /* --- Header (index.html'den) --- */
-        .main-header { background-color: rgba(10, 15, 43, 0.8); padding: 10px 20px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5); position: relative; z-index: 1000; }
+        /* --- Theme Variables --- */
+        body.dark-theme {
+            --bg-main: #0a0d1e;
+            --bg-header: rgba(10, 15, 43, 0.85);
+            --bg-card: rgba(25, 30, 65, 0.7);
+            --bg-card-hover: rgba(40, 45, 85, 0.8);
+            --bg-filter-controls: rgba(20, 25, 60, 0.5);
+            --bg-input: rgba(10, 15, 43, 0.8);
+            --bg-filter-btn-hover: #6a6ff1;
+            --bg-firm-link: #6a6ff1;
+            --bg-firm-link-hover: #4e54c8;
+            --bg-menu: rgba(15, 10, 30, 0.97);
+            --bg-menu-option: rgba(50, 30, 80, 0.8);
+            --bg-menu-option-hover: rgba(80, 50, 110, 0.9);
+            --text-primary: #e8e8e8;
+            --text-secondary: #ccc;
+            --text-tertiary: #aaa; /* No results */
+            --text-title: #c0c0ff;
+            --text-card-title: #fff;
+            --text-card-sector: #8f94fb;
+            --text-card-description: #ccc;
+            --text-input: #e0e0e0;
+            --text-input-placeholder: #888;
+            --text-filter-btn: #c0c0ff;
+            --text-filter-btn-active: #fff;
+            --text-firm-link: #fff;
+            --text-menu: #e8e8e8;
+            --accent-primary: #a0a0ff;
+            --accent-secondary: #c0c0ff;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --border-header-bottom: rgba(192, 192, 255, 0.3);
+            --border-input: #4a4f8b;
+            --border-input-focus: #8f94fb;
+            --border-filter-btn: #6a6ff1;
+            --shadow-color: rgba(0,0,0,0.5);
+            --shadow-card: 0 5px 20px rgba(0,0,0,0.3);
+            --shadow-card-hover: 0 10px 30px rgba(0,0,0,0.4);
+            --shadow-input-focus: 0 0 0 3px rgba(143, 148, 251, 0.3);
+            --logo-bg: #fff;
+            --logo-icon-color: #ccc;
+            --hamburger-bg: #f0f0f0;
+            --close-btn-color: #aaa;
+            --close-btn-color-hover: #fff;
+        }
+
+        body.light-theme {
+            --bg-main: #ecf0f1;
+            --bg-header: rgba(255, 255, 255, 0.95);
+            --bg-card: linear-gradient(135deg, rgba(106, 17, 203, 0.65) 0%, rgba(199, 21, 133, 0.7) 60%, rgba(238, 130, 238, 0.65) 100%);
+            --bg-card-hover: linear-gradient(135deg, rgba(106, 17, 203, 0.75) 0%, rgba(199, 21, 133, 0.8) 60%, rgba(238, 130, 238, 0.75) 100%);
+            --bg-filter-controls: rgba(255, 255, 255, 0.8);
+            --bg-input: #fff;
+            --bg-filter-btn-hover: #2980b9;
+            --bg-firm-link: #2980b9;
+            --bg-firm-link-hover: #1f6fa0;
+            --bg-menu: rgba(255, 255, 255, 0.98);
+            --bg-menu-option: rgba(236, 240, 241, 0.9);
+            --bg-menu-option-hover: #ffffff;
+            --text-primary: #2c3e50;
+            --text-secondary: #555;
+            --text-tertiary: #777; /* No results */
+            --text-title: #2980b9; /* Page title */
+            --text-card-title: #ffffff;
+            --text-card-sector: #f0d5ff; /* Light purple */
+            --text-card-description: rgba(255,255,255,0.9);
+            --text-input: #333;
+            --text-input-placeholder: #999;
+            --text-filter-btn: #2980b9;
+            --text-filter-btn-active: #fff;
+            --text-firm-link: #fff;
+            --text-menu: #34495e;
+            --accent-primary: #2980b9;
+            --accent-secondary: #1f6fa0;
+            --border-color: rgba(255, 255, 255, 0.3); /* Gradient card border */
+            --border-header-bottom: #dfe4ea;
+            --border-input: #ced4da;
+            --border-input-focus: #80bdff;
+            --border-filter-btn: #3498db;
+            --shadow-color: rgba(0,0,0,0.15);
+            --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.1);
+            --shadow-card-hover: 0 10px 35px rgba(0, 0, 0, 0.15);
+            --shadow-input-focus: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            --logo-bg: #fff;
+            --logo-icon-color: #ccc;
+            --hamburger-bg: #333;
+            --close-btn-color: #666;
+            --close-btn-color-hover: #000;
+        }
+
+        /* --- Base Styles Using Variables --- */
+        body { background-color: var(--bg-main); color: var(--text-primary); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; transition: background-color 0.4s ease, color 0.4s ease; }
+        a { color: var(--accent-primary); }
+        a:hover { color: var(--accent-secondary); }
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+        /* --- Header --- */
+        .main-header { background-color: var(--bg-header); padding: 10px 20px; box-shadow: 0 3px 10px var(--shadow-color); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-header-bottom); transition: background-color 0.4s ease, border-color 0.4s ease; }
+        .header-left { flex-grow: 1; }
+        .header-right { display: flex; align-items: center; }
         .hamburger-container { display: inline-block; position: relative; cursor: pointer; z-index: 1002; }
         .hamburger-icon { padding: 10px; display: inline-block; }
-        .hamburger-icon span { display: block; width: 28px; height: 3px; background-color: #f0f0f0; margin: 6px 0; transition: all 0.3s ease; border-radius: 1px; }
+        .hamburger-icon span { background-color: var(--hamburger-bg); display: block; width: 28px; height: 3px; margin: 6px 0; transition: all 0.3s ease; border-radius: 1px; }
+        #theme-toggle { color: var(--theme-toggle-color); margin-left: 10px; background: none; border: none; cursor: pointer; font-size: 1.6rem; padding: 8px 12px; transition: transform 0.3s ease, color 0.4s ease; }
+        #theme-toggle:hover { color: var(--theme-toggle-hover); transform: scale(1.1); }
+        #theme-toggle .fa-sun { display: none; }
+        .light-theme #theme-toggle .fa-sun { display: inline-block; }
+        .light-theme #theme-toggle .fa-moon { display: none; }
 
-        /* --- Tam Ekran Menü (index.html'den) --- */
-        .menu-options-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1001; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 25px; padding: 60px 40px 40px 40px; background-color: rgba(15, 10, 30, 0.97); backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transform: scale(0.98) translateY(10px); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.4s step-end, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); overflow-y: auto; }
+        /* --- Tam Ekran Menü --- */
+        .menu-options-container { background-color: var(--bg-menu); position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1001; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 25px; padding: 60px 40px 40px 40px; backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transform: scale(0.98) translateY(10px); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.4s step-end, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); overflow-y: auto; }
         .menu-options-container.active { opacity: 1; visibility: visible; transform: scale(1) translateY(0); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0s step-start, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
-        .close-menu-btn { position: absolute; top: 25px; right: 35px; font-size: 2rem; color: #aaa; cursor: pointer; transition: color 0.2s ease, transform 0.2s ease; z-index: 1003; padding: 5px; }
-        .close-menu-btn:hover { color: #fff; transform: rotate(90deg); }
-        .menu-option-box { background-color: rgba(50, 30, 80, 0.8); color: #e8e8e8; padding: 25px 20px; border-radius: 10px; width: 150px; min-height: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .menu-option-box:hover { background-color: rgba(80, 50, 110, 0.9); transform: translateY(-8px) scale(1.06); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+        .close-menu-btn { color: var(--close-btn-color); position: absolute; top: 25px; right: 35px; font-size: 2rem; cursor: pointer; transition: color 0.2s ease, transform 0.2s ease; z-index: 1003; padding: 5px; }
+        .close-menu-btn:hover { color: var(--close-btn-color-hover); transform: rotate(90deg); }
+        .menu-option-box { background-color: var(--bg-menu-option); color: var(--text-menu); border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0,0,0,0.3); padding: 25px 20px; border-radius: 10px; width: 150px; min-height: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; }
+        .menu-option-box:hover { background-color: var(--bg-menu-option-hover); transform: translateY(-8px) scale(1.06); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+        .light-theme .menu-option-box { border: 1px solid #bdc3c7; box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
+        .light-theme .menu-option-box:hover { box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
         .menu-option-box i { font-size: 2.5em; margin-bottom: 15px; transition: transform 0.35s cubic-bezier(0.68, -0.6, 0.265, 1.6); }
         .menu-option-box:hover i { transform: scale(1.3) rotate(15deg); }
         .menu-option-box span { font-size: 0.95rem; font-weight: 500; }
 
-        /* --- YENİ: Firmalar Sayfası Ana İçerik Alanı --- */
-        .firms-main {
-            flex-grow: 1;
-            padding: 60px 20px 40px 20px;
-            position: relative;
-            z-index: 1;
-        }
+        /* --- Firmalar Sayfası --- */
+        .firms-main { flex-grow: 1; padding: 60px 20px 40px 20px; position: relative; z-index: 1; }
+        .firms-container { max-width: 1300px; margin: 0 auto; width: 100%; }
+        .firms-container h1 { color: var(--text-title); text-align: center; font-size: 2.8rem; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 2px solid var(--border-header-bottom); font-weight: 600; transition: color 0.4s ease, border-color 0.4s ease;}
 
-        .firms-container {
-            max-width: 1300px; /* Grid için daha geniş alan */
-            margin: 0 auto; /* Ortala */
-            width: 100%;
-        }
+        .filter-controls { background-color: var(--bg-filter-controls); display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 40px; padding: 15px; border-radius: 8px; transition: background-color 0.4s ease; }
+        .filter-controls input[type="search"] { background-color: var(--bg-input); color: var(--text-input); border: 1px solid var(--border-input); padding: 10px 15px; border-radius: 20px; font-size: 1rem; min-width: 250px; outline: none; transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.4s ease, color 0.4s ease; }
+        .filter-controls input[type="search"]::placeholder { color: var(--text-input-placeholder); }
+        .filter-controls input[type="search"]:focus { border-color: var(--border-input-focus); box-shadow: var(--shadow-input-focus); }
+        .filter-buttons button { background-color: transparent; color: var(--text-filter-btn); border: 1px solid var(--border-filter-btn); padding: 8px 18px; margin-left: 8px; border-radius: 20px; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+        .filter-buttons button:hover, .filter-buttons button.active { background-color: var(--bg-filter-btn-hover); color: var(--text-filter-btn-active); }
+        .light-theme .filter-buttons button:hover, .light-theme .filter-buttons button.active { border-color: var(--bg-filter-btn-hover); }
 
-        .firms-container h1 {
-            text-align: center;
-            font-size: 2.8rem;
-            color: #c0c0ff;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(192, 192, 255, 0.3);
-            font-weight: 600;
-        }
+        .firm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 35px; }
+        @keyframes cardFadeIn { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .firm-card { background: var(--bg-card); backdrop-filter: blur(6px); border-radius: 10px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: var(--shadow-card); transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.4s ease, border-color 0.4s ease; display: flex; flex-direction: column; opacity: 0; animation: cardFadeIn 0.5s ease-out forwards; }
+        .firm-card.hidden { display: none; }
+        .firm-card:nth-child(3n+1) { animation-delay: 0.1s; } .firm-card:nth-child(3n+2) { animation-delay: 0.2s; } .firm-card:nth-child(3n+3) { animation-delay: 0.3s; }
+        .firm-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-card-hover); background: var(--bg-card-hover); border-color: var(--border-color-hover);}
+        .light-theme .firm-card:hover { border-color: var(--border-color-hover);}
 
-        /* YENİ: Filtreleme ve Arama Alanı */
-        .filter-controls {
-            display: flex;
-            flex-wrap: wrap; /* Mobilde alt satıra geçsin */
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 40px;
-            padding: 15px;
-            background-color: rgba(20, 25, 60, 0.5);
-            border-radius: 8px;
-        }
+        .firm-logo-container { background-color: var(--logo-bg); height: 100px; display: flex; justify-content: center; align-items: center; padding: 10px; transition: background-color 0.4s ease; }
+        .firm-logo-container img { max-height: 100%; max-width: 80%; object-fit: contain; }
+        .firm-logo-container .fa-building { font-size: 3rem; color: var(--logo-icon-color); }
+        .firm-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .firm-name { color: var(--text-card-title); font-size: 1.3rem; font-weight: 600; margin-bottom: 8px; line-height: 1.3; }
+        .firm-sector { color: var(--text-card-sector); font-size: 0.9rem; margin-bottom: 15px; font-style: italic; }
+        .firm-description { color: var(--text-card-description); font-size: 0.95rem; margin-bottom: auto; line-height: 1.5; }
+        .firm-link { background-color: var(--bg-firm-link); color: var(--text-firm-link); display: inline-block; margin-top: 15px; padding: 6px 12px; border-radius: 15px; font-size: 0.85rem; transition: background-color 0.3s ease; align-self: flex-start; }
+        .firm-link:hover { background-color: var(--bg-firm-link-hover); }
 
-        .filter-controls input[type="search"] {
-            padding: 10px 15px;
-            border-radius: 20px;
-            border: 1px solid #4a4f8b;
-            background-color: rgba(10, 15, 43, 0.8);
-            color: #e0e0e0;
-            font-size: 1rem;
-            min-width: 250px;
-            outline: none;
-        }
-        .filter-controls input[type="search"]::placeholder {
-             color: #888;
-        }
+        .no-results { color: var(--text-tertiary); grid-column: 1 / -1; text-align: center; padding: 40px; font-size: 1.2rem; display: none; }
 
-        .filter-buttons button {
-            padding: 8px 18px;
-            margin-left: 8px; /* Butonlar arası boşluk */
-            border-radius: 20px;
-            border: 1px solid #6a6ff1;
-            background-color: transparent;
-            color: #c0c0ff;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .filter-buttons button:hover,
-        .filter-buttons button.active {
-            background-color: #6a6ff1;
-            color: #fff;
-        }
-
-
-        /* YENİ: Firma Kartları Grid Düzeni */
-        .firm-grid {
-            display: grid;
-            /* Otomatik sığdır, min 280px, max 1fr */
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 35px; /* Kartlar arası boşluk */
-        }
-
-        /* YENİ: Firma Kartı Stili */
-        @keyframes cardFadeIn {
-            from { opacity: 0; transform: translateY(20px) scale(0.98); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .firm-card {
-            background-color: rgba(25, 30, 65, 0.7);
-            border-radius: 10px;
-            overflow: hidden; /* Resmin taşmasını engelle */
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex; /* İçeriği daha iyi kontrol etmek için */
-            flex-direction: column;
-            opacity: 0; /* Animasyon için */
-            animation: cardFadeIn 0.5s ease-out forwards;
-            /* Kartlar normalde görünür */
-            /* display: block; */ /* JavaScript ile kontrol edilecek */
-        }
-        /* JavaScript'in gizlediği kartlar */
-        .firm-card.hidden {
-            display: none;
-        }
-
-        /* Animasyon gecikmeleri (çok fazla olunca performansı etkileyebilir, azaltılabilir) */
-        /* JavaScript ile dinamik gecikme daha iyi olabilir ama şimdilik CSS ile */
-         .firm-card:nth-child(3n+1) { animation-delay: 0.1s; }
-         .firm-card:nth-child(3n+2) { animation-delay: 0.2s; }
-         .firm-card:nth-child(3n+3) { animation-delay: 0.3s; }
-
-
-        .firm-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-        }
-
-        .firm-logo-container {
-            height: 100px; /* Sabit logo alanı yüksekliği */
-            background-color: #fff; /* Beyaz logo arka planı */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-        }
-
-        .firm-logo-container img {
-            max-height: 100%; /* Yüksekliği aşmasın */
-            max-width: 80%; /* Genişliği de aşmasın */
-            object-fit: contain; /* Oranı koru */
-        }
-         /* Eğer logo yoksa gösterilecek ikon */
-         .firm-logo-container .fa-building {
-              font-size: 3rem;
-              color: #ccc;
-         }
-
-        .firm-info {
-            padding: 20px;
-            flex-grow: 1; /* Kalan alanı doldur */
-            display: flex;
-            flex-direction: column;
-        }
-
-        .firm-name {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 8px;
-            line-height: 1.3;
-        }
-
-        .firm-sector {
-            font-size: 0.9rem;
-            color: #8f94fb; /* Vurgu rengi */
-            margin-bottom: 15px;
-            font-style: italic;
-        }
-
-        .firm-description {
-            font-size: 0.95rem;
-            color: #ccc;
-            margin-bottom: auto; /* Açıklamadan sonraki boşluğu linke iter */
-            line-height: 1.5;
-        }
-
-        .firm-link {
-             display: inline-block;
-             margin-top: 15px; /* Açıklamadan sonra boşluk */
-             padding: 6px 12px;
-             background-color: #6a6ff1;
-             color: #fff;
-             border-radius: 15px;
-             font-size: 0.85rem;
-             transition: background-color 0.3s ease;
-             align-self: flex-start; /* Sola yasla */
-        }
-        .firm-link:hover {
-             background-color: #4e54c8;
-        }
-
-        /* YENİ: Arama Sonucu Yok Mesajı */
-        .no-results {
-            grid-column: 1 / -1; /* Tüm gridi kaplasın */
-            text-align: center;
-            padding: 40px;
-            color: #aaa;
-            font-size: 1.2rem;
-            display: none; /* Başlangıçta gizli */
-        }
-
-
-        /* --- Responsive Tasarım --- */
-        @media (max-width: 992px) {
-             .firm-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
-        }
-
+        /* --- Responsive --- */
+        @media (max-width: 992px) { .firm-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; } }
         @media (max-width: 768px) {
-            /* Mobil Menü (Aynı) */
-            /* ... */
-
-            /* Firmalar Sayfası Mobilde */
+            .main-header { padding: 10px 15px; }
+            #theme-toggle { font-size: 1.5rem; padding: 6px 10px;}
+            .menu-options-container { padding: 60px 15px 20px 15px; gap: 15px; align-items: flex-start; justify-content: flex-start; } .menu-option-box { width: calc(50% - 8px); min-height: 100px; padding: 15px 8px; } .menu-option-box i { font-size: 1.8em; margin-bottom: 8px; } .menu-option-box span { font-size: 0.8rem; } .close-menu-btn { top: 20px; right: 25px; font-size: 1.8rem; }
             .firms-main { padding: 60px 15px 30px 15px; }
             .firms-container h1 { font-size: 2.2rem; margin-bottom: 30px;}
             .filter-controls { flex-direction: column; gap: 10px; }
             .filter-controls input[type="search"] { min-width: unset; width: 100%; }
             .filter-buttons { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
             .filter-buttons button { margin-left: 0; }
-
-            .firm-grid { grid-template-columns: 1fr; /* Tek sütun */ gap: 25px; }
+            .firm-grid { grid-template-columns: 1fr; gap: 25px; }
             .firm-logo-container { height: 80px; }
             .firm-info { padding: 15px; }
             .firm-name { font-size: 1.2rem; }
@@ -255,43 +200,44 @@
             .firm-description { font-size: 0.9rem; }
             .firm-link { margin-top: 12px; }
         }
-        /* 480px ve altı için ek ayarlar gerekirse buraya */
-
+        @media (max-width: 480px) {
+            .firms-container h1 { font-size: 1.8rem; }
+            .menu-option-box { width: calc(100% - 10px); min-height: 70px; padding: 12px; flex-direction: row; justify-content: flex-start; gap: 15px; } .menu-option-box i { font-size: 1.6em; margin-bottom: 0; } .menu-option-box span { font-size: 0.9rem; text-align: left; }
+        }
     </style>
 </head>
-<body>
+<body class="dark-theme">
 
-    <!-- Parçacık Konteyneri -->
     <div id="tsparticles"></div>
 
-    <!-- Header -->
     <header class="main-header">
-        <div class="hamburger-container">
-            <div class="hamburger-icon" id="hamburgerIcon"><span></span><span></span><span></span></div>
-            <!-- Tam Ekran Menü -->
-            <nav class="menu-options-container" id="menuContainer">
-                <div class="close-menu-btn" id="closeMenuBtn"><i class="fas fa-times"></i></div>
-                <!-- Menü Linklerini Güncelleyin -->
-                <a href="hakkimizda.html" class="menu-option-box"> <i class="fa-solid fa-circle-info"></i> <span>Hakkımızda</span> </a>
-                <a href="kurullar.html" class="menu-option-box"><i class="fa-solid fa-briefcase"></i> <span>Kurullar</span> </a>
-                <a href="ekibimiz.html" class="menu-option-box"><i class="fa-solid fa-users"></i><span>Ekibimiz</span> </a>
-                 <!-- Aktif Link (Firmalar) -->
-                <!-- <a href="firmalar.html" class="menu-option-box"> <i class="fa-solid fa-building"></i> <span>Firmalar</span> </a> -->
-                <a href="etkinlik.html" class="menu-option-box"> <i class="fa-solid fa-calendar-days"></i> <span>Etkinlik</span> </a>
-                <a href="duyurular.html" class="menu-option-box"> <i class="fa-solid fa-bullhorn"></i> <span>Duyurular</span> </a>
-                <a href="haberler.html" class="menu-option-box"> <i class="fa-solid fa-newspaper"></i><span>Haberler</span> </a>
-                <a href="iletisim.html" class="menu-option-box"> <i class="fa-solid fa-envelope"></i> <span>İletişim</span> </a>
-                <a href="index.html" class="menu-option-box"> <i class="fas fa-home"></i> <span>Ana Sayfa</span> </a>
-            </nav>
+        <div class="header-left">
+            <div class="hamburger-container">
+                <div class="hamburger-icon" id="hamburgerIcon"><span></span><span></span><span></span></div>
+                <nav class="menu-options-container" id="menuContainer">
+                    <div class="close-menu-btn" id="closeMenuBtn"><i class="fas fa-times"></i></div>
+                    <a href="hakkimizda.html" class="menu-option-box"> <i class="fa-solid fa-circle-info"></i> <span>Hakkımızda</span> </a>
+                    <a href="kurullar.html" class="menu-option-box"><i class="fa-solid fa-briefcase"></i> <span>Kurullar</span> </a>
+                    <a href="ekibimiz.html" class="menu-option-box"><i class="fa-solid fa-users"></i><span>Ekibimiz</span> </a>
+                    <a href="etkinlik.html" class="menu-option-box"> <i class="fa-solid fa-calendar-days"></i> <span>Etkinlik</span> </a>
+                    <a href="duyurular.html" class="menu-option-box"> <i class="fa-solid fa-bullhorn"></i> <span>Duyurular</span> </a>
+                    <a href="haberler.html" class="menu-option-box"> <i class="fa-solid fa-newspaper"></i><span>Haberler</span> </a>
+                    <a href="iletisim.html" class="menu-option-box"> <i class="fa-solid fa-envelope"></i> <span>İletişim</span> </a>
+                    <a href="index.html" class="menu-option-box"> <i class="fas fa-home"></i> <span>Ana Sayfa</span> </a>
+                </nav>
+            </div>
+        </div>
+        <div class="header-right">
+             <button id="theme-toggle" aria-label="Temayı Değiştir">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </button>
         </div>
     </header>
 
-    <!-- Firmalar Ana İçerik Alanı -->
     <main class="firms-main">
         <div class="firms-container">
             <h1>Firmalarımız</h1>
-
-            <!-- Filtreleme ve Arama Kontrolleri -->
             <div class="filter-controls">
                 <input type="search" id="searchInput" placeholder="Firma adında ara...">
                 <div class="filter-buttons" id="filterButtons">
@@ -301,23 +247,12 @@
                     <button data-filter="enerji">Enerji</button>
                     <button data-filter="makine">Makine</button>
                     <button data-filter="tarim">Tarım Tekn.</button>
-                    <!-- Buraya diğer kategorileri ekleyin -->
                 </div>
             </div>
-
-            <!-- Firma Kartları Grid -->
             <div class="firm-grid" id="firmGrid">
-
-                <!-- DİKKAT: Aşağıdaki .firm-card yapısını 70 firmanız için tekrarlayın -->
-                <!-- Her karttaki data-category, src, alt, h3, p.firm-sektor, p.firm-description ve a.firm-link bilgilerini güncelleyin! -->
-
-                <!-- Örnek Firma Kartı 1 -->
                 <div class="firm-card" data-category="yazilim">
                     <a href="firma-linki-1.html" target="_blank" class="firm-logo-container">
-                        <!-- Eğer logo varsa: -->
                         <img src="firma-logosu1.png" alt="Firma Adı 1 Logosu" loading="lazy">
-                        <!-- Eğer logo yoksa ikon: -->
-                        <!-- <i class="fas fa-building"></i> -->
                     </a>
                     <div class="firm-info">
                         <h3 class="firm-name">Firma Adı 1 (Yazılım A.Ş.)</h3>
@@ -326,8 +261,6 @@
                         <a href="firma-linki-1.html" target="_blank" class="firm-link">Web Sitesi <i class="fas fa-external-link-alt fa-xs"></i></a>
                     </div>
                 </div>
-
-                <!-- Örnek Firma Kartı 2 -->
                 <div class="firm-card" data-category="biyoteknoloji">
                      <a href="firma-linki-2.html" target="_blank" class="firm-logo-container">
                         <img src="firma-logosu2.png" alt="Firma Adı 2 Logosu" loading="lazy">
@@ -339,11 +272,9 @@
                         <a href="firma-linki-2.html" target="_blank" class="firm-link">Web Sitesi <i class="fas fa-external-link-alt fa-xs"></i></a>
                     </div>
                 </div>
-
-                 <!-- Örnek Firma Kartı 3 (Logo Yok) -->
                 <div class="firm-card" data-category="enerji">
                      <a href="firma-linki-3.html" target="_blank" class="firm-logo-container">
-                         <i class="fas fa-building"></i> <!-- Logo yerine ikon -->
+                         <i class="fas fa-building"></i>
                     </a>
                     <div class="firm-info">
                         <h3 class="firm-name">Enerji Sistemleri Ltd.</h3>
@@ -352,30 +283,56 @@
                         <a href="firma-linki-3.html" target="_blank" class="firm-link">Web Sitesi <i class="fas fa-external-link-alt fa-xs"></i></a>
                     </div>
                 </div>
-
-                <!-- ... (Diğer 67 firma kartını buraya ekleyin) ... -->
-
-
-                <!-- Arama Sonucu Yok Mesajı -->
+                 <!-- Buraya diğer firma kartlarını ekleyin -->
                 <div class="no-results" id="noResultsMessage">
                     <p>Arama kriterlerinize uygun firma bulunamadı.</p>
                 </div>
-
-            </div> <!-- / .firm-grid -->
-        </div> <!-- / .firms-container -->
+            </div>
+        </div>
     </main>
-    <!-- / Firmalar Ana İçerik Alanı -->
 
-    <!-- tsParticles Kütüphanesi -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
-
-    <!-- tsParticles Başlatma, Menü ve YENİ Filtreleme Scripti -->
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
-            // tsParticles başlatma (Aynı)
-            tsParticles.load("tsparticles", { /* ... önceki config ... */ fpsLimit: 60, background: { color: "#0a0d1e" }, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25, width: 1 }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true });
+            const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25, width: 1 }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 130, density: { enable: true, area: 900 } }, color: { value: ["#555555", "#8B008B", "#3498db", "#2c3e50"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.7}, animation: { enable: true, speed: 0.6, minimumValue: 0.2, sync: false } }, size: { value: {min: 1, max: 4} }, links: { enable: true, distance: 140, color: "#8B008B", opacity: 0.35, width: 1.5 }, move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            let currentParticlesConfig = darkThemeParticlesConfig;
 
-            // Menü Açma/Kapatma İşlevselliği (Aynı)
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const body = document.body;
+            const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+
+            if(themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark';
+                    applyTheme(newTheme);
+                });
+            }
+
+            function applyTheme(theme) {
+                const isParticlesPage = typeof tsParticles !== 'undefined' && document.getElementById('tsparticles');
+
+                if (theme === 'light') {
+                    body.classList.remove('dark-theme');
+                    body.classList.add('light-theme');
+                    if(themeMeta) themeMeta.setAttribute('content', '#ecf0f1');
+                    if (isParticlesPage) currentParticlesConfig = lightThemeParticlesConfig;
+                } else {
+                    body.classList.remove('light-theme');
+                    body.classList.add('dark-theme');
+                     if(themeMeta) themeMeta.setAttribute('content', '#1a1f3c');
+                     if (isParticlesPage) currentParticlesConfig = darkThemeParticlesConfig;
+                }
+                localStorage.setItem('theme', theme);
+
+                if (isParticlesPage) {
+                    tsParticles.load("tsparticles", currentParticlesConfig);
+                }
+            }
+
             const hamburgerIcon = document.getElementById('hamburgerIcon');
             const menuContainer = document.getElementById('menuContainer');
             const closeMenuBtn = document.getElementById('closeMenuBtn');
@@ -386,35 +343,32 @@
                 document.addEventListener('click', (e) => { if (menuContainer.classList.contains('active') && !menuContainer.contains(e.target) && !hamburgerIcon.contains(e.target)) { menuContainer.classList.remove('active'); } });
             }
 
-            // --- YENİ: Firma Filtreleme ve Arama Scripti ---
             const searchInput = document.getElementById('searchInput');
             const filterButtonsContainer = document.getElementById('filterButtons');
             const firmGrid = document.getElementById('firmGrid');
             const firmCards = firmGrid.querySelectorAll('.firm-card');
             const noResultsMessage = document.getElementById('noResultsMessage');
-            let currentFilter = 'all'; // Başlangıç filtresi
+            let currentFilter = 'all';
 
-            // Filtreleme fonksiyonu
             function filterFirms() {
                 const searchTerm = searchInput.value.toLowerCase().trim();
                 let visibleCount = 0;
 
                 firmCards.forEach(card => {
                     const firmName = card.querySelector('.firm-name')?.textContent.toLowerCase() || '';
-                    const firmSector = card.dataset.category || ''; // Karttan kategori bilgisini al
+                    const firmSector = card.dataset.category || '';
 
                     const matchesSearch = firmName.includes(searchTerm);
                     const matchesFilter = currentFilter === 'all' || firmSector === currentFilter;
 
                     if (matchesSearch && matchesFilter) {
-                        card.classList.remove('hidden'); // Göster
+                        card.classList.remove('hidden');
                         visibleCount++;
                     } else {
-                        card.classList.add('hidden'); // Gizle
+                        card.classList.add('hidden');
                     }
                 });
 
-                 // Sonuç yok mesajını göster/gizle
                 if (visibleCount === 0) {
                      noResultsMessage.style.display = 'block';
                 } else {
@@ -422,34 +376,25 @@
                 }
             }
 
-            // Arama kutusuna yazıldığında filtrele
-            searchInput.addEventListener('input', filterFirms);
+            if(searchInput) {
+                searchInput.addEventListener('input', filterFirms);
+            }
 
-            // Kategori butonlarına tıklanınca filtrele
-            filterButtonsContainer.addEventListener('click', (event) => {
-                if (event.target.tagName === 'BUTTON') {
-                    // Aktif butonu güncelle
-                    filterButtonsContainer.querySelector('button.active').classList.remove('active');
-                    event.target.classList.add('active');
-
-                    // Seçilen filtreyi al
-                    currentFilter = event.target.dataset.filter;
-                    filterFirms(); // Filtrelemeyi tetikle
-                }
-            });
-
-             // Başlangıçta tüm kartlar görünsün (animasyon için)
-             // filterFirms(); // Eğer animasyon yoksa başlangıçta çağırılabilir
-
+            if(filterButtonsContainer) {
+                filterButtonsContainer.addEventListener('click', (event) => {
+                    if (event.target.tagName === 'BUTTON') {
+                        const currentActive = filterButtonsContainer.querySelector('button.active');
+                        if(currentActive) currentActive.classList.remove('active');
+                        event.target.classList.add('active');
+                        currentFilter = event.target.dataset.filter;
+                        filterFirms();
+                    }
+                });
+            }
+            // Initial filter call if needed after setup
+            // filterFirms();
         });
     </script>
-
-    <!-- Service Worker Kaydı -->
-     <script>
-        if ('serviceWorker'in navigator) {
-          navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err));
-        }
-      </script>
-
+     <script> if ('serviceWorker'in navigator) { navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err)); } </script>
 </body>
 </html>

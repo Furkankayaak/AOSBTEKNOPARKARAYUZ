@@ -1,0 +1,84 @@
+:root {
+    --bg-main: #1a2035;
+    --bg-stars: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    --bg-header: rgba(26, 32, 53, 0.85);
+    --bg-sidebar: #1f2740;
+    --bg-post: #252f4c;
+    --bg-post-hover: #2d375a;
+    --bg-button: rgba(255, 255, 255, 0.08);
+    --bg-button-hover: rgba(255, 255, 255, 0.15);
+    --bg-button-active: rgba(150, 160, 200, 0.2);
+    --bg-modal: rgba(30, 39, 76, 0.98);
+    --text-primary: #d5d8e1;
+    --text-secondary: #a0a8c0;
+    --text-title: #ffffff;
+    --text-link: #88a4ff;
+    --text-link-hover: #a1b9ff;
+    --text-button: #d5d8e1;
+    --text-active-stream: #fff;
+    --text-category-title: var(--text-title);
+    --border-color: rgba(255, 255, 255, 0.15);
+    --border-color-light: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --icon-color: #a0a8c0;
+    --icon-color-hover: #fff;
+    --accent-color-like: #ff8b60;
+    --accent-color-downvote: #9494ff;
+    --accent-color-comment: #76c8ff;
+    --accent-color-share: #a0a8c0;
+    --sidebar-active-bg: #2d375a;
+    --theme-toggle-color: #a0a8c0;
+    --theme-toggle-hover: #fff;
+    --login-button-bg: var(--text-link);
+    --login-button-text: #fff;
+    --post-header-color: var(--text-secondary);
+    --post-title-color: var(--text-title);
+    --post-excerpt-color: var(--text-primary);
+    --sidebar-link-color: var(--text-secondary);
+    --sidebar-link-hover-color: var(--text-title);
+    --modal-title-color: var(--text-title);
+    --modal-link-color: var(--text-secondary);
+    --modal-link-hover-color: var(--text-title);
+    --modal-icon-color: var(--text-secondary);
+    --modal-icon-hover-color: var(--text-primary);
+}
+body { background-color: var(--bg-main); color: var(--text-primary); }
+#animated-bg { background: var(--bg-stars); display: block; }
+.sidebar { background-color: var(--bg-sidebar); border-right-color: var(--border-color-light); }
+.sidebar-header { border-bottom-color: var(--border-color-light); }
+.sidebar-header h3 { color: var(--text-title); }
+.sidebar ul li a { color: var(--sidebar-link-color); }
+.sidebar ul li a:hover { background-color: var(--bg-button-hover); color: var(--sidebar-link-hover-color); }
+.sidebar ul li a.active-stream { background-color: var(--sidebar-active-bg); color: var(--text-active-stream); }
+.site-header { background-color: var(--bg-header); border-bottom-color: var(--border-color-light); }
+.menu-button { color: var(--text-secondary); }
+.home-button { color: var(--text-link); }
+.login-button { background-color: var(--login-button-bg); color: var(--login-button-text); }
+#theme-toggle { color: var(--theme-toggle-color); }
+#theme-toggle:hover { color: var(--theme-toggle-hover); }
+.category-title { color: var(--text-category-title); border-bottom-color: var(--border-color); }
+.post { background: var(--bg-post); border-color: var(--border-color-light); box-shadow: 0 2px 8px var(--shadow-color); }
+.post:hover { background: var(--bg-post-hover); box-shadow: 0 5px 15px var(--shadow-color); }
+.post-header { color: var(--post-header-color); }
+.post-sub { color: var(--text-link); }
+.post-title { color: var(--post-title-color); }
+.post-excerpt { color: var(--post-excerpt-color); }
+.post-actions { border-top-color: var(--border-color-light); }
+.action-button { background-color: var(--bg-button); color: var(--text-button); }
+.action-button:hover { background-color: var(--bg-button-hover); }
+.like-button.liked { background-color: var(--accent-color-like); color: #fff; }
+.downvote-button.downvoted { background-color: var(--accent-color-downvote); color: #fff; }
+.like-button i { color: var(--accent-color-like); }
+.downvote-button i { color: var(--accent-color-downvote); }
+.comment-button i { color: var(--accent-color-comment); }
+.share-button i { color: var(--accent-color-share); }
+.modal-content { background-color: var(--bg-modal); }
+.modal-close { color: var(--text-secondary); }
+.modal-content h3 { color: var(--modal-title-color); }
+.share-link { color: var(--modal-link-color); }
+.share-link:hover { background-color: var(--bg-button-hover); color: var(--modal-link-hover-color); }
+.share-link i { color: var(--modal-icon-color); }
+.share-link:hover i { color: var(--modal-icon-hover-color); }
+.copy-link-feedback { color: var(--accent-color-like); }
+a { color: var(--text-link); }
+a:hover { color: var(--text-link-hover); }

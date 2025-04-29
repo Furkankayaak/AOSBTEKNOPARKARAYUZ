@@ -3,233 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kurullar - Yönetim Kurulu</title> <!-- Başlık güncellendi -->
-    <!-- Font Awesome -->
+    <title>Kurullar - Yönetim Kurulu</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icons/icon-192.png">
     <meta name="theme-color" content="#1a1f3c">
 
     <style>
-        /* --- Genel Sıfırlama ve Temel Stiller (index.html'den) --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #e8e8e8; background-color: #0a0d1e; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
-        a { text-decoration: none; color: inherit; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        a { text-decoration: none; transition: color 0.3s ease; }
         ul { list-style: none; }
         img, svg, iframe { max-width: 100%; height: auto; vertical-align: middle; display: block; }
-
-        /* --- tsParticles Konteyneri (index.html'den) --- */
         #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
-        /* --- Header (index.html'den) --- */
-        .main-header { background-color: rgba(10, 15, 43, 0.8); padding: 10px 20px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5); position: relative; z-index: 1000; }
+        /* --- Theme Variables --- */
+        body.dark-theme {
+            --bg-main: #0a0d1e;
+            --bg-header: rgba(10, 15, 43, 0.85);
+            --bg-card: rgba(25, 30, 65, 0.7);
+            --bg-card-hover: rgba(40, 45, 85, 0.8);
+            --bg-menu: rgba(15, 10, 30, 0.97);
+            --bg-menu-option: rgba(50, 30, 80, 0.8);
+            --bg-menu-option-hover: rgba(80, 50, 110, 0.9);
+            --text-primary: #e8e8e8;
+            --text-secondary: #a8b0d0;
+            --text-title: #c0c0ff;
+            --text-card-title: #fff;
+            --text-card-secondary: #a0a0cf;
+            --text-menu: #e8e8e8;
+            --accent-primary: #a0a0ff;
+            --accent-secondary: #c0c0ff;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --border-color-hover: rgba(192, 192, 255, 0.5);
+            --border-header-bottom: rgba(192, 192, 255, 0.3);
+            --shadow-color: rgba(0,0,0,0.5);
+            --shadow-card: 0 4px 20px rgba(0,0,0,0.25);
+            --shadow-card-hover: 0 8px 30px rgba(0,0,0,0.35);
+            --icon-photo-bg: rgba(80, 50, 110, 0.6);
+            --icon-photo-border: rgba(255, 255, 255, 0.2);
+            --icon-photo-color: #c0c0ff;
+            --hamburger-bg: #f0f0f0;
+            --close-btn-color: #aaa;
+            --close-btn-color-hover: #fff;
+        }
+
+        body.light-theme {
+            --bg-main: #ecf0f1;
+            --bg-header: rgba(255, 255, 255, 0.95);
+            --bg-card: linear-gradient(135deg, rgba(106, 17, 203, 0.65) 0%, rgba(199, 21, 133, 0.7) 60%, rgba(238, 130, 238, 0.65) 100%);
+            --bg-card-hover: linear-gradient(135deg, rgba(106, 17, 203, 0.75) 0%, rgba(199, 21, 133, 0.8) 60%, rgba(238, 130, 238, 0.75) 100%);
+            --bg-menu: rgba(255, 255, 255, 0.98);
+            --bg-menu-option: rgba(236, 240, 241, 0.9);
+            --bg-menu-option-hover: #ffffff;
+            --text-primary: #2c3e50;
+            --text-secondary: #555;
+            --text-title: #2980b9; /* Mavi başlık */
+            --text-card-title: #ffffff;
+            --text-card-secondary: #f0d5ff; /* Açık mor */
+            --text-menu: #34495e;
+            --accent-primary: #2980b9;
+            --accent-secondary: #1f6fa0;
+            --border-color: rgba(255, 255, 255, 0.3); /* Gradient kart için */
+            --border-color-hover: rgba(255, 255, 255, 0.6);
+            --border-header-bottom: #dfe4ea; /* İnce gri */
+            --shadow-color: rgba(0,0,0,0.15);
+            --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.1);
+            --shadow-card-hover: 0 10px 35px rgba(0, 0, 0, 0.15);
+            --icon-photo-bg: rgba(255, 255, 255, 0.2);
+            --icon-photo-border: rgba(255, 255, 255, 0.4);
+            --icon-photo-color: #fff;
+            --hamburger-bg: #333;
+            --close-btn-color: #666;
+            --close-btn-color-hover: #000;
+        }
+
+        /* --- Base Styles (using variables) --- */
+        body { color: var(--text-primary); background-color: var(--bg-main); }
+        a { color: var(--accent-primary); }
+        a:hover { color: var(--accent-secondary); text-decoration: underline; }
+
+        /* --- Header --- */
+        .main-header {
+            background-color: var(--bg-header);
+            padding: 10px 20px;
+            box-shadow: 0 3px 10px var(--shadow-color);
+            position: sticky; top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-header-bottom);
+        }
+        .header-left { flex-grow: 1; } /* Hamburger sola yaslı kalsın */
+        .header-right { display: flex; align-items: center; } /* Sağ taraf toggle için */
         .hamburger-container { display: inline-block; position: relative; cursor: pointer; z-index: 1002; }
         .hamburger-icon { padding: 10px; display: inline-block; }
-        .hamburger-icon span { display: block; width: 28px; height: 3px; background-color: #f0f0f0; margin: 6px 0; transition: all 0.3s ease; border-radius: 1px; }
+        .hamburger-icon span { display: block; width: 28px; height: 3px; background-color: var(--hamburger-bg); margin: 6px 0; transition: all 0.3s ease; border-radius: 1px; }
+        #theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.6rem; padding: 8px 12px; color: var(--text-primary); transition: transform 0.3s ease, color 0.4s ease; }
+        #theme-toggle:hover { transform: scale(1.1) rotate(15deg); }
+        #theme-toggle .fa-sun { display: none; }
+        .light-theme #theme-toggle .fa-sun { display: inline-block; }
+        .light-theme #theme-toggle .fa-moon { display: none; }
 
-        /* --- Tam Ekran Menü (index.html'den) --- */
-        .menu-options-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1001; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 25px; padding: 60px 40px 40px 40px; background-color: rgba(15, 10, 30, 0.97); backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transform: scale(0.98) translateY(10px); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.4s step-end, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); overflow-y: auto; }
+        /* --- Tam Ekran Menü --- */
+        .menu-options-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1001; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 25px; padding: 60px 40px 40px 40px; background-color: var(--bg-menu); backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transform: scale(0.98) translateY(10px); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.4s step-end, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); overflow-y: auto; }
         .menu-options-container.active { opacity: 1; visibility: visible; transform: scale(1) translateY(0); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0s step-start, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
-        .close-menu-btn { position: absolute; top: 25px; right: 35px; font-size: 2rem; color: #aaa; cursor: pointer; transition: color 0.2s ease, transform 0.2s ease; z-index: 1003; padding: 5px; }
-        .close-menu-btn:hover { color: #fff; transform: rotate(90deg); }
-        .menu-option-box { background-color: rgba(50, 30, 80, 0.8); color: #e8e8e8; padding: 25px 20px; border-radius: 10px; width: 150px; min-height: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .menu-option-box:hover { background-color: rgba(80, 50, 110, 0.9); transform: translateY(-8px) scale(1.06); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+        .close-menu-btn { position: absolute; top: 25px; right: 35px; font-size: 2rem; color: var(--close-btn-color); cursor: pointer; transition: color 0.2s ease, transform 0.2s ease; z-index: 1003; padding: 5px; }
+        .close-menu-btn:hover { color: var(--close-btn-color-hover); transform: rotate(90deg); }
+        .menu-option-box { background-color: var(--bg-menu-option); color: var(--text-menu); padding: 25px 20px; border-radius: 10px; width: 150px; min-height: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .menu-option-box:hover { background-color: var(--bg-menu-option-hover); transform: translateY(-8px) scale(1.06); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+        .light-theme .menu-option-box { border: 1px solid #bdc3c7; box-shadow: 0 3px 10px rgba(0,0,0,0.08); } /* Light tema menu box border/shadow */
+        .light-theme .menu-option-box:hover { box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
         .menu-option-box i { font-size: 2.5em; margin-bottom: 15px; transition: transform 0.35s cubic-bezier(0.68, -0.6, 0.265, 1.6); }
         .menu-option-box:hover i { transform: scale(1.3) rotate(15deg); }
         .menu-option-box span { font-size: 0.95rem; font-weight: 500; }
 
-        /* --- YENİ: Kurullar Sayfası Ana İçerik Alanı --- */
-        .boards-main {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            padding: 80px 20px 40px 20px;
-            position: relative;
-            z-index: 1;
-        }
+        /* --- Kurullar Sayfası Ana İçerik Alanı --- */
+        .boards-main { flex-grow: 1; display: flex; justify-content: center; padding: 80px 20px 40px 20px; position: relative; z-index: 1; }
+        .board-container { max-width: 1200px; width: 100%; }
+        .board-container h1 { text-align: center; font-size: 2.8rem; color: var(--text-title); margin-bottom: 50px; padding-bottom: 15px; border-bottom: 2px solid var(--border-header-bottom); font-weight: 600; }
 
-        .board-container {
-            max-width: 1200px; /* Grid için daha geniş alan */
-            width: 100%;
-        }
+        /* --- Üye Kartları Grid Düzeni --- */
+        .members-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
 
-        .board-container h1 {
-            text-align: center;
-            font-size: 2.8rem;
-            color: #c0c0ff;
-            margin-bottom: 50px; /* Grid'den önceki boşluk */
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(192, 192, 255, 0.3);
-            font-weight: 600;
-        }
+        /* --- Üye Kartı Stili --- */
+        @keyframes fadeInSlideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .member-card { background: var(--bg-card); backdrop-filter: blur(6px); border-radius: 10px; padding: 30px 25px; text-align: center; border: 1px solid var(--border-color); box-shadow: var(--shadow-card); transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, background-color 0.3s ease; opacity: 0; animation: fadeInSlideUp 0.6s ease-out forwards; }
+        .member-card:nth-child(1) { animation-delay: 0.1s; } .member-card:nth-child(2) { animation-delay: 0.2s; } .member-card:nth-child(3) { animation-delay: 0.3s; } .member-card:nth-child(4) { animation-delay: 0.4s; } .member-card:nth-child(5) { animation-delay: 0.5s; } .member-card:nth-child(6) { animation-delay: 0.6s; } .member-card:nth-child(7) { animation-delay: 0.7s; } .member-card:nth-child(8) { animation-delay: 0.8s; } .member-card:nth-child(9) { animation-delay: 0.9s; } .member-card:nth-child(10) { animation-delay: 1.0s; } .member-card:nth-child(11) { animation-delay: 1.1s; }
+        .member-card:hover { transform: translateY(-8px) scale(1.03); box-shadow: var(--shadow-card-hover); background: var(--bg-card-hover); border-color: var(--border-color-hover); }
 
-        /* YENİ: Üye Kartları Grid Düzeni */
-        .members-grid {
-            display: grid;
-            /* Otomatik sığdırma, min 250px, max 1fr (eşit dağıt) */
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px; /* Kartlar arası boşluk */
-        }
+        /* --- Üye Foto/İkon Alanı --- */
+        .member-photo { width: 100px; height: 100px; border-radius: 50%; background-color: var(--icon-photo-bg); margin: 0 auto 20px auto; display: flex; justify-content: center; align-items: center; overflow: hidden; border: 2px solid var(--icon-photo-border); }
+        .member-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .member-photo i { font-size: 3rem; color: var(--icon-photo-color); }
 
-        /* YENİ: Üye Kartı Stili */
-        @keyframes fadeInSlideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .member-card {
-            background-color: rgba(25, 30, 65, 0.7); /* Kart arka planı */
-            border-radius: 10px;
-            padding: 30px 25px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-            opacity: 0; /* Animasyon için başlangıçta gizli */
-            animation: fadeInSlideUp 0.6s ease-out forwards;
-        }
-        /* Animasyon gecikmeleri (isteğe bağlı - hoş durur) */
-        .member-card:nth-child(1) { animation-delay: 0.1s; }
-        .member-card:nth-child(2) { animation-delay: 0.2s; }
-        .member-card:nth-child(3) { animation-delay: 0.3s; }
-        .member-card:nth-child(4) { animation-delay: 0.4s; }
-        .member-card:nth-child(5) { animation-delay: 0.5s; }
-        .member-card:nth-child(6) { animation-delay: 0.6s; }
-        .member-card:nth-child(7) { animation-delay: 0.7s; }
-        .member-card:nth-child(8) { animation-delay: 0.8s; }
-        .member-card:nth-child(9) { animation-delay: 0.9s; }
-        .member-card:nth-child(10) { animation-delay: 1.0s; }
-        .member-card:nth-child(11) { animation-delay: 1.1s; }
-
-
-        .member-card:hover {
-            transform: translateY(-8px) scale(1.03);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.35);
-            background-color: rgba(40, 45, 85, 0.8);
-        }
-
-        /* YENİ: Üye Foto/İkon Alanı */
-        .member-photo {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%; /* Yuvarlak */
-            background-color: rgba(80, 50, 110, 0.6); /* Morumsu arka plan */
-            margin: 0 auto 20px auto; /* Ortala ve alttan boşluk */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; /* Resim taşarsa kırp */
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .member-photo img { /* Eğer resim kullanırsanız */
-             width: 100%; height: 100%; object-fit: cover;
-        }
-        .member-photo i { /* Eğer ikon kullanırsanız */
-            font-size: 3rem;
-            color: #c0c0ff;
-        }
-
-        /* YENİ: Üye Bilgi Alanı */
+        /* --- Üye Bilgi Alanı --- */
         .member-info {}
-
-        .member-name {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-
-        .member-role {
-            font-size: 0.95rem;
-            color: #a0a0cf; /* Soluk morumsu renk */
-            font-style: italic;
-        }
-
+        .member-name { font-size: 1.3rem; font-weight: 600; color: var(--text-card-title); margin-bottom: 5px; }
+        .member-role { font-size: 0.95rem; color: var(--text-card-secondary); font-style: italic; }
 
         /* --- Responsive Tasarım --- */
-        @media (max-width: 992px) {
-             .members-grid {
-                  /* 2 sütun */
-                  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-                  gap: 25px;
-             }
-        }
-
+        @media (max-width: 992px) { .members-grid { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 25px; } }
         @media (max-width: 768px) {
-            /* Mobil Menü (Aynı) */
-            /* ... */
-
-            /* Kurullar Sayfası Mobilde */
+            .main-header { padding: 10px 15px; }
+            #theme-toggle { font-size: 1.5rem; padding: 6px 10px;}
             .boards-main { padding: 60px 15px 30px 15px; }
             .board-container h1 { font-size: 2.2rem; margin-bottom: 40px;}
-            .members-grid {
-                 grid-template-columns: 1fr; /* Tek sütun */
-                 gap: 20px;
-            }
+            .members-grid { grid-template-columns: 1fr; gap: 20px; }
             .member-card { padding: 25px 20px; }
             .member-photo { width: 80px; height: 80px; margin-bottom: 15px;}
             .member-photo i { font-size: 2.5rem;}
             .member-name { font-size: 1.2rem; }
             .member-role { font-size: 0.9rem; }
+            .menu-options-container { padding: 60px 15px 20px 15px; gap: 15px; align-items: flex-start; justify-content: flex-start; }
+            .menu-option-box { width: calc(50% - 8px); min-height: 100px; padding: 15px 8px; }
+            .menu-option-box i { font-size: 1.8em; margin-bottom: 8px; }
+            .menu-option-box span { font-size: 0.8rem; }
+            .close-menu-btn { top: 20px; right: 25px; font-size: 1.8rem; }
         }
         @media (max-width: 480px) {
-            /* Mobil Menü (Aynı) */
-            /* ... */
-
             .board-container h1 { font-size: 1.8rem; }
+            .menu-option-box { width: calc(100% - 10px); min-height: 70px; padding: 12px; flex-direction: row; justify-content: flex-start; gap: 15px; }
+            .menu-option-box i { font-size: 1.6em; margin-bottom: 0; }
+            .menu-option-box span { font-size: 0.9rem; text-align: left; }
         }
 
     </style>
 </head>
-<body>
+<body class="dark-theme">
 
-    <!-- Parçacık Konteyneri -->
     <div id="tsparticles"></div>
 
-    <!-- Header -->
     <header class="main-header">
-        <div class="hamburger-container">
-            <div class="hamburger-icon" id="hamburgerIcon">
-                <span></span><span></span><span></span>
+        <div class="header-left">
+            <div class="hamburger-container">
+                <div class="hamburger-icon" id="hamburgerIcon">
+                    <span></span><span></span><span></span>
+                </div>
+                <nav class="menu-options-container" id="menuContainer">
+                    <div class="close-menu-btn" id="closeMenuBtn"><i class="fas fa-times"></i></div>
+                    <a href="hakkimizda.html" class="menu-option-box"> <i class="fa-solid fa-circle-info"></i> <span>Hakkımızda</span> </a>
+                    <a href="ekibimiz.html" class="menu-option-box"><i class="fa-solid fa-users"></i><span>Ekibimiz</span> </a>
+                    <a href="firmalar.html" class="menu-option-box"> <i class="fa-solid fa-building"></i> <span>Firmalar</span> </a>
+                    <a href="etkinlik.html" class="menu-option-box"> <i class="fa-solid fa-calendar-days"></i> <span>Etkinlik</span> </a>
+                    <a href="duyurular.html" class="menu-option-box"> <i class="fa-solid fa-bullhorn"></i> <span>Duyurular</span> </a>
+                    <a href="haberler.html" class="menu-option-box"> <i class="fa-solid fa-newspaper"></i><span>Haberler</span> </a>
+                    <a href="iletisim.html" class="menu-option-box"> <i class="fa-solid fa-envelope"></i> <span>İletişim</span> </a>
+                    <a href="index.html" class="menu-option-box"> <i class="fas fa-home"></i> <span>Ana Sayfa</span> </a>
+                </nav>
             </div>
-            <!-- Tam Ekran Menü -->
-            <nav class="menu-options-container" id="menuContainer">
-                <div class="close-menu-btn" id="closeMenuBtn"><i class="fas fa-times"></i></div>
-                <!-- Menü Kutuları (Linkleri güncelle!) -->
-                <a href="hakkimizda.html" class="menu-option-box"> <i class="fa-solid fa-circle-info"></i> <span>Hakkımızda</span> </a>
-                <!-- Aktif sayfa linkini kaldırabilir veya farklı stil verebiliriz -->
-                <!-- <a href="kurullar.html" class="menu-option-box"> <i class="fa-solid fa-briefcase"></i> <span>Kurullar</span> </a> -->
-                <a href="ekibimiz.html" class="menu-option-box"><i class="fa-solid fa-users"></i><span>Ekibimiz</span> </a>
-                <a href="firmalar.html" class="menu-option-box"> <i class="fa-solid fa-building"></i> <span>Firmalar</span> </a>
-                <a href="etkinlik.html" class="menu-option-box"> <i class="fa-solid fa-calendar-days"></i> <span>Etkinlik</span> </a>
-                <a href="duyurular.html" class="menu-option-box"> <i class="fa-solid fa-bullhorn"></i> <span>Duyurular</span> </a>
-                <a href="haberler.html" class="menu-option-box"> <i class="fa-solid fa-newspaper"></i><span>Haberler</span> </a>
-                <a href="iletisim.html" class="menu-option-box"> <i class="fa-solid fa-envelope"></i> <span>İletişim</span> </a>
-                <a href="index.html" class="menu-option-box"> <i class="fas fa-home"></i> <span>Ana Sayfa</span> </a>
-            </nav>
+        </div>
+        <div class="header-right">
+             <button id="theme-toggle" aria-label="Temayı Değiştir">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </button>
         </div>
     </header>
 
-    <!-- Kurullar Ana İçerik Alanı -->
     <main class="boards-main">
         <div class="board-container">
             <h1>Yönetim Kurulu</h1>
-
             <div class="members-grid">
-                <!-- Üye Kartı 1 -->
                 <div class="member-card">
-                    <div class="member-photo">
-                        <!-- <img src="uye1.jpg" alt="Üye Adı Soyadı"> VEYA İkon Kullan: -->
-                        <i class="fas fa-user-tie"></i>
-                    </div>
+                    <div class="member-photo"><i class="fas fa-user-tie"></i></div>
                     <div class="member-info">
                         <h3 class="member-name">Adı Soyadı 1</h3>
                         <p class="member-role">Yönetim Kurulu Başkanı</p>
                     </div>
                 </div>
-                <!-- Üye Kartı 2 -->
                 <div class="member-card">
                     <div class="member-photo"><i class="fas fa-user-tie"></i></div>
                     <div class="member-info">
@@ -237,7 +229,6 @@
                         <p class="member-role">Yönetim Kurulu Başkan Vekili</p>
                     </div>
                 </div>
-                <!-- Üye Kartı 3 -->
                 <div class="member-card">
                     <div class="member-photo"><i class="fas fa-user-tie"></i></div>
                     <div class="member-info">
@@ -245,7 +236,6 @@
                         <p class="member-role">Yönetim Kurulu Üyesi</p>
                     </div>
                 </div>
-                <!-- Üye Kartı 4 -->
                 <div class="member-card">
                     <div class="member-photo"><i class="fas fa-user-tie"></i></div>
                     <div class="member-info">
@@ -253,7 +243,6 @@
                         <p class="member-role">Yönetim Kurulu Üyesi</p>
                     </div>
                 </div>
-                <!-- Üye Kartı 5 -->
                  <div class="member-card">
                     <div class="member-photo"><i class="fas fa-user-tie"></i></div>
                     <div class="member-info">
@@ -261,7 +250,6 @@
                         <p class="member-role">Yönetim Kurulu Üyesi</p>
                     </div>
                 </div>
-                <!-- Üye Kartı 6 -->
                  <div class="member-card">
                     <div class="member-photo"><i class="fas fa-user-tie"></i></div>
                     <div class="member-info">
@@ -269,7 +257,6 @@
                         <p class="member-role">Yönetim Kurulu Üyesi</p>
                     </div>
                 </div>
-                <!-- Üye Kartı 7 -->
                  <div class="member-card">
                     <div class="member-photo"><i class="fas fa-user-tie"></i></div>
                     <div class="member-info">
@@ -277,7 +264,6 @@
                         <p class="member-role">Yönetim Kurulu Üyesi</p>
                     </div>
                 </div>
-                <!-- Üye Kartı 8 -->
                  <div class="member-card">
                     <div class="member-photo"><i class="fas fa-user-tie"></i></div>
                     <div class="member-info">
@@ -285,7 +271,6 @@
                         <p class="member-role">Yönetim Kurulu Üyesi</p>
                     </div>
                 </div>
-                <!-- Üye Kartı 9 -->
                  <div class="member-card">
                     <div class="member-photo"><i class="fas fa-user-tie"></i></div>
                     <div class="member-info">
@@ -293,7 +278,6 @@
                         <p class="member-role">Yönetim Kurulu Üyesi</p>
                     </div>
                 </div>
-                <!-- Üye Kartı 10 -->
                  <div class="member-card">
                     <div class="member-photo"><i class="fas fa-user-tie"></i></div>
                     <div class="member-info">
@@ -301,7 +285,6 @@
                         <p class="member-role">Yönetim Kurulu Üyesi</p>
                     </div>
                 </div>
-                <!-- Üye Kartı 11 -->
                  <div class="member-card">
                     <div class="member-photo"><i class="fas fa-user-tie"></i></div>
                     <div class="member-info">
@@ -309,23 +292,52 @@
                         <p class="member-role">Genel Müdür / YK Üyesi</p>
                     </div>
                 </div>
-                <!-- Buraya kadar 11 üye -->
-
-            </div> <!-- / .members-grid -->
-        </div> <!-- / .board-container -->
+            </div>
+        </div>
     </main>
-    <!-- / Kurullar Ana İçerik Alanı -->
 
-    <!-- tsParticles Kütüphanesi -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
-
-    <!-- tsParticles Başlatma ve Menü Scripti (Aynı) -->
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
-            // tsParticles başlatma (Aynı)
-            tsParticles.load("tsparticles", { fpsLimit: 60, background: { color: "#0a0d1e" }, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25, width: 1 }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true });
+            const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25, width: 1 }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 130, density: { enable: true, area: 900 } }, color: { value: ["#555555", "#8B008B", "#3498db", "#2c3e50"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.7}, animation: { enable: true, speed: 0.6, minimumValue: 0.2, sync: false } }, size: { value: {min: 1, max: 4} }, links: { enable: true, distance: 140, color: "#8B008B", opacity: 0.35, width: 1.5 }, move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            let currentParticlesConfig = darkThemeParticlesConfig;
 
-            // Menü Açma/Kapatma İşlevselliği (Aynı)
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const body = document.body;
+            const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+
+            if(themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark';
+                    applyTheme(newTheme);
+                });
+            }
+
+            function applyTheme(theme) {
+                const isParticlesPage = typeof tsParticles !== 'undefined' && document.getElementById('tsparticles');
+
+                if (theme === 'light') {
+                    body.classList.remove('dark-theme');
+                    body.classList.add('light-theme');
+                    if(themeMeta) themeMeta.setAttribute('content', '#ecf0f1');
+                    if (isParticlesPage) currentParticlesConfig = lightThemeParticlesConfig;
+                } else {
+                    body.classList.remove('light-theme');
+                    body.classList.add('dark-theme');
+                     if(themeMeta) themeMeta.setAttribute('content', '#1a1f3c');
+                     if (isParticlesPage) currentParticlesConfig = darkThemeParticlesConfig;
+                }
+                localStorage.setItem('theme', theme);
+
+                if (isParticlesPage) {
+                    tsParticles.load("tsparticles", currentParticlesConfig);
+                }
+            }
+
             const hamburgerIcon = document.getElementById('hamburgerIcon');
             const menuContainer = document.getElementById('menuContainer');
             const closeMenuBtn = document.getElementById('closeMenuBtn');
@@ -337,13 +349,10 @@
             }
         });
     </script>
-
-    <!-- Service Worker Kaydı -->
      <script>
         if ('serviceWorker'in navigator) {
           navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err));
         }
       </script>
-
 </body>
 </html>

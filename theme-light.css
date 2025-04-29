@@ -1,0 +1,86 @@
+:root {
+    --bg-main: #f0f2f5;
+    --bg-stars: #ffffff;
+    --bg-header: rgba(255, 255, 255, 0.95);
+    --bg-sidebar: linear-gradient(135deg, rgba(106, 17, 203, 0.65) 0%, rgba(199, 21, 133, 0.7) 60%, rgba(238, 130, 238, 0.65) 100%);
+    --bg-post: linear-gradient(135deg, rgba(106, 17, 203, 0.65) 0%, rgba(199, 21, 133, 0.7) 60%, rgba(238, 130, 238, 0.65) 100%);
+    --bg-post-hover: linear-gradient(135deg, rgba(106, 17, 203, 0.75) 0%, rgba(199, 21, 133, 0.8) 60%, rgba(238, 130, 238, 0.75) 100%);
+    --bg-button: rgba(0, 0, 0, 0.1);
+    --bg-button-hover: rgba(0, 0, 0, 0.2);
+    --bg-button-active: rgba(0, 0, 0, 0.3);
+    --bg-modal: rgba(255, 255, 255, 0.98);
+    --text-primary: #1c1e21;
+    --text-secondary: #65676b;
+    --text-title: #4a235a; /* Dark purple for contrast on gradient */
+    --text-link: #00376b;
+    --text-link-hover: #002f5a;
+    --text-button: #3d1d54; /* Dark purple for button text */
+    --text-active-stream: #fff;
+    --text-category-title: #2980b9; /* Blue page title */
+    --border-color: rgba(0, 0, 0, 0.1);
+    --border-color-light: rgba(255, 255, 255, 0.3); /* Border on gradient */
+    --shadow-color: rgba(0, 0, 0, 0.15);
+    --icon-color: #5a3f73; /* Darker icon color on gradient */
+    --icon-color-hover: #3d1d54;
+    --accent-color-like: #5a3f73;
+    --accent-color-downvote: #5a3f73;
+    --accent-color-comment: #5a3f73;
+    --accent-color-share: #5a3f73;
+    --sidebar-active-bg: rgba(255, 255, 255, 0.25);
+    --theme-toggle-color: #1c1e21;
+    --theme-toggle-hover: #00376b;
+    --login-button-bg: var(--text-link);
+    --login-button-text: #fff;
+    --post-header-color: rgba(74, 35, 90, 0.8);
+    --post-title-color: var(--text-title);
+    --post-excerpt-color: rgba(74, 35, 90, 0.9);
+    --sidebar-link-color: rgba(74, 35, 90, 0.85);
+    --sidebar-link-hover-color: #3d1d54;
+    --modal-title-color: var(--text-primary);
+    --modal-link-color: var(--text-secondary);
+    --modal-link-hover-color: var(--text-primary);
+    --modal-icon-color: var(--text-secondary);
+    --modal-icon-hover-color: var(--text-primary);
+}
+/* Apply light theme styles */
+body { background-color: var(--bg-main); color: var(--text-primary); }
+#animated-bg { display: none; }
+.sidebar { background: var(--bg-sidebar); border-right-color: var(--border-color-light); }
+.sidebar-header { border-bottom-color: var(--border-color-light); }
+.sidebar-header h3 { color: var(--text-title); }
+.sidebar ul li a { color: var(--sidebar-link-color); }
+.sidebar ul li a:hover { background-color: rgba(255, 255, 255, 0.2); color: var(--sidebar-link-hover-color); }
+.sidebar ul li a.active-stream { background-color: var(--sidebar-active-bg); color: var(--text-active-stream); }
+.site-header { background-color: var(--bg-header); border-bottom-color: var(--border-color); }
+.menu-button { color: var(--text-secondary); }
+.home-button { color: var(--text-link); }
+.login-button { background-color: var(--login-button-bg); color: var(--login-button-text); }
+#theme-toggle { color: var(--theme-toggle-color); }
+#theme-toggle:hover { color: var(--theme-toggle-hover); }
+.category-title { color: var(--text-category-title); border-bottom-color: var(--border-color); }
+.post { background: var(--bg-post); border-color: var(--border-color-light); box-shadow: 0 2px 8px var(--shadow-color); }
+.post:hover { background: var(--bg-post-hover); box-shadow: 0 5px 15px var(--shadow-color); }
+.post-header { color: var(--post-header-color); }
+.post-sub { color: #ffffff; opacity: 0.9; font-weight: 500;}
+.post-title { color: var(--post-title-color); }
+.post-excerpt { color: var(--post-excerpt-color); }
+.post-actions { border-top-color: var(--border-color-light); }
+.action-button { background-color: var(--bg-button); color: var(--text-button); }
+.action-button:hover { background-color: var(--bg-button-hover); }
+.action-button i { color: inherit; }
+.like-button i { color: var(--accent-color-like); }
+.downvote-button i { color: var(--accent-color-downvote); }
+.comment-button i { color: var(--accent-color-comment); }
+.share-button i { color: var(--accent-color-share); }
+.like-button.liked, .downvote-button.downvoted { background-color: rgba(0,0,0,0.3); color: #fff;}
+.like-button.liked i, .downvote-button.downvoted i { color: inherit; }
+.modal-content { background-color: var(--bg-modal); box-shadow: 0 5px 25px var(--shadow-color); }
+.modal-close { color: var(--text-secondary); }
+.modal-content h3 { color: var(--modal-title-color); }
+.share-link { color: var(--modal-link-color); }
+.share-link:hover { background-color: rgba(0,0,0,0.05); color: var(--modal-link-hover-color); }
+.share-link i { color: var(--modal-icon-color); }
+.share-link:hover i { color: var(--modal-icon-hover-color); }
+.copy-link-feedback { color: #e74c3c; }
+a { color: var(--text-link); }
+a:hover { color: var(--text-link-hover); }

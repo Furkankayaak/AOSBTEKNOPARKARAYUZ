@@ -9,102 +9,163 @@
     <link rel="icon" href="icons/icon-192.png">
     <meta name="theme-color" content="#0b0f2b">
     <style>
-        :root {
-            --bg-dark: #0b0f2b;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        body.overlay-active { overflow: hidden; }
+        a { text-decoration: none; transition: color 0.3s ease; }
+        ul { list-style: none; }
+        img, svg, iframe { max-width: 100%; height: auto; vertical-align: middle; display: block; }
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+        /* --- Dark Theme Variables --- */
+        body.dark-theme {
+            --bg-main: #0b0f2b;
+            --bg-header: rgba(11, 15, 43, 0.9);
             --bg-card: rgba(20, 30, 70, 0.75);
             --bg-card-hover: rgba(30, 45, 90, 0.88);
             --text-primary: #e8e8f8;
             --text-secondary: #a8b0d0;
-            --accent-glow-primary: #00BFFF;
-            --accent-glow-secondary: #87CEFA;
-            --accent-glow-hover: #add8e6;
+            --text-title: #fff;
+            --accent-primary: #00BFFF; /* DeepSkyBlue */
+            --accent-secondary: #87CEFA; /* LightSkyBlue */
+            --accent-hover: #add8e6; /* LightBlue */
             --border-color: rgba(0, 191, 255, 0.3);
             --border-color-hover: rgba(0, 191, 255, 0.7);
             --glow-color-primary: rgba(0, 191, 255, 0.6);
             --glow-color-secondary: rgba(135, 206, 250, 0.5);
             --shadow-color: rgba(0, 0, 0, 0.6);
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; line-height: 1.6; color: var(--text-primary); background-color: var(--bg-dark); display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
-        body.overlay-active { overflow: hidden; }
-        a { text-decoration: none; color: var(--accent-glow-secondary); transition: color 0.3s ease; }
-        a:hover { color: var(--accent-glow-hover); }
-        ul { list-style: none; }
-        img, svg, iframe { max-width: 100%; height: auto; vertical-align: middle; display: block; }
-        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-
-        .main-header { background-color: rgba(11, 15, 43, 0.9); padding: 10px 25px; /* Dikey padding azaltıldı */ box-shadow: 0 4px 15px var(--shadow-color); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); min-height: 70px; /* Yükseklik arttı */ }
-
-        /* Header Sol Taraf (Logo + Metin) - GÜNCELLENDİ */
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px; /* Logo ve metin arası boşluk */
-        }
-        .header-logo {
-            height: 85px; /* <<< LOGO BÜYÜDÜ */
-            width: auto;
-           /* filter: drop-shadow(0 0 5px var(--glow-color-secondary));  Hafif parlama */
-        }
-        .header-title { /* YENİ */
-            font-size: 1.3rem; /* Boyut ayarlandı */
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: 1px;
-            /* Hafif gradyan veya parlama efekti (isteğe bağlı) */
-            /* background: linear-gradient(90deg, var(--accent-glow-secondary), #fff); */
-            /* -webkit-background-clip: text; */
-            /* -webkit-text-fill-color: transparent; */
-             text-shadow: 0 0 3px var(--glow-color-secondary);
+            --button-logout-border: var(--text-secondary);
+            --button-logout-text: var(--text-secondary);
+            --button-logout-bg-hover: var(--accent-primary);
+            --button-logout-text-hover: var(--bg-main);
+            --card-button-border: var(--accent-primary);
+            --card-button-text: var(--accent-primary);
+            --card-button-bg-hover: var(--accent-primary);
+            --card-button-text-hover: var(--bg-main);
+            --welcome-text-shadow: 0 0 5px var(--accent-hover), 0 0 10px var(--accent-hover), 0 0 20px var(--glow-color-primary), 0 0 40px var(--glow-color-primary), 0 0 70px rgba(0, 191, 255, 0.5);
+            --welcome-text-shadow-hover: 0 0 8px var(--accent-hover), 0 0 16px var(--accent-hover), 0 0 30px var(--glow-color-primary), 0 0 50px var(--glow-color-primary), 0 0 80px rgba(0, 191, 255, 0.6);
+            --card-shadow: 0 6px 20px var(--shadow-color), 0 0 10px var(--glow-color-secondary);
+            --card-shadow-hover: 0 12px 35px rgba(0,0,0,0.7), 0 0 18px var(--glow-color-primary), 0 0 35px var(--glow-color-primary);
+            --card-icon-bg: linear-gradient(145deg, rgba(0, 191, 255, 0.1), rgba(0, 191, 255, 0.2));
+            --card-icon-shadow-hover: 0 0 15px var(--glow-color-primary);
         }
 
+        /* --- Light Theme Variables --- */
+        body.light-theme {
+            --bg-main: #f4f7fc; /* Very light blue-grey */
+            --bg-header: rgba(255, 255, 255, 0.95);
+            --bg-card: linear-gradient(135deg, rgba(106, 17, 203, 0.65) 0%, rgba(199, 21, 133, 0.7) 60%, rgba(238, 130, 238, 0.65) 100%); /* Form gradient */
+            --bg-card-hover: linear-gradient(135deg, rgba(106, 17, 203, 0.75) 0%, rgba(199, 21, 133, 0.8) 60%, rgba(238, 130, 238, 0.75) 100%);
+            --text-primary: #2c3e50; /* Dark grey-blue */
+            --text-secondary: #566573; /* Medium grey-blue */
+            --text-title: #ffffff; /* Card title white */
+            --accent-primary: #3498db; /* Standard blue */
+            --accent-secondary: #5dade2; /* Lighter blue */
+            --accent-hover: #2980b9; /* Darker blue */
+            --border-color: rgba(255, 255, 255, 0.3); /* Light border for gradient card */
+            --border-color-hover: rgba(255, 255, 255, 0.6);
+            --glow-color-primary: rgba(52, 152, 219, 0.4); /* Blue glow */
+            --glow-color-secondary: rgba(93, 173, 226, 0.3);
+            --shadow-color: rgba(0, 0, 0, 0.15);
+            --button-logout-border: var(--accent-primary);
+            --button-logout-text: var(--accent-primary);
+            --button-logout-bg-hover: var(--accent-primary);
+            --button-logout-text-hover: #fff;
+            --card-button-border: rgba(255, 255, 255, 0.7); /* White border on gradient */
+            --card-button-text: #fff; /* White text on gradient */
+            --card-button-bg-hover: rgba(255, 255, 255, 0.2);
+            --card-button-text-hover: #fff;
+            --welcome-text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            --welcome-text-shadow-hover: 0 2px 4px rgba(0,0,0,0.15); /* Less intense shadow for light */
+            --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            --card-shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.15);
+            --card-icon-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.3));
+            --card-icon-shadow-hover: 0 0 15px rgba(255,255,255, 0.5);
+            --card-icon-color: #fff; /* Icon color on gradient */
+        }
+
+        /* --- Base Styles (using variables) --- */
+        body { color: var(--text-primary); background-color: var(--bg-main); }
+        a { color: var(--accent-secondary); }
+        a:hover { color: var(--accent-hover); }
+
+        .main-header { background-color: var(--bg-header); padding: 10px 25px; box-shadow: 0 4px 15px var(--shadow-color); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); min-height: 70px; }
+
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .header-logo { height: 85px; width: auto; }
+        .header-title { font-size: 1.3rem; font-weight: 700; color: var(--text-title); letter-spacing: 1px; text-shadow: 0 0 3px var(--glow-color-secondary); }
+        body.light-theme .header-title { color: var(--text-primary); text-shadow: none; } /* Light theme title override */
 
         .header-right { display: flex; align-items: center; gap: 20px; }
+        #theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.4rem; padding: 5px; color: var(--text-secondary); transition: transform 0.3s ease, color 0.4s ease; }
+        #theme-toggle:hover { transform: scale(1.1) rotate(15deg); color: var(--accent-primary); }
+        #theme-toggle .fa-sun { display: none; }
+        .light-theme #theme-toggle .fa-sun { display: inline-block; }
+        .light-theme #theme-toggle .fa-moon { display: none; }
         .header-link { display: flex; align-items: center; gap: 6px; font-size: 0.95rem; color: var(--text-secondary); transition: color 0.3s ease, text-shadow 0.3s ease; }
-        .header-link:hover { color: #fff; text-shadow: 0 0 5px var(--glow-color-secondary); }
+        .header-link:hover { color: var(--text-title); text-shadow: 0 0 5px var(--glow-color-secondary); }
+        body.light-theme .header-link:hover { color: var(--accent-primary); text-shadow: none; }
         .header-link i { font-size: 1.1rem; }
-        .logout-button { display: flex; align-items: center; gap: 8px; background-color: transparent; border: 1px solid var(--text-secondary); color: var(--text-secondary); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; }
-        .logout-button:hover { background-color: var(--accent-glow-primary); color: var(--bg-dark); border-color: var(--accent-glow-primary); box-shadow: 0 0 15px var(--glow-color-primary); transform: translateY(-2px); }
+        .logout-button { display: flex; align-items: center; gap: 8px; background-color: transparent; border: 1px solid var(--button-logout-border); color: var(--button-logout-text); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; }
+        .logout-button:hover { background-color: var(--button-logout-bg-hover); color: var(--button-logout-text-hover); border-color: var(--button-logout-bg-hover); box-shadow: 0 0 15px var(--glow-color-primary); transform: translateY(-2px); }
         .logout-button i { font-size: 1rem; }
 
-        /* ... Kalan tüm CSS stilleri (profile-main, dashboard-grid, dashboard-card vb.) aynı ... */
         .profile-main { flex-grow: 1; padding: 50px 25px; position: relative; z-index: 1; }
         .profile-container { max-width: 1300px; margin: 0 auto; width: 100%; }
         .welcome-section { text-align: center; margin-bottom: 60px; }
-        .welcome-section h1 { font-size: 3.5rem; font-weight: 700; color: #fff; margin-bottom: 10px; text-shadow: 0 0 5px var(--accent-glow-hover), 0 0 10px var(--accent-glow-hover), 0 0 20px var(--glow-color-primary), 0 0 40px var(--glow-color-primary), 0 0 70px rgba(0, 191, 255, 0.5); animation: strongTextGlowBlue 2.5s ease-in-out infinite alternate; }
-        .welcome-section h1 span { color: var(--accent-glow-secondary); }
+        .welcome-section h1 { font-size: 3.5rem; font-weight: 700; color: var(--text-title); margin-bottom: 10px; text-shadow: var(--welcome-text-shadow); animation: strongTextGlowAnim 2.5s ease-in-out infinite alternate; }
+        .welcome-section h1 span { color: var(--accent-secondary); }
         .welcome-subtitle { font-size: 1.1rem; color: var(--text-secondary); }
-        @keyframes strongTextGlowBlue { from { text-shadow: 0 0 4px var(--accent-glow-hover), 0 0 8px var(--accent-glow-hover), 0 0 15px var(--glow-color-primary), 0 0 25px var(--glow-color-primary); } to   { text-shadow: 0 0 8px var(--accent-glow-hover), 0 0 16px var(--accent-glow-hover), 0 0 30px var(--glow-color-primary), 0 0 50px var(--glow-color-primary), 0 0 80px rgba(0, 191, 255, 0.6); } }
+        body.light-theme .welcome-section h1 { color: var(--text-primary); animation: none; } /* Light theme welcome override */
+        body.light-theme .welcome-section h1 span { color: var(--accent-primary); }
+        @keyframes strongTextGlowAnim { from { text-shadow: var(--welcome-text-shadow); } to { text-shadow: var(--welcome-text-shadow-hover); } }
+
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 35px; }
-        @keyframes cardEntryNeon { 0% { opacity: 0; transform: translateY(20px) scale(0.98); box-shadow: 0 0 0px var(--glow-color-secondary); } 100% { opacity: 1; transform: translateY(0) scale(1); box-shadow: 0 6px 20px var(--shadow-color), 0 0 10px var(--glow-color-secondary); } }
-        .dashboard-card { background: var(--bg-card); backdrop-filter: blur(8px); border-radius: 12px; padding: 25px 30px; border: 1px solid var(--border-color); box-shadow: 0 6px 20px var(--shadow-color), 0 0 10px var(--glow-color-secondary); display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.4s ease, border-color 0.3s ease, background-color 0.3s ease; opacity: 0; animation: cardEntryNeon 0.6s ease-out forwards; position: relative; overflow: hidden; }
+        @keyframes cardEntryAnim { 0% { opacity: 0; transform: translateY(20px) scale(0.98); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+        .dashboard-card { background: var(--bg-card); backdrop-filter: blur(8px); border-radius: 12px; padding: 25px 30px; border: 1px solid var(--border-color); box-shadow: var(--card-shadow); display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.4s ease, border-color 0.3s ease, background 0.3s ease, background-color 0.3s ease; opacity: 0; animation: cardEntryAnim 0.6s ease-out forwards; position: relative; overflow: hidden; }
         .dashboard-card:nth-child(1) { animation-delay: 0.05s; } .dashboard-card:nth-child(2) { animation-delay: 0.1s; } .dashboard-card:nth-child(3) { animation-delay: 0.15s; } .dashboard-card:nth-child(4) { animation-delay: 0.2s; } .dashboard-card:nth-child(5) { animation-delay: 0.25s; } .dashboard-card:nth-child(6) { animation-delay: 0.3s; } .dashboard-card:nth-child(7) { animation-delay: 0.35s; } .dashboard-card:nth-child(8) { animation-delay: 0.4s; } .dashboard-card:nth-child(9) { animation-delay: 0.45s; } .dashboard-card:nth-child(10) { animation-delay: 0.5s; } .dashboard-card:nth-child(11) { animation-delay: 0.55s; }
-        .dashboard-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0, 191, 255, 0.15) 0%, rgba(0, 191, 255, 0) 70%); transform: scale(0); transition: transform 0.6s ease-out, opacity 0.6s ease-out; opacity: 0; pointer-events: none; z-index: 0; }
-        .dashboard-card:hover::before { transform: scale(1); opacity: 1; }
-        .dashboard-card:hover { transform: translateY(-8px) scale(1.03); background-color: var(--bg-card-hover); border-color: var(--border-color-hover); box-shadow: 0 12px 35px rgba(0,0,0,0.7), 0 0 18px var(--glow-color-primary), 0 0 35px var(--glow-color-primary); }
+        /* Removed ::before glow for simplicity in light theme */
+        .dashboard-card:hover { transform: translateY(-8px) scale(1.03); background: var(--bg-card-hover); border-color: var(--border-color-hover); box-shadow: var(--card-shadow-hover); }
         .card-icon, .card-title, .card-description, .card-button-wrapper { position: relative; z-index: 1; }
-        .card-icon { font-size: 2rem; color: var(--accent-glow-primary); margin-bottom: 18px; width: 55px; height: 55px; background: linear-gradient(145deg, rgba(0, 191, 255, 0.1), rgba(0, 191, 255, 0.2)); border-radius: 10px; display: flex; justify-content: center; align-items: center; transition: transform 0.3s ease, box-shadow 0.3s ease; text-shadow: 0 0 8px var(--glow-color-primary); }
-        .dashboard-card:hover .card-icon { transform: rotate(-10deg) scale(1.15); box-shadow: 0 0 15px var(--glow-color-primary); }
-        .card-title { font-size: 1.3rem; color: #fff; font-weight: 600; margin-bottom: 10px; }
+        .card-icon { font-size: 2rem; color: var(--accent-primary); margin-bottom: 18px; width: 55px; height: 55px; background: var(--card-icon-bg); border-radius: 10px; display: flex; justify-content: center; align-items: center; transition: transform 0.3s ease, box-shadow 0.3s ease; text-shadow: 0 0 8px var(--glow-color-primary); }
+        body.light-theme .card-icon { color: var(--card-icon-color); text-shadow: none; }
+        .dashboard-card:hover .card-icon { transform: rotate(-10deg) scale(1.15); box-shadow: var(--card-icon-shadow-hover); }
+        .card-title { font-size: 1.3rem; color: var(--text-title); font-weight: 600; margin-bottom: 10px; }
         .card-description { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 20px; flex-grow: 1; }
+        body.light-theme .card-description { color: rgba(255,255,255,0.85); } /* Light text on gradient card */
         .card-button-wrapper { margin-top: auto; }
-        .card-button { display: inline-block; padding: 9px 22px; border: 1px solid var(--accent-glow-primary); color: var(--accent-glow-primary); background-color: transparent; border-radius: 20px; font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease; text-shadow: 0 0 3px rgba(0, 191, 255, 0.5); }
-        .card-button:hover { background-color: var(--accent-glow-primary); color: var(--bg-dark); box-shadow: 0 0 15px var(--glow-color-primary); text-shadow: none; transform: scale(1.05); }
+        .card-button { display: inline-block; padding: 9px 22px; border: 1px solid var(--card-button-border); color: var(--card-button-text); background-color: transparent; border-radius: 20px; font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease; text-shadow: 0 0 3px var(--glow-color-secondary); }
+        body.light-theme .card-button { text-shadow: none; }
+        .card-button:hover { background-color: var(--card-button-bg-hover); color: var(--card-button-text-hover); box-shadow: 0 0 15px var(--glow-color-primary); text-shadow: none; transform: scale(1.05); }
+        body.light-theme .card-button:hover { box-shadow: none; }
         .card-button i { margin-left: 8px; font-size: 0.8em; }
+
         @media (max-width: 1024px) { .dashboard-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); } }
-        @media (max-width: 768px) { .main-header { padding: 10px 15px; min-height: 60px;} .header-logo { height: 30px;} .header-title { font-size: 1rem; } .header-right { gap: 10px; } .header-link span { display: none; } .logout-button span { display: none; } .logout-button { padding: 7px 10px; } .profile-main { padding: 40px 15px; } .profile-header { padding: 25px; flex-direction: column; align-items: flex-start; margin-bottom: 30px;} .welcome-section { margin-bottom: 40px; } .welcome-section h1 { font-size: 2.5rem; } .welcome-subtitle { font-size: 1rem; } .dashboard-grid { grid-template-columns: 1fr; gap: 25px; } .dashboard-card { padding: 20px; } .card-header h2 { font-size: 1.2rem; } }
-        @media (max-width: 480px) { .header-left { gap: 8px; } .header-logo { height: 28px;} .header-title { display: none; /* Çok küçük ekranda yazıyı gizle */ } .welcome-section h1 { font-size: 2rem; } .card-icon { font-size: 1.8rem; width: 50px; height: 50px; } .card-title { font-size: 1.1rem; } .card-description { font-size: 0.9rem; } .card-button { font-size: 0.85rem; padding: 8px 18px; } }
+        @media (max-width: 768px) { .main-header { padding: 10px 15px; min-height: 60px;} .header-logo { height: 30px;} .header-title { font-size: 1rem; } .header-right { gap: 10px; } .header-link span { display: none; } .logout-button span { display: none; } .logout-button { padding: 7px 10px; } .profile-main { padding: 40px 15px; } .welcome-section { margin-bottom: 40px; } .welcome-section h1 { font-size: 2.5rem; } .welcome-subtitle { font-size: 1rem; } .dashboard-grid { grid-template-columns: 1fr; gap: 25px; } .dashboard-card { padding: 20px; } .card-title { font-size: 1.2rem; } }
+        @media (max-width: 480px) { .header-left { gap: 8px; } .header-logo { height: 28px;} .header-title { display: none; } .welcome-section h1 { font-size: 2rem; } .card-icon { font-size: 1.8rem; width: 50px; height: 50px; } .card-title { font-size: 1.1rem; } .card-description { font-size: 0.9rem; } .card-button { font-size: 0.85rem; padding: 8px 18px; } }
     </style>
 </head>
-<body>
+<body class="dark-theme">
     <div id="tsparticles"></div>
 
     <header class="main-header">
         <div class="header-left">
              <img src="logom.png" alt="Teknopark Logo" class="header-logo">
-            <!-- <span class="header-title">AOSB TEKNOPARK</span>  YAZI EKLENDİ -->
         </div>
         <div class="header-right">
+            <button id="theme-toggle" aria-label="Temayı Değiştir">
+                 <i class="fas fa-sun"></i>
+                 <i class="fas fa-moon"></i>
+            </button>
             <a href="Pro.html" class="header-link"> <i class="fas fa-user-circle"></i> <span>Profil</span> </a>
             <a href="bildirimler.html" class="header-link"><i class="fa-solid fa-bell"></i> <span>Bildirimler</span> </a>
             <a href="ayarlar.html" class="header-link"> <i class="fas fa-cog"></i> <span>Ayarlar</span> </a>
@@ -116,7 +177,6 @@
         <div class="profile-container">
             <div class="welcome-section">
                  <h1 id="welcomeHeading">Hoşgeldin, <span>Kullanıcı</span>!</h1>
-               <!--  <p class="welcome-subtitle">Here's a quick overview of your space.</p>-->
             </div>
             <div class="dashboard-grid">
                 <div class="dashboard-card"> <div class="card-icon"><i class="fas fa-bullhorn"></i></div> <h3 class="card-title">Duyurular</h3> <p class="card-description">En son genel duyuruları buradan takip edin.</p> <div class="card-button-wrapper"><a href="duyurular.html" class="card-button">Duyurulara Git</a></div> </div>
@@ -136,12 +196,64 @@
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-             tsParticles.load("tsparticles", { fpsLimit: 60, background: { color: "#0b0f2b" }, particles: { number: { value: 70 }, color: { value: ["#ffffff", "#00BFFF", "#87CEFA", "#add8e6"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.5} }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 150, color: "#3a5f9b", opacity: 0.15, width: 1 }, move: { enable: true, speed: 0.7, direction: "none", random: true, straight: false, outModes: { default: "bounce" } } }, interactivity: { events: { resize: true } }, detectRetina: true });
-             const loggedInUserName = localStorage.getItem('loggedInUserName'); const welcomeHeadingName = document.querySelector('#welcomeHeading span');
-             if (loggedInUserName && welcomeHeadingName) { welcomeHeadingName.textContent = loggedInUserName; }
-             const logoutSimple = document.getElementById('logoutLinkSimple'); function handleLogout(e) { e.preventDefault(); localStorage.removeItem('loggedInUserName'); window.location.href = 'login.html'; }
-             if(logoutSimple) logoutSimple.addEventListener('click', handleLogout);
-             const cards = document.querySelectorAll('.dashboard-card'); cards.forEach((card, index) => { card.style.animationDelay = `${index * 0.07}s`; });
+             const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 70 }, color: { value: ["#ffffff", "#00BFFF", "#87CEFA", "#add8e6"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.5} }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 150, color: "#3a5f9b", opacity: 0.15, width: 1 }, move: { enable: true, speed: 0.7, direction: "none", random: true, straight: false, outModes: { default: "bounce" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+             const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 90 }, color: { value: ["#6A4A85", "#8A5A9E", "#3498db", "#5dade2"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.6} }, size: { value: {min: 1, max: 3.5} }, links: { enable: true, distance: 160, color: "#a0a0ff", opacity: 0.2, width: 1 }, move: { enable: true, speed: 0.8, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+             let currentParticlesConfig = darkThemeParticlesConfig;
+
+             const themeToggleBtn = document.getElementById('theme-toggle');
+             const body = document.body;
+             const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+             const savedTheme = localStorage.getItem('theme') || 'dark';
+             applyTheme(savedTheme);
+
+             themeToggleBtn.addEventListener('click', () => {
+                 const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark';
+                 applyTheme(newTheme);
+             });
+
+             function applyTheme(theme) {
+                 const isParticlesPage = typeof tsParticles !== 'undefined' && document.getElementById('tsparticles');
+
+                 if (theme === 'light') {
+                     body.classList.remove('dark-theme');
+                     body.classList.add('light-theme');
+                     if(themeMeta) themeMeta.setAttribute('content', '#f4f7fc'); /* Light theme bg */
+                     if (isParticlesPage) currentParticlesConfig = lightThemeParticlesConfig;
+                 } else {
+                     body.classList.remove('light-theme');
+                     body.classList.add('dark-theme');
+                      if(themeMeta) themeMeta.setAttribute('content', '#0b0f2b'); /* Dark theme bg */
+                      if (isParticlesPage) currentParticlesConfig = darkThemeParticlesConfig;
+                 }
+                 localStorage.setItem('theme', theme);
+
+                 if (isParticlesPage) {
+                     tsParticles.load("tsparticles", currentParticlesConfig);
+                 }
+             }
+
+             const loggedInUserName = localStorage.getItem('loggedInUserName');
+             const welcomeHeadingName = document.querySelector('#welcomeHeading span');
+             if (loggedInUserName && welcomeHeadingName) {
+                 welcomeHeadingName.textContent = loggedInUserName;
+             }
+
+             const logoutSimple = document.getElementById('logoutLinkSimple');
+             function handleLogout(e) {
+                 e.preventDefault();
+                 localStorage.removeItem('loggedInUserName');
+                 localStorage.removeItem('loggedInUserType'); // UserType'ı da temizle
+                 window.location.href = 'login.html';
+             }
+             if(logoutSimple) {
+                 logoutSimple.addEventListener('click', handleLogout);
+             }
+
+             const cards = document.querySelectorAll('.dashboard-card');
+             cards.forEach((card, index) => {
+                 card.style.animationDelay = `${index * 0.07}s`;
+             });
         });
     </script>
     <script> if ('serviceWorker'in navigator) { navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err)); } </script>

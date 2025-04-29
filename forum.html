@@ -1,13 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Komüniteler</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Komüniteler - Antalya OSB Teknopark</title>
+    <link rel="stylesheet" href="style.css"> <!-- Harici CSS Korundu -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192.png">
+    <meta name="theme-color" content="#1a2035">
+
+    <style>
+        /* --- Tema Değişkenleri ve Geçişler --- */
+        :root { /* Varsayılan (Karanlık Tema) Değişkenleri */
+            --bg-main: #1a2035;
+            --bg-stars: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            --bg-header: rgba(26, 32, 53, 0.85);
+            --bg-sidebar: #1f2740;
+            --bg-post: #252f4c;
+            --bg-post-hover: #2d375a;
+            --bg-button: rgba(255, 255, 255, 0.08);
+            --bg-button-hover: rgba(255, 255, 255, 0.15);
+            --bg-button-active: rgba(150, 160, 200, 0.2);
+            --bg-modal: rgba(30, 39, 76, 0.98);
+            --text-primary: #d5d8e1;
+            --text-secondary: #a0a8c0;
+            --text-title: #ffffff;
+            --text-link: #88a4ff;
+            --text-link-hover: #a1b9ff;
+            --text-button: #d5d8e1;
+            --text-active-stream: #fff;
+            --text-category-title: var(--text-title);
+            --border-color: rgba(255, 255, 255, 0.15);
+            --border-color-light: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --icon-color: #a0a8c0;
+            --icon-color-hover: #fff;
+            --accent-color-like: #ff8b60;
+            --accent-color-downvote: #9494ff;
+            --accent-color-comment: #76c8ff;
+            --accent-color-share: #a0a8c0;
+            --sidebar-active-bg: #2d375a;
+            --theme-toggle-color: #a0a8c0;
+            --theme-toggle-hover: #fff;
+            --post-header-color: var(--text-secondary);
+            --post-title-color: var(--text-title);
+            --post-excerpt-color: var(--text-primary);
+            --sidebar-link-color: var(--text-secondary);
+            --sidebar-link-hover-color: var(--text-title);
+            --modal-title-color: var(--text-title);
+            --modal-link-color: var(--text-secondary);
+            --modal-link-hover-color: var(--text-title);
+            --modal-icon-color: var(--text-secondary);
+            --modal-icon-hover-color: var(--text-primary);
+        }
+
+        body.light-theme {
+            --bg-main: #f0f2f5;
+            --bg-stars: #ffffff;
+            --bg-header: rgba(255, 255, 255, 0.95);
+            /* Saydam Gradient Sidebar & Post */
+            --bg-sidebar: linear-gradient(135deg, rgba(106, 17, 203, 0.65) 0%, rgba(199, 21, 133, 0.7) 60%, rgba(238, 130, 238, 0.65) 100%);
+            --bg-post: linear-gradient(135deg, rgba(106, 17, 203, 0.65) 0%, rgba(199, 21, 133, 0.7) 60%, rgba(238, 130, 238, 0.65) 100%);
+            --bg-post-hover: linear-gradient(135deg, rgba(106, 17, 203, 0.75) 0%, rgba(199, 21, 133, 0.8) 60%, rgba(238, 130, 238, 0.75) 100%);
+            /* Gradient üzeri butonlar */
+            --bg-button: rgba(255, 255, 255, 0.2);
+            --bg-button-hover: rgba(255, 255, 255, 0.3);
+            --bg-button-active: rgba(255, 255, 255, 0.4);
+            --bg-modal: rgba(255, 255, 255, 0.98);
+            --text-primary: #1c1e21; /* Ana Metin Koyu */
+            --text-secondary: #65676b; /* İkincil Metin Gri */
+            --text-title: #ffffff; /* Gradient üzeri Başlık Beyaz */
+            --text-link: #00376b; /* Mavi Link */
+            --text-link-hover: #002f5a;
+            --text-button: #ffffff; /* Gradient üzeri Buton Metni Beyaz */
+            --text-active-stream: #fff; /* Sidebar Aktif Link Beyaz */
+            --text-category-title: #2980b9; /* Sayfa Kategorisi Mavi */
+            --border-color: rgba(0, 0, 0, 0.1); /* Koyu Kenarlık */
+            --border-color-light: rgba(255, 255, 255, 0.3); /* Gradient üzeri Kenarlık */
+            --shadow-color: rgba(0, 0, 0, 0.15);
+            --icon-color: #ffffff; /* Gradient üzeri İkon Beyaz */
+            --icon-color-hover: #ffffff;
+            --accent-color-like: #ffffff;
+            --accent-color-downvote: #ffffff;
+            --accent-color-comment: #ffffff;
+            --accent-color-share: #ffffff;
+            --sidebar-active-bg: rgba(255, 255, 255, 0.25);
+            --theme-toggle-color: #1c1e21; /* Koyu Toggle İkon */
+            --theme-toggle-hover: #00376b;
+            /* Gradient üzeri renkler */
+            --post-header-color: rgba(255,255,255,0.8);
+            --post-title-color: var(--text-title); /* Beyaz */
+            --post-excerpt-color: rgba(255,255,255,0.9);
+            --sidebar-link-color: rgba(255, 255, 255, 0.85);
+            --sidebar-link-hover-color: #fff;
+            /* Modal renkleri açık tema için */
+            --modal-title-color: var(--text-primary);
+            --modal-link-color: var(--text-secondary);
+            --modal-link-hover-color: var(--text-primary);
+            --modal-icon-color: var(--text-secondary);
+            --modal-icon-hover-color: var(--text-primary);
+        }
+
+        /* --- Base Styles Using Variables --- */
+        body { background-color: var(--bg-main); color: var(--text-primary); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.5; display: flex; min-height: 100vh; overflow-x: hidden; transition: background-color 0.4s ease, color 0.4s ease; }
+        #animated-bg { background: var(--bg-stars); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; transition: background 0.4s ease; }
+        .stars, .stars2, .stars3 { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; display: block; background: transparent; }
+        .light-theme #animated-bg { display: none; }
+        .container { display: flex; width: 100%; }
+        a { color: var(--text-link); }
+        a:hover { color: var(--text-link-hover); }
+
+        /* --- Sidebar --- */
+        .sidebar { background-color: var(--bg-sidebar); border-right-color: var(--border-color-light); transition: left 0.3s ease, background 0.4s ease, border-color 0.4s ease; backdrop-filter: blur(8px); /* Ekledim */ }
+        .sidebar-header { border-bottom-color: var(--border-color-light); }
+        .sidebar-header h3 { color: var(--text-title); }
+        .sidebar ul li a { color: var(--sidebar-link-color); }
+        .sidebar ul li a:hover { background-color: var(--bg-button-hover); color: var(--sidebar-link-hover-color); }
+        .sidebar ul li a.active-stream { background-color: var(--sidebar-active-bg); color: var(--text-active-stream); }
+
+        /* --- Header --- */
+        .site-header { background-color: var(--bg-header); border-bottom-color: var(--border-color-light); transition: background-color 0.4s ease, border-color 0.4s ease; backdrop-filter: blur(5px); /* Ekledim */ }
+        .menu-button { color: var(--text-secondary); } /* Hamburger menu icon color */
+        .home-button { color: var(--text-link); }
+        /* Profil butonu kaldırıldığı için stilleri sildim */
+        #theme-toggle { color: var(--theme-toggle-color); margin-left: 10px; background: none; border: none; cursor: pointer; font-size: 1.5rem; padding: 5px 8px; transition: transform 0.3s ease, color 0.4s ease; }
+        #theme-toggle:hover { color: var(--theme-toggle-hover); transform: scale(1.1); }
+        #theme-toggle .fa-sun { display: none; }
+        .light-theme #theme-toggle .fa-sun { display: inline-block; }
+        .light-theme #theme-toggle .fa-moon { display: none; }
+
+        /* --- Main Content & Posts --- */
+        .category-title { color: var(--text-category-title); border-bottom-color: var(--border-color); transition: color 0.4s ease, border-color 0.4s ease; }
+        .post { background: var(--bg-post); border-color: var(--border-color-light); box-shadow: 0 2px 8px var(--shadow-color); transition: box-shadow 0.3s ease, background 0.4s ease, border-color 0.4s ease; backdrop-filter: blur(8px); /* Ekledim */}
+        .post:hover { background: var(--bg-post-hover); box-shadow: 0 5px 15px var(--shadow-color); }
+        .post-header { color: var(--post-header-color); }
+        .post-sub { color: var(--text-link); }
+        .light-theme .post-sub { color: #ffffff; opacity: 0.9; font-weight: 500;} /* Light theme override */
+        .post-title { color: var(--post-title-color); }
+        .post-excerpt { color: var(--post-excerpt-color); }
+        .post-actions { border-top-color: var(--border-color-light); }
+        .action-button { background-color: var(--bg-button); color: var(--text-button); border-color: var(--border-color); }
+        .action-button:hover { background-color: var(--bg-button-hover); color: var(--accent-cyan); border-color: var(--border-hover-color); box-shadow: var(--shadow-button-hover); }
+        .action-button i { color: var(--icon-color); }
+        .action-button:hover i { color: var(--icon-color-hover); }
+        .light-theme .action-button:hover { color: var(--text-button); } /* Hover text on light */
+        .light-theme .action-button:hover i { color: var(--text-button); }
+        .like-button.liked { background-color: var(--accent-color-like); color: #fff; }
+        .downvote-button.downvoted { background-color: var(--accent-color-downvote); color: #fff; }
+        .like-button i { color: var(--accent-color-like); }
+        .downvote-button i { color: var(--accent-color-downvote); }
+        .comment-button i { color: var(--accent-color-comment); }
+        .share-button i { color: var(--accent-color-share); }
+        .light-theme .action-button i { color: inherit; }
+        .light-theme .like-button.liked, .light-theme .downvote-button.downvoted { background-color: rgba(0,0,0,0.2); color: var(--text-button);}
+        .light-theme .like-button.liked i, .light-theme .downvote-button.downvoted i { color: inherit; }
+
+        /* --- Share Modal --- */
+        .modal-content { background-color: var(--bg-modal); border-color: var(--border-modal); box-shadow: var(--shadow-modal); transition: background-color 0.4s ease, border-color 0.4s ease; }
+        .light-theme .modal-content { box-shadow: 0 5px 25px var(--shadow-color); }
+        .modal-close { color: var(--text-secondary); }
+        .modal-content h3 { color: var(--modal-title-color); }
+        .share-link { color: var(--modal-link-color); background-color: var(--bg-button); border-color: var(--border-color); }
+        .share-link:hover { background-color: var(--bg-button-hover); color: var(--modal-link-hover-color); }
+        .share-link i { color: var(--modal-icon-color); }
+        .share-link:hover i { color: var(--modal-icon-hover-color); }
+        .copy-link-feedback { color: var(--accent-cyan); }
+        .light-theme .copy-link-feedback { color: #e74c3c; }
+
+        /* --- Temel Layout (style.css'den alınmış olabilir) --- */
+        /* style.css bu kuralları içeriyorsa buraya eklemeye gerek yok */
+        /* body { display: flex; } */
+        /* .container { display: flex; width: 100%; } */
+        /* .main-content { flex-grow: 1; } */
+        /* .sidebar { position: fixed; ... } */
+        /* .site-header { position: sticky; ... } */
+
+        /* Genel Geçiş */
+        body, #animated-bg, .site-header, .sidebar, .post, .modal-content, .action-button, .sidebar ul li a, .sidebar-header h3, .category-title, .post-title, .post-excerpt, .post-header, .login-button, #theme-toggle, .menu-button, .home-button, .modal-content h3, .share-link, .share-link i {
+            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+        }
+    </style>
 </head>
-<body>
+<body class="dark-theme">
 
     <div id="animated-bg">
         <div class="stars"></div> <div class="stars2"></div> <div class="stars3"></div>
@@ -19,7 +194,11 @@
             <button id="menu-toggle" class="animated-button menu-button" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
             <a href="profil.html" id="home-link" class="animated-button home-button" aria-label="Go to Home"><i class="fas fa-bolt"></i> <span class="home-text">Ana Sayfa</span></a>
             <div class="header-spacer"></div>
-            <button class="animated-button login-button">Profil</button>
+             <button id="theme-toggle" aria-label="Temayı Değiştir">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </button>
+            <!-- Profil Butonu Kaldırıldı -->
         </header>
 
         <nav id="sidebar" class="sidebar">
@@ -29,7 +208,7 @@
                  <li><a href="acce.html"><i class="fas fa-microchip"></i> Hızlandırma Programı</a></li>
                  <li><a href="verim.html"><i class="fas fa-rocket"></i> Veri Bilimi</a></li>
                  <li><a href="ai.html"><i class="fas fa-robot"></i> AI & ML</a></li>
-                 <li><a href="tekn.html"><i class="fas fa-gamepad"></i> Teknopark </a></li>
+                 <li><a href="tekn.html" class="active-stream"><i class="fas fa-gamepad"></i> Teknopark (Buradasın)</a></li>
                  <li><a href="networking.html"><i class="fas fa-satellite-dish"></i> Network</a></li>
                  <li><a href="yatirim.html"><i class="fas fa-mobile-alt"></i> Yatırım</a></li>
             </ul>
@@ -97,9 +276,7 @@
                     <button class="animated-button action-button share-button" data-type="share"><i class="fas fa-share"></i> Share</button>
                 </div>
              </article>
-
         </main>
-
     </div>
 
     <div id="share-modal" class="share-modal" style="display: none;">
@@ -117,6 +294,39 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js"></script> <!-- Harici JS Korundu -->
+    <script>
+         // Tema yönetimi için eklenen kod
+         document.addEventListener('DOMContentLoaded', (event) => {
+             const themeToggleBtn = document.getElementById('theme-toggle');
+             const body = document.body;
+             const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+             const savedTheme = localStorage.getItem('theme') || 'dark';
+             applyTheme(savedTheme);
+
+             if(themeToggleBtn) {
+                 themeToggleBtn.addEventListener('click', () => {
+                     const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark';
+                     applyTheme(newTheme);
+                 });
+             }
+
+             function applyTheme(theme) {
+                 if (theme === 'light') {
+                     body.classList.remove('dark-theme');
+                     body.classList.add('light-theme');
+                     if(themeMeta) themeMeta.setAttribute('content', '#f0f2f5');
+                 } else {
+                     body.classList.remove('light-theme');
+                     body.classList.add('dark-theme');
+                      if(themeMeta) themeMeta.setAttribute('content', '#1a2035');
+                 }
+                 localStorage.setItem('theme', theme);
+             }
+         });
+         // --- Tema yönetimi kodu sonu ---
+    </script>
+     <script> if ('serviceWorker'in navigator) { navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err)); } </script>
 </body>
 </html>

@@ -4,124 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anasayfa - Hoş Geldiniz</title>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icons/icon-192.png">
     <meta name="theme-color" content="#1a1f3c">
 
     <style>
-        /* --- Genel Sıfırlama ve Temel Stiller --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #e8e8e8; background-color: #0a0d1e; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
         img, svg { max-width: 100%; height: auto; vertical-align: middle; }
 
-        /* --- tsParticles Konteyneri --- */
+        body.dark-theme {
+            color: #e8e8e8;
+            background-color: #0a0d1e;
+        }
+        .dark-theme .main-header { background-color: rgba(10, 15, 43, 0.85); box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5); }
+        .dark-theme .auth-buttons { border-left: 1px solid #666; }
+        .dark-theme .btn-login { background: linear-gradient(45deg, #8A2BE2, #DC143C); color: white; border: 1px solid transparent; }
+        .dark-theme .btn-login:hover { background: linear-gradient(45deg, #7B1FA2, #C2185B); }
+        .dark-theme .btn-register { background-color: transparent; color: #f0a0ff; border: 1px solid #a060f0; }
+        .dark-theme .btn-register:hover { background-color: rgba(160, 96, 240, 0.15); color: #ffc0ff; border-color: #c080ff; }
+        .dark-theme .btn-google { background-color: #ffffff; color: #3c4043; border: 1px solid #dadce0; }
+        .dark-theme .btn-google:hover { background-color: #f8f9fa; border-color: #c6cacc; }
+        .dark-theme #theme-toggle { color: #f0f0f0; }
+        .dark-theme .animated-logo { filter: drop-shadow(0 0 18px rgba(200, 180, 255, 0.4)); }
+
+        body.light-theme {
+            color: #2c3e50;
+            background-color: #ecf0f1;
+        }
+        .light-theme .main-header { background-color: rgba(255, 255, 255, 0.9); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
+        .light-theme .auth-buttons { border-left: 1px solid #bdc3c7; }
+        .light-theme .btn-login {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: 1px solid transparent;
+        }
+        .light-theme .btn-login:hover {
+            background: linear-gradient(45deg, #2980b9, #1f6fa0);
+        }
+        .light-theme .btn-register {
+            background-color: #ffffff;
+            color: #3498db;
+            border: 1px solid #bdc3c7;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            font-weight: 500;
+        }
+        .light-theme .btn-register:hover {
+            background-color: #f8f9f9;
+            border-color: #95a5a6;
+            color: #2980b9;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+        .light-theme .btn-google {
+            background-color: #ffffff;
+            color: #3c4043;
+            border: 1px solid #dadce0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .light-theme .btn-google:hover {
+            background-color: #f8f9fa;
+            border-color: #c6cacc;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        .light-theme #theme-toggle { color: #34495e; }
+        .light-theme .animated-logo { filter: drop-shadow(0 0 12px rgba(52, 73, 94, 0.2)); }
+
         #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
-        /* --- Header --- */
-        .main-header { background-color: rgba(10, 15, 43, 0.8); padding: 10px 20px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5); position: relative; z-index: 1000; }
-        .hamburger-container { display: inline-block; position: relative; cursor: pointer; z-index: 1002; }
-        .hamburger-icon { padding: 10px; display: inline-block; }
-        .hamburger-icon span { display: block; width: 28px; height: 3px; background-color: #f0f0f0; margin: 6px 0; transition: all 0.3s ease; border-radius: 1px; }
+        .main-header {
+            padding: 10px 20px;
+            position: relative;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
 
-        /* --- Tam Ekran Menü --- */
-        .menu-options-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1001; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 25px; padding: 60px 40px 40px 40px; background-color: rgba(15, 10, 30, 0.97); backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transform: scale(0.98) translateY(10px); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.4s step-end, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); overflow-y: auto; }
-        .menu-options-container.active { opacity: 1; visibility: visible; transform: scale(1) translateY(0); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0s step-start, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
-        .close-menu-btn { position: absolute; top: 25px; right: 35px; font-size: 2rem; color: #aaa; cursor: pointer; transition: color 0.2s ease, transform 0.2s ease; z-index: 1003; padding: 5px; }
-        .close-menu-btn:hover { color: #fff; transform: rotate(90deg); }
+        #theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.6rem;
+            padding: 8px 12px;
+            transition: transform 0.3s ease, color 0.4s ease;
+        }
+        #theme-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+        #theme-toggle .fa-sun { display: none; }
+        .light-theme #theme-toggle .fa-sun { display: inline-block; }
+        .light-theme #theme-toggle .fa-moon { display: none; }
 
-        /* Menü Seçenek Kutusu */
-        .menu-option-box { background-color: rgba(50, 30, 80, 0.8); color: #e8e8e8; padding: 25px 20px; border-radius: 10px; width: 150px; min-height: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .menu-option-box:hover { background-color: rgba(80, 50, 110, 0.9); transform: translateY(-8px) scale(1.06); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
-        .menu-option-box i { font-size: 2.5em; margin-bottom: 15px; transition: transform 0.35s cubic-bezier(0.68, -0.6, 0.265, 1.6); }
-        .menu-option-box:hover i { transform: scale(1.3) rotate(15deg); }
-        .menu-option-box span { font-size: 0.95rem; font-weight: 500; }
-
-        /* Ana İçerik Alanı */
         .home-main { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 60px 20px; position: relative; z-index: 1; }
         .content-container { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 1140px; gap: 70px; }
         .logo-wrapper { flex-shrink: 0; }
-        .animated-logo { width: 170px; height: auto; animation: floatAnimation 3.5s ease-in-out infinite; filter: drop-shadow(0 0 18px rgba(200, 180, 255, 0.4)); }
+        .animated-logo { width: 170px; height: auto; animation: floatAnimation 3.5s ease-in-out infinite; }
         @keyframes floatAnimation { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        .auth-buttons { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; border-left: 1px solid #666; padding-left: 35px; }
+        .auth-buttons { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; padding-left: 35px; }
 
-        /* Genel Buton Stili */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 13px 20px; /* Yatay padding içeriğe göre ayarlanabilir */
+            padding: 13px 20px;
             border: 1px solid transparent;
             border-radius: 30px;
             font-size: 1.05rem;
             font-weight: 500;
             cursor: pointer;
-            /* min-width: 220px; KALDIRILDI */
-            width: 245px; /* <<< SABİT GENİŞLİK (Gerekirse değeri ayarlayın) */
+            width: 245px;
             text-align: center;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            overflow: hidden; /* İçerik taşarsa gizle (genellikle olmaz) */
-            white-space: nowrap; /* Metnin alta kaymasını engelle */
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            white-space: nowrap;
         }
-        .btn:hover { transform: translateY(-4px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5); }
+        .btn:hover { transform: translateY(-4px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25); }
 
-        /* Genel İkon Stili */
-        .btn i, .btn .google-logo-img { margin-right: 10px; /* Boşluk biraz azaltıldı */ vertical-align: middle; flex-shrink: 0; /* İkonun küçülmesini engelle */ }
-        .btn i { font-size: 1.1em; /* İkon boyutu biraz küçüldü */ }
-
-        /* Özel Buton Renkleri */
-        .btn-login { background: linear-gradient(45deg, #8A2BE2, #DC143C); color: white; border: 1px solid transparent; }
-        .btn-login:hover { background: linear-gradient(45deg, #7B1FA2, #C2185B); }
-        .btn-register { background-color: transparent; color: #f0a0ff; border: 1px solid #a060f0; }
-        .btn-register:hover { background-color: rgba(160, 96, 240, 0.15); color: #ffc0ff; border-color: #c080ff; }
-
-        /* Google Buton Stili */
-        .btn-google { background-color: #ffffff; color: #3c4043; border: 1px solid #dadce0; font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1); }
-        .btn-google:hover { background-color: #f8f9fa; border-color: #c6cacc; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
-
-        /* Google Logo Resim Stili */
+        .btn i, .btn .google-logo-img { margin-right: 10px; vertical-align: middle; flex-shrink: 0; }
+        .btn i { font-size: 1.1em; }
         .google-logo-img { width: 18px; height: 18px; }
 
-        /* --- Responsive Tasarım --- */
         @media (max-width: 768px) {
             .content-container { flex-direction: column; gap: 50px; }
             .auth-buttons { align-items: center; width: 100%; max-width: 320px; border-left: none; padding-left: 0; }
+            .dark-theme .auth-buttons { border-left: none; }
+            .light-theme .auth-buttons { border-left: none; }
             .btn {
-                 width: 100%; /* Mobilde tam genişlik kaplasın */
-                 max-width: 320px; /* Ama çok da genişlemesin */
-                 padding: 12px 20px; /* Mobilde padding */
+                 width: 100%;
+                 max-width: 320px;
+                 padding: 12px 20px;
             }
-            /* Diğer mobil stiller aynı... */
-            .menu-options-container { padding: 60px 15px 20px 15px; gap: 15px; align-items: flex-start; justify-content: flex-start; }
-            .menu-option-box { width: calc(50% - 8px); min-height: 100px; padding: 15px 8px; }
-            .menu-option-box i { font-size: 1.8em; margin-bottom: 8px; }
-            .menu-option-box span { font-size: 0.8rem; }
-            .close-menu-btn { top: 20px; right: 25px; font-size: 1.8rem; }
-        }
-        @media (max-width: 480px) {
-            .menu-option-box { width: calc(100% - 10px); min-height: 70px; padding: 12px; flex-direction: row; justify-content: flex-start; gap: 15px; }
-            .menu-option-box i { font-size: 1.6em; margin-bottom: 0; }
-            .menu-option-box span { font-size: 0.9rem; text-align: left; }
+            .main-header { padding: 10px 15px; }
+            #theme-toggle { font-size: 1.5rem; padding: 6px 10px;}
         }
 
     </style>
 </head>
-<body>
+<body class="dark-theme">
 
-    <!-- Parçacık Konteyneri -->
     <div id="tsparticles"></div>
 
     <header class="main-header">
-       
+        <button id="theme-toggle" aria-label="Temayı Değiştir">
+            <i class="fas fa-sun"></i>
+            <i class="fas fa-moon"></i>
+        </button>
     </header>
 
     <main class="home-main">
-        <!-- İçerik Konteyneri -->
         <div class="content-container">
             <div class="logo-wrapper">
                 <img src="logom.png" alt="Antalya OSB Teknopark Logosu" class="animated-logo" />
@@ -137,32 +180,92 @@
         </div>
     </main>
 
-    <!-- tsParticles Kütüphanesi -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
 
-    <!-- tsParticles Başlatma ve Menü Scripti (Aynı) -->
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
-            // tsParticles başlatma (Aynı)
-            tsParticles.load("tsparticles", { fpsLimit: 60, background: { color: "#0a0d1e" }, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25, width: 1 }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true });
 
-            // Menü Açma/Kapatma İşlevselliği (Aynı)
-            const hamburgerIcon = document.getElementById('hamburgerIcon');
-            const menuContainer = document.getElementById('menuContainer');
-            const closeMenuBtn = document.getElementById('closeMenuBtn');
-            if (hamburgerIcon && menuContainer && closeMenuBtn) {
-                hamburgerIcon.addEventListener('click', (e) => { e.stopPropagation(); menuContainer.classList.toggle('active'); });
-                closeMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); menuContainer.classList.remove('active'); });
-                menuContainer.addEventListener('click', (e) => { if (e.target !== closeMenuBtn && !closeMenuBtn.contains(e.target)) { e.stopPropagation(); } });
-                document.addEventListener('click', (e) => { if (menuContainer.classList.contains('active') && !menuContainer.contains(e.target) && !hamburgerIcon.contains(e.target)) { menuContainer.classList.remove('active'); } });
+            const darkThemeParticlesConfig = {
+                fpsLimit: 60,
+                background: { color: "transparent" },
+                particles: {
+                    number: { value: 160, density: { enable: true, area: 800 } },
+                    color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] },
+                    shape: { type: "circle" },
+                    opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } },
+                    size: { value: {min: 1, max: 3} },
+                    links: {
+                        enable: true,
+                        distance: 130,
+                        color: "#4a4f8b",
+                        opacity: 0.25,
+                        width: 1
+                    },
+                    move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } }
+                },
+                interactivity: { events: { resize: true } },
+                detectRetina: true
+            };
+
+            const lightThemeParticlesConfig = {
+                fpsLimit: 60,
+                background: { color: "transparent" },
+                particles: {
+                    number: { value: 130, density: { enable: true, area: 900 } },
+                    color: { value: ["#555555", "#8B008B", "#3498db", "#2c3e50"] },
+                    shape: { type: "circle" },
+                    opacity: { value: {min: 0.2, max: 0.7}, animation: { enable: true, speed: 0.6, minimumValue: 0.2, sync: false } },
+                    size: { value: {min: 1, max: 4} },
+                    links: {
+                        enable: true,
+                        distance: 140,
+                        color: "#8B008B",
+                        opacity: 0.35,
+                        width: 1.5
+                    },
+                    move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: { default: "out" } }
+                },
+                interactivity: { events: { resize: true } },
+                detectRetina: true
+            };
+
+            let currentParticlesConfig = darkThemeParticlesConfig;
+
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const body = document.body;
+            const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+
+            themeToggleBtn.addEventListener('click', () => {
+                const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark';
+                applyTheme(newTheme);
+            });
+
+            function applyTheme(theme) {
+                if (theme === 'light') {
+                    body.classList.remove('dark-theme');
+                    body.classList.add('light-theme');
+                    currentParticlesConfig = lightThemeParticlesConfig;
+                    if(themeMeta) themeMeta.setAttribute('content', '#ecf0f1');
+                } else {
+                    body.classList.remove('light-theme');
+                    body.classList.add('dark-theme');
+                    currentParticlesConfig = darkThemeParticlesConfig;
+                     if(themeMeta) themeMeta.setAttribute('content', '#0a0d1e');
+                }
+                localStorage.setItem('theme', theme);
+                tsParticles.load("tsparticles", currentParticlesConfig);
             }
         });
     </script>
 
-    <!-- Service Worker Kaydı -->
-     <script>
+    <script>
         if ('serviceWorker'in navigator) {
-          navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err));
+          navigator.serviceWorker.register('service-worker.js')
+            .then(reg => console.log('SW Registered!', reg))
+            .catch(err => console.log('SW Error:', err));
         }
       </script>
 

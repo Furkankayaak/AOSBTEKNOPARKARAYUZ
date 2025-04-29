@@ -3,206 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Görevler ve Uyarılar</title> <!-- Başlık Değişti -->
-    <!-- Font Awesome CDN (ikonlar için) -->
+    <title>Hatırlatmalar - Antalya OSB Teknopark</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Google Fonts (Örnek) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192.png">
+    <meta name="theme-color" content="#0f0f24">
 
     <style>
-        /* === CSS Kodları Başlangıcı === */
-        :root {
-            --bg-dark: #0f0f24;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        a { text-decoration: none; transition: color 0.3s ease; }
+        ul { list-style: none; }
+        img, svg, iframe { max-width: 100%; height: auto; vertical-align: middle; display: block; }
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+        /* --- Theme Variables --- */
+        body.dark-theme {
+            --bg-main: #0f0f24;
             --bg-gradient-start: #1a1a3d;
+            --bg-header: rgba(10, 15, 43, 0.85);
             --card-bg: #1e1e3c;
             --card-icon-bg: #14142b;
             --text-primary: #e0e0e0;
             --text-secondary: #b0b0d0;
             --text-title: #ffffff;
+            --text-page-title: #ffffff; /* H1 Rengi */
+            --text-card-details: #b0b0d0;
+            --text-meta: #9090b0;
             --border-color: rgba(255, 255, 255, 0.2);
+            --border-header-bottom: rgba(192, 192, 255, 0.3);
             --shadow-color: rgba(0, 0, 0, 0.3);
-            --critical-color: #e74c3c; /* Kırmızı - Gecikmiş/Acil */
-            --high-color: #f39c12;     /* Turuncu - Önemli/Onay Bekliyor */
-            --medium-color: #3498db;   /* Mavi - Normal Görev/Bilgi */
-            --info-color: #9b59b6;      /* Mor - Bilgilendirme */
-            --success-color: #2ecc71; /* Yeşil - Tamamlandı */
-            /* Yeni Durum Renkleri */
-            --pending-color: #f39c12;  /* Turuncu - Onay Bekliyor */
-            --overdue-color: #e74c3c; /* Kırmızı - Gecikmiş */
-            --action-required-color: #3498db; /* Mavi - Eylem Gerekli */
-            --completed-color: #2ecc71; /* Yeşil - Tamamlandı */
-            --waiting-input-color: #f1c40f; /* Sarı - Veri Bekliyor */
+            --shadow-card: 0 4px 12px var(--shadow-color);
+            --shadow-card-hover: 0 8px 20px var(--shadow-color);
+            --accent-primary: #a0a0ff;
+            --critical-color: #e74c3c;
+            --high-color: #f39c12;
+            --medium-color: #3498db;
+            --info-color: #9b59b6;
+            --success-color: #2ecc71;
+            --pending-color: var(--high-color);
+            --overdue-color: var(--critical-color);
+            --action-required-color: var(--medium-color);
+            --completed-color: var(--success-color);
+            --waiting-input-color: #f1c40f;
+            --summary-critical-bg: rgba(231, 76, 60, 0.1);
+            --summary-critical-border: var(--critical-color);
+            --summary-critical-text: var(--critical-color);
+            --summary-high-bg: rgba(243, 156, 18, 0.1);
+            --summary-high-border: var(--high-color);
+            --summary-high-text: var(--high-color);
+            --summary-info-bg: rgba(52, 152, 219, 0.1);
+            --summary-info-border: var(--medium-color);
+            --summary-info-text: var(--medium-color);
+            --hamburger-bg: #f0f0f0;
+            --theme-toggle-color: #f0f0f0;
         }
 
+        body.light-theme {
+            --bg-main: #ecf0f1;
+            --bg-gradient-start: #f4f7fc; /* Hafif mavi */
+            --bg-header: rgba(255, 255, 255, 0.95);
+            --card-bg: linear-gradient(135deg, rgba(106, 17, 203, 0.65) 0%, rgba(199, 21, 133, 0.7) 60%, rgba(238, 130, 238, 0.65) 100%);
+            --card-icon-bg: rgba(255, 255, 255, 0.15);
+            --text-primary: #2c3e50;
+            --text-secondary: #555;
+            --text-title: #ffffff; /* Kart içindeki başlıklar */
+            --text-page-title: #2980b9; /* H1 Rengi */
+            --text-card-details: rgba(255, 255, 255, 0.85); /* Kart içindeki detaylar */
+            --text-meta: rgba(255, 255, 255, 0.75); /* Kart içindeki meta */
+            --border-color: rgba(255, 255, 255, 0.3);
+            --border-header-bottom: #dfe4ea;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.1);
+            --shadow-card-hover: 0 10px 35px rgba(0, 0, 0, 0.15);
+            --accent-primary: #2980b9;
+            --critical-color: #c0392b;
+            --high-color: #d35400;
+            --medium-color: #2980b9;
+            --info-color: #8e44ad;
+            --success-color: #27ae60;
+            --pending-color: var(--high-color);
+            --overdue-color: var(--critical-color);
+            --action-required-color: var(--medium-color);
+            --completed-color: var(--success-color);
+            --waiting-input-color: #f39c12; /* Sarı kalabilir */
+            --summary-critical-bg: rgba(192, 57, 43, 0.1);
+            --summary-critical-border: var(--critical-color);
+            --summary-critical-text: var(--critical-color);
+            --summary-high-bg: rgba(211, 84, 0, 0.1);
+            --summary-high-border: var(--high-color);
+            --summary-high-text: var(--high-color);
+            --summary-info-bg: rgba(41, 128, 185, 0.1);
+            --summary-info-border: var(--medium-color);
+            --summary-info-text: var(--medium-color);
+            --hamburger-bg: #333;
+            --theme-toggle-color: #34495e;
+        }
+
+        /* --- Base Styles --- */
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Nunito Sans', sans-serif;
-            background-color: var(--bg-dark);
-            background-image: linear-gradient(145deg, var(--bg-gradient-start) 0%, var(--bg-dark) 74%);
+            background-color: var(--bg-main);
+            background-image: linear-gradient(145deg, var(--bg-gradient-start) 0%, var(--bg-main) 74%);
             background-attachment: fixed;
             color: var(--text-primary);
-            min-height: 100vh;
-            padding-bottom: 40px;
         }
+        a { color: var(--accent-primary); }
+        a:hover { color: var(--accent-secondary); }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        /* --- Header --- */
+        .main-header { background-color: var(--bg-header); padding: 10px 20px; box-shadow: 0 3px 10px var(--shadow-color); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-header-bottom); }
+        .header-left { flex-grow: 1; }
+        .header-right { display: flex; align-items: center; }
+        .hamburger-container { display: inline-block; position: relative; cursor: pointer; z-index: 1002; }
+        .hamburger-icon { padding: 10px; display: inline-block; }
+        .hamburger-icon span { display: block; width: 28px; height: 3px; background-color: var(--hamburger-bg); margin: 6px 0; transition: all 0.3s ease; border-radius: 1px; }
+        #theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.6rem; padding: 8px 12px; color: var(--theme-toggle-color); transition: transform 0.3s ease, color 0.4s ease; }
+        #theme-toggle:hover { transform: scale(1.1) rotate(15deg); }
+        #theme-toggle .fa-sun { display: none; }
+        .light-theme #theme-toggle .fa-sun { display: inline-block; }
+        .light-theme #theme-toggle .fa-moon { display: none; }
 
-        h1 {
-            color: var(--text-title);
-            font-size: 2.8em;
-            text-align: center;
-            margin-top: 40px;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1 { color: var(--text-page-title); font-size: 2.8em; text-align: center; margin-top: 40px; margin-bottom: 10px; font-weight: 700; }
+        hr { border: 0; height: 1px; background: var(--border-color); width: 80%; margin: 0 auto 40px auto; }
 
-        /* Genel Durum Özeti Alanı (Opsiyonel) */
-        .task-summary {
-            text-align: center;
-            margin-bottom: 25px;
-            padding: 10px 15px;
-            background-color: rgba(231, 76, 60, 0.1); /* Kritik renge göre ayarlı */
-            border: 1px solid var(--critical-color);
-            border-radius: 5px;
-            color: var(--critical-color);
-            font-weight: 600;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .task-summary.high {
-             background-color: rgba(243, 156, 18, 0.1);
-             border-color: var(--high-color);
-             color: var(--high-color);
-        }
-         .task-summary.info {
-             background-color: rgba(52, 152, 219, 0.1);
-             border-color: var(--medium-color); /* Medium ile aynı renk */
-             color: var(--medium-color);
-        }
+        /* Genel Durum Özeti */
+        .task-summary { text-align: center; margin-bottom: 25px; padding: 10px 15px; border-radius: 5px; font-weight: 600; max-width: 600px; margin-left: auto; margin-right: auto; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .task-summary.critical { background-color: var(--summary-critical-bg); border: 1px solid var(--summary-critical-border); color: var(--summary-critical-text); }
+        .task-summary.high { background-color: var(--summary-high-bg); border: 1px solid var(--summary-high-border); color: var(--summary-high-text); }
+        .task-summary.info { background-color: var(--summary-info-bg); border: 1px solid var(--summary-info-border); color: var(--summary-info-text); }
 
-        hr {
-            border: 0;
-            height: 1px;
-            background: var(--border-color);
-            width: 80%;
-            margin: 0 auto 40px auto;
-        }
+        /* Grid */
+        .warnings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
 
-        .warnings-grid { /* Class adını değiştirmedim, istersen task-grid yapabilirsin */
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-        }
+        /* Kart */
+        .warning-card { background: var(--card-bg); border-radius: 8px; display: flex; overflow: hidden; box-shadow: var(--shadow-card); transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background 0.3s ease, background-color 0.3s ease; border-left: 5px solid var(--medium-color); backdrop-filter: blur(5px); }
+        .light-theme .warning-card { backdrop-filter: blur(8px); border-left-width: 0; border-top: 5px solid var(--medium-color);}
+        .warning-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); }
+        .warning-card.severity-critical { border-left-color: var(--critical-color); } .light-theme .warning-card.severity-critical { border-top-color: var(--critical-color); }
+        .warning-card.severity-high { border-left-color: var(--high-color); } .light-theme .warning-card.severity-high { border-top-color: var(--high-color); }
+        .warning-card.severity-medium { border-left-color: var(--medium-color); } .light-theme .warning-card.severity-medium { border-top-color: var(--medium-color); }
+        .warning-card.severity-info { border-left-color: var(--info-color); } .light-theme .warning-card.severity-info { border-top-color: var(--info-color); }
 
-        .warning-card { /* Class adını değiştirmedim */
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            display: flex;
-            overflow: hidden;
-            box-shadow: 0 4px 12px var(--shadow-color);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            border-left: 5px solid var(--medium-color); /* Varsayılan: Normal Görev */
-        }
-
-        .warning-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px var(--shadow-color);
-        }
-
-        /* Önem Seviyesine Göre Kenar Renkleri (Aciliyet) */
-        .warning-card.severity-critical { border-left-color: var(--critical-color); } /* Gecikmiş/Çok Acil */
-        .warning-card.severity-high { border-left-color: var(--high-color); }     /* Önemli/Onay Bekliyor */
-        .warning-card.severity-medium { border-left-color: var(--medium-color); }   /* Normal Görev */
-        .warning-card.severity-info { border-left-color: var(--info-color); }      /* Bilgilendirme */
-
-        .card-icon-area {
-            background-color: var(--card-icon-bg);
-            padding: 25px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8em;
-            color: var(--medium-color); /* Varsayılan ikon rengi */
-            min-width: 60px;
-        }
-
-        /* Önem Seviyesine Göre İkon Renkleri */
+        .card-icon-area { background-color: var(--card-icon-bg); padding: 25px 20px; display: flex; align-items: center; justify-content: center; font-size: 1.8em; color: var(--medium-color); min-width: 60px; border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
+        .light-theme .card-icon-area { border-radius: 0; border-top-left-radius: 8px; border-top-right-radius: 8px; }
         .warning-card.severity-critical .card-icon-area { color: var(--critical-color); }
         .warning-card.severity-high .card-icon-area { color: var(--high-color); }
         .warning-card.severity-medium .card-icon-area { color: var(--medium-color); }
         .warning-card.severity-info .card-icon-area { color: var(--info-color); }
+        .light-theme .warning-card.severity-critical .card-icon-area,
+        .light-theme .warning-card.severity-high .card-icon-area,
+        .light-theme .warning-card.severity-medium .card-icon-area,
+        .light-theme .warning-card.severity-info .card-icon-area { color: #fff; /* İkonlar beyaz kalsın */ }
 
+        .card-content-area { padding: 18px 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+        .card-content-area h2 { color: var(--text-title); margin-top: 0; margin-bottom: 8px; font-size: 1.15em; font-weight: 700; line-height: 1.3; }
+        .card-details { font-size: 0.85em; color: var(--text-card-details); margin-bottom: 12px; line-height: 1.4; }
+        .card-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.8em; color: var(--text-meta); margin-top: auto; }
 
-        .card-content-area {
-            padding: 18px 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .card-content-area h2 {
-            color: var(--text-title);
-            margin-top: 0;
-            margin-bottom: 8px;
-            font-size: 1.15em;
-            font-weight: 700;
-            line-height: 1.3;
-        }
-
-        .card-details {
-            font-size: 0.85em;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-            line-height: 1.4;
-        }
-
-        .card-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.8em;
-            color: #9090b0;
-            margin-top: auto;
-        }
-
-        .status-badge {
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: 600;
-            color: white;
-        }
-
-        /* Yeni Durum Etiket Renkleri */
-        .status-badge.status-pending-approval { background-color: var(--pending-color); color: #333;}
+        /* Status Badges */
+        .status-badge { padding: 3px 8px; border-radius: 4px; font-weight: 600; color: white; }
+        .status-badge.status-pending-approval { background-color: var(--pending-color); color: #333; }
         .status-badge.status-overdue { background-color: var(--overdue-color); }
         .status-badge.status-action-required { background-color: var(--action-required-color); }
         .status-badge.status-completed { background-color: var(--completed-color); }
         .status-badge.status-waiting-input { background-color: var(--waiting-input-color); color: #333;}
-        .status-badge.status-info { background-color: var(--info-color); } /* Bilgilendirme için */
+        .status-badge.status-info { background-color: var(--info-color); }
+        /* Light theme badge overrides for contrast */
+        .light-theme .status-badge.status-pending-approval,
+        .light-theme .status-badge.status-waiting-input { color: white; }
 
+        .last-updated { opacity: 0.8; } .last-updated i { margin-right: 4px; }
 
-        .last-updated { /* Son Tarih olarak kullanabiliriz */
-             opacity: 0.8;
-        }
-         .last-updated i {
-            margin-right: 4px;
-         }
+        /* Ek Bilgi/Destek */
+        .support-links { text-align: center; margin-top: 40px; font-size: 0.9em; color: var(--text-secondary); }
+        .support-links p { margin-bottom: 5px; }
+        .support-links a { color: var(--medium-color); font-weight: 600; }
+        .light-theme .support-links a { color: var(--accent-primary); }
 
-        /* Küçük ekranlar için ayarlamalar */
+        /* Responsive */
         @media (max-width: 768px) {
+            .main-header { padding: 10px 15px; }
+            #theme-toggle { font-size: 1.5rem; padding: 6px 10px;}
             h1 { font-size: 2.3em; }
             .warnings-grid { grid-template-columns: 1fr; }
             hr { width: 90%; }
@@ -216,35 +210,40 @@
             .warning-card.severity-high { border-top-color: var(--high-color); }
             .warning-card.severity-medium { border-top-color: var(--medium-color); }
             .warning-card.severity-info { border-top-color: var(--info-color); }
-            .card-icon-area { min-width: auto; width: 100%; padding: 15px; min-height: 0;}
+            .card-icon-area { min-width: auto; width: 100%; padding: 15px; min-height: 0; border-radius: 0; border-top-left-radius: 8px; border-top-right-radius: 8px;}
             .card-content-area { padding: 15px; }
             .card-meta { flex-direction: column; align-items: flex-start; gap: 5px;}
         }
-        /* === CSS Kodları Sonu === */
     </style>
 </head>
-<body>
+<body class="dark-theme">
+
+    <div id="tsparticles"></div>
+
+    <header class="main-header">
+       <div class="header-left">
+           <div class="hamburger-container">
+                 </div>
+       </div>
+       <div class="header-right">
+           <button id="theme-toggle" aria-label="Temayı Değiştir">
+               <i class="fas fa-sun"></i>
+               <i class="fas fa-moon"></i>
+           </button>
+       </div>
+    </header>
+
     <div class="container">
         <h1>Hatırlatmalar</h1>
-
-        <!-- Genel Görev Özeti (Örnek) -->
-        <div class="task-summary critical"> <!-- Önemli görev sayısına göre class değişebilir: critical, high, info -->
+        <div class="task-summary critical">
              <i class="fa-solid fa-circle-exclamation"></i>
              <span>3 adet kritik/gecikmiş göreviniz bulunmaktadır!</span>
-             <!-- <span><i class="fa-solid fa-bell"></i> 5 adet onay bekleyen işleminiz var.</span> -->
-             <!-- <span class="info"><i class="fa-solid fa-check-circle"></i> Tüm görevleriniz güncel.</span> -->
         </div>
-
-
         <hr>
 
         <div class="warnings-grid">
-
-            <!-- Uyarı Kartı 1: Gecikmiş Görev (Kritik) -->
             <div class="warning-card severity-critical">
-                <div class="card-icon-area">
-                    <i class="fa-solid fa-file-circle-exclamation"></i>
-                </div>
+                <div class="card-icon-area"><i class="fa-solid fa-file-circle-exclamation"></i></div>
                 <div class="card-content-area">
                     <h2>[TAMAMLANDI] Muafiyet Raporu</h2>
                     <p class="card-details">Serkan Uluç'un Haziran ayı Muafiyet Raporu tarafınızca kabul edilmiştir.</p>
@@ -255,11 +254,8 @@
                 </div>
             </div>
 
-            <!-- Uyarı Kartı 2: Onay Bekleyen (Yüksek) -->
             <div class="warning-card severity-high">
-                <div class="card-icon-area">
-                    <i class="fa-solid fa-user-check"></i>
-                </div>
+                <div class="card-icon-area"><i class="fa-solid fa-user-check"></i></div>
                 <div class="card-content-area">
                     <h2>Yeni Personel İşe Alım Onayı</h2>
                     <p class="card-details">XYZ pozisyonu için önerilen adayın işe alım onayı sizin tarafınızdan beklenmektedir. Detaylar için tıklayın.</p>
@@ -270,11 +266,8 @@
                 </div>
             </div>
 
-            <!-- Uyarı Kartı 3: Eylem Gerekli (Orta) -->
             <div class="warning-card severity-medium">
-                 <div class="card-icon-area">
-                    <i class="fa-solid fa-list-check"></i>
-                </div>
+                 <div class="card-icon-area"><i class="fa-solid fa-list-check"></i></div>
                 <div class="card-content-area">
                     <h2>Proje Beta Görev Atamaları</h2>
                     <p class="card-details">Proje Beta için ekibinize düşen görevleri inceleyip ilgili kişilere atamanız gerekmektedir.</p>
@@ -285,11 +278,8 @@
                 </div>
             </div>
 
-             <!-- Uyarı Kartı 4: Veri Girişi (Orta/Beklemede) -->
-            <div class="warning-card severity-medium"> <!-- Önem seviyesi medium veya high olabilir -->
-                <div class="card-icon-area">
-                   <i class="fa-solid fa-keyboard"></i>
-                </div>
+            <div class="warning-card severity-medium">
+                <div class="card-icon-area"><i class="fa-solid fa-keyboard"></i></div>
                 <div class="card-content-area">
                     <h2>Haftalık güncellemeleri yapınız</h2>
                     <p class="card-details">Geçen haftanın verilerini Portala girmeniz beklenmektedir. Son tarih Cuma.</p>
@@ -300,13 +290,10 @@
                 </div>
             </div>
 
-            <!-- Uyarı Kartı 5: Bilgilendirme (Info) -->
             <div class="warning-card severity-info">
-                 <div class="card-icon-area">
-                    <i class="fa-solid fa-circle-info"></i>
-                </div>
+                 <div class="card-icon-area"><i class="fa-solid fa-circle-info"></i></div>
                 <div class="card-content-area">
-                    <h2>Yeni  Muafiyet Raporu  Güncellemesi</h2>
+                    <h2>Yeni Muafiyet Raporu Güncellemesi</h2>
                     <p class="card-details">İzin talep etme ve onaylama prosedürlerinde yapılan güncellemeler hakkında bilgi edinin.</p>
                      <div class="card-meta">
                         <span class="status-badge status-info">Bilgilendirme</span>
@@ -315,29 +302,98 @@
                 </div>
             </div>
 
-             <!-- Uyarı Kartı 6: Tamamlanmış Görev (Yeşil/Soluk) -->
-            <div class="warning-card severity-info" style="opacity: 0.7; border-left-color: var(--success-color);">
-                 <div class="card-icon-area" style="color: var(--success-color);">
-                    <i class="fa-solid fa-check-circle"></i>
-                </div>
-                <div class="card-content-area">
+            <div class="warning-card severity-info" style="opacity: 0.7;">
+                 <div class="card-icon-area" style="color: var(--completed-color);"><i class="fa-solid fa-check-circle"></i></div>
+                 <div class="card-content-area">
                     <h2>[TAMAMLANDI] Muafiyet Raporu</h2>
                     <p class="card-details">Serkan Uluç'un Haziran ayı Muafiyet Raporu tarafınızca kabul edilmiştir.</p>
                      <div class="card-meta">
                         <span class="status-badge status-completed">Tamamlandı</span>
                         <span class="last-updated"><i class="fa-regular fa-clock"></i> Dün</span>
                     </div>
-                </div>
+                 </div>
             </div>
-
-        </div> <!-- .warnings-grid sonu -->
-
-         <!-- Ek Bilgi/Destek Alanı (Güncellendi) -->
-         <div style="text-align: center; margin-top: 40px; font-size: 0.9em; color: var(--text-secondary);">
-            <p>Bekleyen görevlerinizi yönetmek için <a href="#" style="color: var(--medium-color);">Görev Yönetim Sistemi</a>'ne gidin.</p>
-            <p>Yardıma ihtiyacınız olursa, <a href="#" style="color: var(--medium-color);">Yardım Masası</a> ile iletişime geçebilirsiniz.</p>
         </div>
 
-    </div> <!-- .container sonu -->
+         <div class="support-links">
+            <p>Bekleyen görevlerinizi yönetmek için <a href="#">Görev Yönetim Sistemi</a>'ne gidin.</p>
+            <p>Yardıma ihtiyacınız olursa, <a href="#">Yardım Masası</a> ile iletişime geçebilirsiniz.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 100, density: { enable: true, area: 1200 } }, color: { value: ["#ffffff", "#3498db", "#9b59b6", "#e74c3c", "#f39c12"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.4} }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 180, color: "#4a4f8b", opacity: 0.1, width: 1 }, move: { enable: true, speed: 0.6, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 120, density: { enable: true, area: 1000 } }, color: { value: ["#2c3e50", "#3498db", "#8e44ad", "#c0392b", "#d35400"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.5} }, size: { value: {min: 1, max: 3.5} }, links: { enable: true, distance: 160, color: "#bdc3c7", opacity: 0.25, width: 1 }, move: { enable: true, speed: 0.7, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            let currentParticlesConfig = darkThemeParticlesConfig;
+
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const body = document.body;
+            const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+
+            if(themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark';
+                    applyTheme(newTheme);
+                });
+            }
+
+            function applyTheme(theme) {
+                const isParticlesPage = typeof tsParticles !== 'undefined' && document.getElementById('tsparticles');
+
+                if (theme === 'light') {
+                    body.classList.remove('dark-theme');
+                    body.classList.add('light-theme');
+                    if(themeMeta) themeMeta.setAttribute('content', '#ecf0f1');
+                    if (isParticlesPage) currentParticlesConfig = lightThemeParticlesConfig;
+                } else {
+                    body.classList.remove('light-theme');
+                    body.classList.add('dark-theme');
+                     if(themeMeta) themeMeta.setAttribute('content', '#0f0f24');
+                     if (isParticlesPage) currentParticlesConfig = darkThemeParticlesConfig;
+                }
+                localStorage.setItem('theme', theme);
+
+                if (isParticlesPage) {
+                    tsParticles.load("tsparticles", currentParticlesConfig);
+                }
+            }
+
+             // Tamamlanmış görev stilini JS ile de ayarlayabiliriz (opacity)
+             const completedCards = document.querySelectorAll('.status-badge.status-completed');
+             completedCards.forEach(badge => {
+                 const card = badge.closest('.warning-card');
+                 if(card && body.classList.contains('dark-theme')) { // Sadece dark temada uygula
+                     card.style.opacity = '0.7';
+                 } else if (card) {
+                     card.style.opacity = '1'; // Light temada veya başka durumda normal opacity
+                 }
+             });
+             // Tema değiştiğinde de bu kontrolü tekrarlamak iyi olabilir
+             if(themeToggleBtn) {
+                  themeToggleBtn.addEventListener('click', () => {
+                      // Kısa bir gecikmeyle tekrar kontrol et, applyTheme sınıfı değiştirdikten sonra
+                      setTimeout(() => {
+                           const updatedCompletedCards = document.querySelectorAll('.status-badge.status-completed');
+                           updatedCompletedCards.forEach(badge => {
+                               const card = badge.closest('.warning-card');
+                               if(card && body.classList.contains('dark-theme')) {
+                                   card.style.opacity = '0.7';
+                               } else if (card) {
+                                   card.style.opacity = '1';
+                               }
+                           });
+                      }, 50); // 50ms gecikme
+                  });
+             }
+
+             // tsParticles.load("tsparticles", currentParticlesConfig); // applyTheme içinde zaten çağrılıyor
+        });
+    </script>
+     <script> if ('serviceWorker'in navigator) { navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err)); } </script>
 </body>
 </html>

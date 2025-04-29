@@ -3,416 +3,334 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ayarlar - Gösterişli (Koyu Mavi Arka Plan)</title>
-    <!-- Font Awesome CDN -->
+    <title>Ayarlar - Antalya OSB Teknopark</title> <!-- Başlık Güncellendi -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json"> <!-- PWA Eklendi -->
+    <link rel="icon" href="icons/icon-192.png"> <!-- PWA Eklendi -->
+    <meta name="theme-color" content="#0f0f24"> <!-- Dark tema meta rengi -->
 
     <style>
-        /* === CSS Kodları Başlangıcı === */
-        :root {
-            /* Neon/Canlı Renk Paleti (Aynı kalıyor) */
-            --neon-blue: #00ffff;
-            --neon-pink: #ff00ff;
-            --neon-green: #39ff14;
-            --neon-purple: #c500ff;
-            --neon-orange: #ffac00;
-            --glow-intensity: 8px;
-
-            /* Diğer Renkler (Arka plan güncellendi) */
-            --bg-dark: #0a0a1f; /* Daha koyu lacivert/mor */
-            --bg-medium: #111827; /* Koyu Mavi-Gri */
-            --bg-gradient-start: #1a1a3d; /* Daha önceki koyu mavi */
+        /* === Tema Değişkenleri === */
+        body.dark-theme {
+            --bg-main: #0f0f24;
+            --bg-gradient-start: #1a1a3d;
+            --bg-header: rgba(10, 15, 43, 0.85); /* Header için ayrı background */
             --card-bg: rgba(28, 18, 48, 0.8);
             --card-bg-hover: rgba(40, 25, 68, 0.9);
             --text-primary: #e8e8ff;
             --text-secondary: #a0a0c0;
             --text-title: #ffffff;
-            --border-color: rgba(100, 100, 255, 0.3); /* Hafif morumsu mavi border */
-            --shadow-color: rgba(100, 100, 255, 0.15); /* Daha hafif mavi/mor gölge */
+            --text-page-title: #ffffff;
+            --border-color: rgba(100, 100, 255, 0.3);
+            --border-header-bottom: rgba(192, 192, 255, 0.3); /* Header için */
+            --shadow-color: rgba(100, 100, 255, 0.15);
+            --shadow-card: 0 6px 20px var(--shadow-color);
+            --shadow-card-hover: 0 8px 25px rgba(197, 0, 255, 0.3);
+            --accent-blue: #3498db;
+            --accent-purple: #c500ff;
+            --neon-blue: #00ffff;
+            --neon-pink: #ff00ff;
             --switch-bg: rgba(255, 255, 255, 0.1);
             --switch-handle: #e0e0ff;
+            --switch-bg-checked: var(--neon-pink);
+            --switch-border-checked: var(--neon-pink);
+            --switch-shadow-checked: 0 0 8px var(--neon-pink);
+            --select-bg: rgba(0,0,0,0.3);
+            --select-border: var(--border-color);
+            --select-border-hover: var(--neon-pink);
+            --select-shadow-focus: 0 0 0 3px rgba(255, 0, 255, 0.3);
+            --select-arrow-color: var(--neon-pink);
+            --button-primary-bg: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            --button-primary-shadow: 0 4px 15px rgba(197, 0, 255, 0.3);
+            --button-primary-shadow-hover: 0 6px 20px rgba(197, 0, 255, 0.5);
+            --button-secondary-bg: rgba(255, 255, 255, 0.1);
+            --button-secondary-border: var(--border-color);
+            --button-secondary-text: var(--text-primary);
+            --button-secondary-hover-bg: rgba(255, 255, 255, 0.2);
+            --button-secondary-hover-border: var(--neon-blue);
+            --button-secondary-hover-text: var(--neon-blue);
+            --button-secondary-hover-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            --button-danger-border: var(--danger-color, #ff4d4d);
+            --button-danger-text: var(--danger-color, #ff4d4d);
+            --button-danger-text-shadow: 0 0 8px var(--danger-color, #ff4d4d);
+            --button-danger-hover-bg: rgba(255, 77, 77, 0.1);
+            --button-danger-hover-shadow: 0 0 15px var(--danger-color, #ff4d4d);
+            --link-color: var(--neon-blue);
+            --link-hover-color: #80ffff;
+            --link-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+            --link-shadow-hover: 0 0 8px var(--neon-blue), 0 0 12px var(--neon-blue);
+            --theme-toggle-color: #f0f0f0;
+            --theme-toggle-hover: #fff;
+            --danger-color: #ff4d4d; /* Added for consistency */
+        }
+
+        body.light-theme {
+            --bg-main: #ecf0f1;
+            --bg-gradient-start: #f4f7fc;
+            --bg-header: rgba(255, 255, 255, 0.95);
+            /* Ayar kartları gradient */
+            --card-bg: linear-gradient(135deg, rgba(106, 17, 203, 0.65) 0%, rgba(199, 21, 133, 0.7) 60%, rgba(238, 130, 238, 0.65) 100%);
+            --card-bg-hover: linear-gradient(135deg, rgba(106, 17, 203, 0.75) 0%, rgba(199, 21, 133, 0.8) 60%, rgba(238, 130, 238, 0.75) 100%);
+            --card-bg-lighter: rgba(255, 255, 255, 0.2); /* Gradient üzeri */
+            --text-primary: #ffffff; /* Gradient üzeri ana metin */
+            --text-secondary: rgba(255, 255, 255, 0.85); /* Gradient üzeri ikincil metin */
+            --text-title: #ffffff; /* Gradient üzeri başlık */
+            --text-page-title: #2980b9; /* Sayfa başlığı mavi */
+            --border-color: rgba(255, 255, 255, 0.3); /* Gradient üzeri kenarlık */
+            --border-header-bottom: #dfe4ea;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.1);
+            --shadow-card-hover: 0 10px 35px rgba(0, 0, 0, 0.15);
+            --accent-blue: #f0d5ff; /* Açık mor (link, ikon) */
+            --accent-purple: #fff; /* Beyaz (başlık ikonu) */
+            --accent-green: #f0d5ff;
+            --accent-orange: #f0d5ff;
+            --switch-bg: rgba(255, 255, 255, 0.3);
+            --switch-handle: #fff;
+            --switch-bg-checked: var(--accent-blue);
+            --switch-border-checked: var(--accent-blue);
+            --switch-shadow-checked: 0 0 8px var(--accent-blue);
+            --select-bg: rgba(255,255,255,0.2);
+            --select-border: var(--border-color);
+            --select-border-hover: rgba(255, 255, 255, 0.8);
+            --select-shadow-focus: 0 0 0 3px rgba(255, 255, 255, 0.2);
+            --select-arrow-color: var(--text-primary);
+            --button-primary-bg: linear-gradient(45deg, #3498db, #2980b9); /* Mavi buton */
+            --button-primary-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            --button-primary-shadow-hover: 0 6px 20px rgba(52, 152, 219, 0.5);
+            --button-secondary-bg: rgba(255, 255, 255, 0.3);
+            --button-secondary-border: var(--border-color);
+            --button-secondary-text: var(--text-primary);
+            --button-secondary-hover-bg: rgba(255, 255, 255, 0.4);
+            --button-secondary-hover-border: var(--border-color);
+            --button-secondary-hover-text: var(--text-title);
+            --button-secondary-hover-shadow: none;
+            --button-danger-border: var(--danger-color, #ff4d4d);
+            --button-danger-text: var(--danger-color, #ff4d4d);
+            --button-danger-text-shadow: none;
+            --button-danger-hover-bg: rgba(255, 77, 77, 0.15);
+            --button-danger-hover-shadow: 0 0 10px rgba(255, 77, 77, 0.3);
+            --link-color: var(--text-primary); /* Beyaz link */
+            --link-hover-color: #fff;
+            --link-shadow: none;
+            --link-shadow-hover: none;
+            --theme-toggle-color: #1c1e21;
+            --theme-toggle-hover: #00376b;
             --danger-color: #ff4d4d;
-            --danger-glow: 0 0 8px var(--danger-color), 0 0 12px var(--danger-color);
         }
 
-        /* Animasyon Tanımları (Aynı kalıyor) */
-        @keyframes backgroundShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        /* === Genel Stiller === */
+        body { margin: 0; padding: 0; font-family: 'Nunito Sans', sans-serif; background-color: var(--bg-main); background-image: linear-gradient(145deg, var(--bg-gradient-start) 0%, var(--bg-main) 74%); background-attachment: fixed; color: var(--text-primary); min-height: 100vh; padding-bottom: 50px; overflow-x: hidden; transition: background-color 0.4s ease, color 0.4s ease; }
+        .light-theme { background-image: none; color: #2c3e50; }
+        .container { max-width: 850px; margin: 40px auto; padding: 20px; }
+        h1 { color: var(--text-page-title, var(--text-title)); font-size: 2.5em; margin-bottom: 30px; font-weight: 700; text-align: center; border-bottom: 1px solid var(--border-header-bottom, var(--border-color)); padding-bottom: 20px; transition: color 0.4s ease, border-color 0.4s ease; }
+        h1 i { margin-right: 15px; color: var(--accent-purple); }
+        body.dark-theme h1 { --color: var(--neon-purple); animation: pulseGlow 3s infinite ease-in-out; }
+        @keyframes pulseGlow { 0%, 100% { text-shadow: 0 0 8px var(--color), 0 0 12px var(--color); } 50% { text-shadow: 0 0 12px var(--color), 0 0 18px var(--color); } }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { text-shadow: 0 0 var(--glow-intensity) var(--color), 0 0 calc(var(--glow-intensity) * 1.5) var(--color); }
-            50% { text-shadow: 0 0 calc(var(--glow-intensity) * 1.2) var(--color), 0 0 calc(var(--glow-intensity) * 2) var(--color); }
-        }
-         @keyframes pulseBorderGlow {
-             0%, 100% { box-shadow: 0 0 8px 0px var(--color), inset 0 0 5px var(--color-inset); }
-             50% { box-shadow: 0 0 12px 2px var(--color), inset 0 0 8px var(--color-inset); }
-         }
+        /* --- Header --- */
+        .main-header { background-color: var(--bg-header); padding: 10px 20px; box-shadow: 0 3px 10px var(--shadow-color); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: flex-end; align-items: center; border-bottom: 1px solid var(--border-header-bottom); transition: background-color 0.4s ease, border-color 0.4s ease; }
+        #theme-toggle { color: var(--theme-toggle-color); margin-left: 10px; background: none; border: none; cursor: pointer; font-size: 1.5rem; padding: 5px 8px; transition: transform 0.3s ease, color 0.4s ease; }
+        #theme-toggle:hover { color: var(--theme-toggle-hover); transform: scale(1.1); }
+        #theme-toggle .fa-sun { display: none; }
+        .light-theme #theme-toggle .fa-sun { display: inline-block; }
+        .light-theme #theme-toggle .fa-moon { display: none; }
 
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Nunito Sans', sans-serif;
-            background-color: var(--bg-dark); /* Ana koyu arka plan */
-            /* !!! ARKA PLAN GÜNCELLEMESİ !!! */
-            /* Daha sakin, koyu mavi/mor tonlarında hareketli gradient */
-            background: linear-gradient(145deg, var(--bg-dark), var(--bg-medium), #1e1b4b, var(--bg-gradient-start), var(--bg-dark)); /* Koyu mavi/indigo tonları */
-            background-size: 400% 400%;
-            animation: backgroundShift 25s ease infinite; /* Animasyon biraz yavaşlatıldı */
-            color: var(--text-primary);
-            min-height: 100vh;
-            padding-bottom: 50px;
-            overflow-x: hidden;
-        }
+        /* --- Ayar Bölümleri --- */
+        .settings-section { background: var(--card-bg); border-radius: 10px; margin-bottom: 35px; box-shadow: var(--shadow-card); border: 1px solid var(--border-color); overflow: hidden; backdrop-filter: blur(8px); opacity: 0; transform: translateY(20px); animation: fadeInUp 0.6s ease-out forwards; transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background 0.4s ease; }
+        .settings-section:nth-child(2) { animation-delay: 0.1s; } .settings-section:nth-child(3) { animation-delay: 0.2s; } .settings-section:nth-child(4) { animation-delay: 0.3s; } .settings-section:nth-child(5) { animation-delay: 0.4s; } .settings-section:nth-child(6) { animation-delay: 0.5s; }
+        .settings-section:hover { border-color: var(--neon-purple, var(--border-color-hover)); box-shadow: var(--shadow-card-hover); transform: translateY(-3px) scale(1.01); }
+        .light-theme .settings-section:hover { border-color: var(--border-color-hover); }
+        .settings-section h3 { color: var(--text-title); font-size: 1.3em; font-weight: 600; margin: 0; padding: 18px 25px; background: linear-gradient(90deg, rgba(197, 0, 255, 0.15), rgba(0, 255, 255, 0.1) ); border-bottom: 1px solid var(--border-color); text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+        .light-theme .settings-section h3 { background: rgba(255,255,255,0.1); text-shadow: none; }
+        .settings-section h3 i { margin-right: 10px; color: var(--accent-purple); text-shadow: 0 0 8px var(--accent-purple); transition: color 0.4s ease;}
+        .light-theme .settings-section h3 i { text-shadow: none;}
 
-        .container {
-            max-width: 850px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-
-        h1 {
-            color: var(--text-title);
-            font-size: 2.5em;
-            margin-bottom: 30px;
-            font-weight: 700;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 20px;
-            /* Başlık ışıması (Aynı kalıyor) */
-            --color: var(--neon-purple);
-            animation: pulseGlow 3s infinite ease-in-out;
-        }
-         h1 i {
-            margin-right: 15px;
-            color: var(--neon-purple);
-         }
-
-        /* Ayar Bölümleri (Aynı kalıyor, backdrop-filter daha belirgin olabilir) */
-        .settings-section {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            margin-bottom: 35px;
-            box-shadow: 0 6px 20px var(--shadow-color);
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-            backdrop-filter: blur(8px); /* Blur biraz artırıldı */
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.6s ease-out forwards;
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; /* Hover için transition eklendi */
-        }
-        .settings-section:nth-child(2) { animation-delay: 0.1s; }
-        .settings-section:nth-child(3) { animation-delay: 0.2s; }
-        .settings-section:nth-child(4) { animation-delay: 0.3s; }
-        .settings-section:nth-child(5) { animation-delay: 0.4s; }
-        .settings-section:nth-child(6) { animation-delay: 0.5s; }
-
-         .settings-section:hover {
-            border-color: var(--neon-purple);
-            box-shadow: 0 8px 25px rgba(197, 0, 255, 0.3); /* Gölge rengi ayarlandı */
-            transform: translateY(-3px) scale(1.01);
-         }
-
-        /* Bölüm Başlığı (Aynı kalıyor) */
-        .settings-section h3 {
-            color: var(--text-title);
-            font-size: 1.3em;
-            font-weight: 600;
-            margin: 0;
-            padding: 18px 25px;
-            background: linear-gradient(90deg, rgba(197, 0, 255, 0.15), rgba(0, 255, 255, 0.1) );
-            border-bottom: 1px solid var(--border-color);
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-        }
-         .settings-section h3 i {
-             margin-right: 10px;
-             color: var(--neon-purple);
-             text-shadow: 0 0 8px var(--neon-purple);
-         }
-
-        /* Ayar Öğesi (Aynı kalıyor) */
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 25px;
-            border-bottom: 1px solid rgba(100, 100, 255, 0.15);
-            min-height: 45px;
-             transition: background-color 0.3s ease;
-        }
-         .setting-item:hover {
-            background-color: rgba(255,255,255, 0.05);
-         }
-        .settings-section > div:last-child .setting-item,
-        .settings-section > .setting-item:last-child {
-             border-bottom: none;
-        }
-
-        /* Label ve Action alanları (Aynı kalıyor) */
-        .setting-label strong {
-            display: block; font-weight: 600; color: var(--text-primary);
-            font-size: 1em; margin-bottom: 4px;
-        }
-        .setting-label span {
-            display: block; font-size: 0.88em; color: var(--text-secondary); line-height: 1.4;
-        }
+        /* Ayar Öğesi */
+        .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 18px 25px; border-bottom: 1px solid rgba(100, 100, 255, 0.15); min-height: 45px; transition: background-color 0.3s ease, border-color 0.4s ease; }
+        .light-theme .setting-item { border-bottom-color: var(--border-color); }
+        .setting-item:hover { background-color: rgba(255,255,255, 0.05); }
+        .light-theme .setting-item:hover { background-color: rgba(255,255,255, 0.1); }
+        .settings-section > div:last-child .setting-item, .settings-section > .setting-item:last-child { border-bottom: none; }
+        .setting-label strong { display: block; font-weight: 600; color: var(--text-primary); font-size: 1em; margin-bottom: 4px; }
+        .setting-label span { display: block; font-size: 0.88em; color: var(--text-secondary); line-height: 1.4; }
         .setting-action { flex-shrink: 0; margin-left: 20px; }
 
-        /* Ayar Linkleri (Aynı kalıyor) */
-        .setting-item a.action-link {
-            color: var(--neon-blue); text-decoration: none; font-weight: 600;
-            font-size: 0.95em; transition: color 0.3s ease, text-shadow 0.3s ease;
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-        }
-        .setting-item a.action-link:hover {
-            color: #80ffff; text-shadow: 0 0 8px var(--neon-blue), 0 0 12px var(--neon-blue);
-        }
-         .setting-item a.action-link i { margin-left: 5px; transition: transform 0.3s ease;}
-         .setting-item a.action-link:hover i { transform: translateX(3px);}
+        /* Ayar Linkleri */
+        .setting-item a.action-link { color: var(--link-color); text-decoration: none; font-weight: 600; font-size: 0.95em; transition: color 0.3s ease, text-shadow 0.3s ease; text-shadow: var(--link-shadow); }
+        .setting-item a.action-link:hover { color: var(--link-hover-color); text-shadow: var(--link-shadow-hover); }
+        .setting-item a.action-link i { margin-left: 5px; transition: transform 0.3s ease;}
+        .setting-item a.action-link:hover i { transform: translateX(3px);}
 
-        /* Toggle Switch (Aynı kalıyor) */
+        /* Toggle Switch */
         .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
         .switch input { display: none; }
-        .slider {
-            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--switch-bg);
-            transition: .4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            border-radius: 26px; border: 1px solid var(--border-color);
-        }
-        .slider:before {
-            position: absolute; content: ""; height: 20px; width: 20px;
-            left: 3px; bottom: 2px; background-color: var(--switch-handle);
-            transition: .4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            border-radius: 50%; box-shadow: 0 0 5px rgba(0,0,0,0.5);
-        }
-        input:checked + .slider {
-            background-color: var(--neon-pink); border-color: var(--neon-pink);
-            box-shadow: 0 0 8px var(--neon-pink);
-        }
-        input:checked + .slider:before {
-            transform: translateX(24px); background-color: white;
-            box-shadow: 0 0 8px var(--neon-pink);
-        }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--switch-bg); transition: .4s cubic-bezier(0.68, -0.55, 0.27, 1.55); border-radius: 26px; border: 1px solid var(--border-color); }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 2px; background-color: var(--switch-handle); transition: .4s cubic-bezier(0.68, -0.55, 0.27, 1.55); border-radius: 50%; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
+        input:checked + .slider { background-color: var(--switch-bg-checked); border-color: var(--switch-border-checked); box-shadow: var(--switch-shadow-checked); }
+        input:checked + .slider:before { transform: translateX(24px); background-color: white; box-shadow: var(--switch-shadow-checked); }
 
-        /* Select Dropdown (Aynı kalıyor) */
-        .custom-select select {
-            background-color: rgba(0,0,0,0.3); color: var(--text-primary);
-            padding: 10px 35px 10px 15px; border: 1px solid var(--border-color);
-            border-radius: 6px; font-size: 0.95em; appearance: none; cursor: pointer;
-            min-width: 180px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ff00ff'%3E%3Cpath fill-rule='evenodd' d='M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z' clip-rule='evenodd' /%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: right 10px center;
-            background-size: 18px; transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .custom-select select:hover { border-color: var(--neon-pink); }
-        .custom-select select:focus {
-            outline: none; border-color: var(--neon-pink);
-            box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.3);
-         }
+        /* Select Dropdown */
+        .custom-select select { background-color: var(--select-bg); color: var(--text-primary); padding: 10px 35px 10px 15px; border: 1px solid var(--select-border); border-radius: 6px; font-size: 0.95em; appearance: none; cursor: pointer; min-width: 180px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ff00ff'%3E%3Cpath fill-rule='evenodd' d='M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z' clip-rule='evenodd' /%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; background-size: 18px; transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.4s ease, color 0.4s ease; }
+        .light-theme .custom-select select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3E%3Cpath fill-rule='evenodd' d='M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z' clip-rule='evenodd' /%3E%3C/svg%3E"); }
+        .custom-select select:hover { border-color: var(--select-border-hover); }
+        .custom-select select:focus { outline: none; border-color: var(--select-border-hover); box-shadow: var(--select-shadow-focus); }
 
-        /* Buton Stilleri (Aynı kalıyor) */
-        .action-button {
-            padding: 10px 20px; font-size: 0.95em; font-weight: 700;
-            border-radius: 6px; cursor: pointer; border: none; position: relative;
-            overflow: hidden; transition: transform 0.2s ease, box-shadow 0.3s ease;
-            text-shadow: 0 0 5px rgba(0,0,0,0.5);
-        }
+        /* Buton Stilleri */
+        .action-button { padding: 10px 20px; font-size: 0.95em; font-weight: 700; border-radius: 6px; cursor: pointer; border: none; position: relative; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.4s ease, color 0.4s ease, border-color 0.4s ease; text-shadow: 0 0 5px rgba(0,0,0,0.5); }
+        .light-theme .action-button { text-shadow: none; }
         .action-button i { margin-right: 8px; }
-        .button-primary {
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
-            color: white; box-shadow: 0 4px 15px rgba(197, 0, 255, 0.3); /* Gölge hafifletildi */
-        }
-        .button-primary:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 6px 20px rgba(197, 0, 255, 0.5);
-        }
-        .button-secondary {
-            background-color: rgba(255, 255, 255, 0.1); color: var(--text-primary);
-             border: 1px solid var(--border-color);
-        }
-        .button-secondary:hover {
-             background-color: rgba(255, 255, 255, 0.2); border-color: var(--neon-blue);
-             color: var(--neon-blue); box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-             transform: scale(1.02);
-        }
-        .button-danger {
-            background-color: transparent; color: var(--danger-color);
-            border: 1px solid var(--danger-color); text-shadow: 0 0 8px var(--danger-color); /* text-shadow düzeltildi */
-        }
-        .button-danger:hover {
-            background-color: rgba(255, 77, 77, 0.1);
-            box-shadow: 0 0 15px var(--danger-color); transform: scale(1.03);
-        }
+        .button-primary { background: var(--button-primary-bg); color: white; box-shadow: var(--button-primary-shadow); }
+        .button-primary:hover { transform: translateY(-2px) scale(1.02); box-shadow: var(--button-primary-shadow-hover); }
+        .button-secondary { background-color: var(--button-secondary-bg); color: var(--button-secondary-text); border: 1px solid var(--button-secondary-border); }
+        .button-secondary:hover { background-color: var(--button-secondary-hover-bg); border-color: var(--button-secondary-hover-border); color: var(--button-secondary-hover-text); box-shadow: var(--button-secondary-hover-shadow); transform: scale(1.02); }
+        .button-danger { background-color: transparent; color: var(--button-danger-text); border: 1px solid var(--button-danger-border); text-shadow: var(--button-danger-text-shadow); }
+        .button-danger:hover { background-color: var(--button-danger-hover-bg); box-shadow: var(--button-danger-hover-shadow); transform: scale(1.03); }
 
-        /* Küçük ekranlar (Aynı kalıyor) */
+        /* Responsive */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 640px) {
+             .main-header { padding: 10px 15px; }
+             #theme-toggle { font-size: 1.5rem; padding: 6px 10px;}
              h1 { font-size: 2em; }
              .settings-section h3 { font-size: 1.15em; padding: 15px 20px;}
              .setting-item { flex-direction: column; align-items: flex-start; padding: 18px 20px; gap: 12px;}
              .setting-label { margin-bottom: 10px;}
              .setting-action { width: 100%; display: flex; justify-content: flex-start;}
-              .custom-select select { width: 100%; }
-              .action-button { width: 100%; text-align: center; }
-               .setting-item .setting-action a.action-link { display: inline-block; padding: 8px 0;}
+             .custom-select select { width: 100%; }
+             .action-button { width: 100%; text-align: center; }
+             .setting-item .setting-action a.action-link { display: inline-block; padding: 8px 0;}
         }
-        /* === CSS Kodları Sonu === */
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1><i class="fa-solid fa-sliders"></i>Ayarlar Merkezi</h1>
+<body class="dark-theme">
 
-        <!-- Bölümler aynı kalıyor (HTML yapısı değişmedi) -->
-        <!-- Hesap Ayarları -->
+    <header class="main-header">
+         <div style="flex-grow: 1;"></div> <!-- Header'ı sağa itemek için boşluk -->
+         <button id="theme-toggle" aria-label="Temayı Değiştir">
+             <i class="fas fa-sun"></i>
+             <i class="fas fa-moon"></i>
+         </button>
+     </header>
+
+    <div class="container">
+        <h1><i class="fa-solid fa-sliders"></i>Ayarlar </h1>
+
         <div class="settings-section">
             <h3><i class="fa-solid fa-user-astronaut"></i>Hesap</h3>
             <div class="setting-item">
                 <div class="setting-label">
                     <strong>Kullanıcı Adı</strong>
-                    <span>Görünen kullanıcı adınız: SpaceExplorer</span>
+                    
                 </div>
-                <div class="setting-action">
-                    <a href="#" class="action-link">Değiştir <i class="fa-solid fa-angle-right"></i></a>
-                </div>
+                <div class="setting-action"> <a href="#" class="action-link">Değiştir <i class="fa-solid fa-angle-right"></i></a> </div>
             </div>
             <div class="setting-item">
-                <div class="setting-label">
-                    <strong>Şifre</strong>
-                    <span>Güvenlik anahtarınızı güncelleyin.</span>
-                </div>
-                <div class="setting-action">
-                     <a href="#" class="action-link">Şifre Oluştur <i class="fa-solid fa-angle-right"></i></a>
-                </div>
+                <div class="setting-label"> <strong>Şifre</strong> <span>Güvenlik anahtarınızı güncelleyin.</span> </div>
+                <div class="setting-action"> <a href="#" class="action-link">Şifre Oluştur <i class="fa-solid fa-angle-right"></i></a> </div>
             </div>
         </div>
 
-        <!-- Güvenlik Ayarları -->
         <div class="settings-section">
             <h3><i class="fa-solid fa-shield-virus"></i>Güvenlik Kalkanı</h3>
             <div class="setting-item">
-                <div class="setting-label">
-                    <strong>HyperDrive Güvenlik Modu (2FA+)</strong>
-                    <span>Ekstra koruma için kuantum dolaşıklık anahtarı.</span>
-                </div>
-                <div class="setting-action">
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
+                <div class="setting-label"> <strong>HyperDrive Güvenlik Modu (2FA+)</strong> <span></span> </div>
+                <div class="setting-action"> <label class="switch"> <input type="checkbox" checked> <span class="slider"></span> </label> </div>
             </div>
             <div class="setting-item">
-                <div class="setting-label">
-                    <strong>Warp Geçidi Logları</strong>
-                    <span>Son portal atlamalarınızı inceleyin.</span>
-                </div>
-                <div class="setting-action">
-                    <a href="#" class="action-link">Logları Göster <i class="fa-solid fa-angle-right"></i></a>
-                </div>
+                <div class="setting-label"> <strong>Loglar</strong> <span>Son girişleri inceleyin.</span> </div>
+                <div class="setting-action"> <a href="#" class="action-link">Logları Göster <i class="fa-solid fa-angle-right"></i></a> </div>
             </div>
         </div>
 
-        <!-- Bildirim Ayarları -->
         <div class="settings-section">
-             <h3><i class="fa-solid fa-satellite-dish"></i>Sinyal Tercihleri</h3>
+             <h3><i class="fa-solid fa-satellite-dish"></i>İletişim Tercihleri</h3>
              <div class="setting-item">
-                <div class="setting-label">
-                    <strong>Subspace İletişimi (E-posta)</strong>
-                    <span>Galaktik güncellemeler için hiper-posta alın.</span>
-                </div>
-                <div class="setting-action">
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
+                <div class="setting-label"> <strong>Subspace İletişimi (E-posta)</strong> <span>Güncellemeler için anlık e-posta alın.</span> </div>
+                <div class="setting-action"> <label class="switch"> <input type="checkbox" checked> <span class="slider"></span> </label> </div>
             </div>
              <div class="setting-item">
-                <div class="setting-label">
-                    <strong>Kokpit Uyarıları (Anlık)</strong>
-                    <span>Acil durum ve görev bildirimleri.</span>
-                </div>
-                <div class="setting-action">
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
+                <div class="setting-label"> <strong>Kokpit Uyarıları (Anlık)</strong> <span>Acil durum ve görev bildirimleri.</span> </div>
+                <div class="setting-action"> <label class="switch"> <input type="checkbox" checked> <span class="slider"></span> </label> </div>
             </div>
         </div>
 
-        <!-- Görünüm Ayarları -->
         <div class="settings-section">
              <h3><i class="fa-solid fa-display"></i>Görsel Arayüz</h3>
              <div class="setting-item">
-                <div class="setting-label">
-                    <strong>Hologram Teması</strong>
-                    <span>Kokpit arayüzünüzün görsel stili.</span>
-                </div>
+                <div class="setting-label"> <strong>Tema Seçimi</strong> <span>Arayüz görünümünü değiştirin.</span> </div>
                 <div class="setting-action custom-select">
-                    <select>
-                        <option value="neon" selected>Neon Pulsar (Aktif)</option>
-                        <option value="dark_matter">Karanlık Madde</option>
-                        <option value="star_dust">Yıldız Tozu</option>
-                         <option value="mekanik">Mekanik İskelet</option>
+                    <select id="themeSelector"> <!-- ID Eklendi -->
+                        <option value="dark">Kapalı Tema </option>
+                        <option value="light">Açık Tema </option>
                     </select>
                 </div>
             </div>
             <div class="setting-item">
-                <div class="setting-label">
-                    <strong>Evrensel Çevirmen (Dil)</strong>
-                    <span>Galaktik Standart veya yerel dil.</span>
-                </div>
+                <div class="setting-label"> <strong>Dil</strong> <span> </span> </div>
                 <div class="setting-action custom-select">
-                     <select>
-                        <option value="tr" selected>Türkçe (Yerel)</option>
-                        <option value="gal_std">Galactic Standard</option>
-                         <option value="en">English (Terra Prime)</option>
-                    </select>
+                     <select> <option value="tr" selected>Türkçe </option> <option value="gal_std">Otomatik</option> <option value="en">English</option> </select>
                 </div>
             </div>
         </div>
 
-         <!-- Hesap Yönetimi -->
-        <div class="settings-section">
-             <h3><i class="fa-solid fa-biohazard"></i>Hesap İmhası</h3>
-              <div class="setting-item">
-                <div class="setting-label">
-                    <strong>Kara Kutu Verisi</strong>
-                    <span>Tüm kişisel seyir defterinizi indirin.</span>
-                </div>
-                <div class="setting-action">
-                    <button class="action-button button-secondary">
-                        <i class="fa-solid fa-download"></i> Veri Paketini İndir
-                    </button>
-                </div>
-            </div>
+         <div class="settings-section">
+             <h3><i class="fa-solid fa-biohazard"></i>Hesabını Sil</h3>
+              
              <div class="setting-item">
-                <div class="setting-label">
-                    <strong>Kendini İmha Protokolü</strong>
-                    <span style="color: var(--danger-color);">Dikkat! Bu işlem evrenin bu köşesindeki varlığınızı silecektir!</span>
-                </div>
-                <div class="setting-action">
-                    <button class="action-button button-danger">
-                         <i class="fa-solid fa-explosion"></i> Protokolü Başlat
-                    </button>
-                </div>
+                <div class="setting-label"> <strong>Tamamen Yok Et!</strong> <span style="color: var(--danger-color);">Dikkat! Bu işlem hesabınızı kalıcı olarak silecektir!</span> </div>
+                <div class="setting-action"> <button class="action-button button-danger"> <i class="fa-solid fa-explosion"></i> Protokolü Başlat </button> </div>
             </div>
         </div>
+    </div>
 
-    </div> <!-- .container sonu -->
+    <script>
+         document.addEventListener('DOMContentLoaded', (event) => {
+             const themeToggleBtn = document.getElementById('theme-toggle');
+             const themeSelector = document.getElementById('themeSelector'); // Select elementi seçildi
+             const body = document.body;
+             const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+             const savedTheme = localStorage.getItem('theme') || 'dark';
+             applyTheme(savedTheme);
+
+             // Hem toggle butonu hem de select menüsü için olay dinleyicileri
+             if(themeToggleBtn) {
+                 themeToggleBtn.addEventListener('click', () => {
+                     const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark';
+                     applyTheme(newTheme);
+                 });
+             }
+
+             if(themeSelector) {
+                 themeSelector.value = savedTheme; // Select menüsünün başlangıç değerini ayarla
+                 themeSelector.addEventListener('change', (e) => {
+                     applyTheme(e.target.value);
+                 });
+             }
+
+             function applyTheme(theme) {
+                 if (theme === 'light') {
+                     body.classList.remove('dark-theme');
+                     body.classList.add('light-theme');
+                     if(themeMeta) themeMeta.setAttribute('content', '#ecf0f1');
+                     if(themeSelector) themeSelector.value = 'light'; // Select menüsünü güncelle
+                 } else { // Varsayılan olarak dark
+                     body.classList.remove('light-theme');
+                     body.classList.add('dark-theme');
+                      if(themeMeta) themeMeta.setAttribute('content', '#0f0f24');
+                      if(themeSelector) themeSelector.value = 'dark'; // Select menüsünü güncelle
+                 }
+                 localStorage.setItem('theme', theme);
+             }
+
+          
+         });
+    </script>
+     <script> if ('serviceWorker'in navigator) { navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err)); } </script>
 </body>
 </html>

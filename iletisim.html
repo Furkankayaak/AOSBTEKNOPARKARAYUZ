@@ -4,201 +4,291 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>İletişim - Antalya OSB Teknopark</title>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icons/icon-192.png">
-    <meta name="theme-color" content="#1a1f3c">
+    <!-- Theme color will be updated by JS -->
+    <meta name="theme-color" id="meta-theme-color" content="#1a1f3c">
 
     <style>
-        /* --- Genel Sıfırlama ve Temel Stiller (Aynı) --- */
+        :root {
+            /* Dark Theme (Default) */
+            --bg-primary: #0a0d1e;
+            --bg-secondary: rgba(20, 25, 60, 0.75);
+            --bg-tertiary: rgba(10, 15, 43, 0.9);
+            --bg-header: rgba(10, 15, 43, 0.85);
+            --bg-menu: rgba(15, 10, 30, 0.97);
+            --bg-menu-item: rgba(50, 30, 80, 0.8);
+            --bg-menu-item-hover: rgba(80, 50, 110, 0.9);
+            --text-primary: #e8e8e8;
+            --text-secondary: #d0d0d0;
+            --text-muted: #bbb;
+            --text-hamburger: #f0f0f0;
+            --text-menu-close: #aaa;
+            --text-menu-close-hover: #fff;
+            --accent-primary: #8f94fb;
+            --accent-secondary: #c0c0ff;
+            --link-color: var(--accent-primary);
+            --link-hover-color: var(--accent-secondary);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --border-color-light: rgba(192, 192, 255, 0.3);
+            --input-border: #4a4f8b;
+            --input-focus-border: var(--accent-primary);
+            --input-focus-shadow: rgba(143, 148, 251, 0.3);
+            --shadow-color-heavy: rgba(0, 0, 0, 0.5);
+            --shadow-color-medium: rgba(0, 0, 0, 0.3);
+            --shadow-color-light: rgba(0, 0, 0, 0.4); /* Button Shadow */
+            --button-gradient-start: #8A2BE2;
+            --button-gradient-end: #DC143C;
+            --button-gradient-hover-start: #7B1FA2;
+            --button-gradient-hover-end: #C2185B;
+            --theme-toggle-color: #f0f0f0;
+            --theme-toggle-hover-color: #fff;
+
+            /* Transitions */
+            --transition-speed: 0.3s;
+            --transition-func: ease;
+        }
+
+        body.light-theme {
+            /* Light Theme */
+            --bg-primary: #f8f9fa; /* Off-white */
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #fdfdfd;
+            --bg-header: rgba(255, 255, 255, 0.95);
+            --bg-menu: rgba(248, 249, 250, 0.98);
+            --bg-menu-item: #ffffff;
+            --bg-menu-item-hover: #e9ecef; /* Light grey hover */
+            --text-primary: #212529; /* Dark grey */
+            --text-secondary: #495057; /* Medium grey */
+            --text-muted: #6c757d; /* Grey */
+            --text-hamburger: #333;
+            --text-menu-close: #666;
+            --text-menu-close-hover: #000;
+            --accent-primary: #DC143C; /* Dark Fuchsia (Crimson) */
+            --accent-secondary: #C71585; /* Medium Violet Red */
+            --link-color: var(--accent-primary);
+            --link-hover-color: var(--accent-secondary);
+            --border-color: #dee2e6; /* Light grey border */
+            --border-color-light: rgba(220, 20, 60, 0.2); /* Fuchsia tint */
+            --input-border: #ced4da;
+            --input-focus-border: var(--accent-primary);
+            --input-focus-shadow: rgba(220, 20, 60, 0.2); /* Fuchsia tint shadow */
+            --shadow-color-heavy: rgba(0, 0, 0, 0.15);
+            --shadow-color-medium: rgba(0, 0, 0, 0.1);
+            --shadow-color-light: rgba(0, 0, 0, 0.15); /* Button Shadow */
+            --button-gradient-start: #DC143C;
+            --button-gradient-end: #C71585;
+            --button-gradient-hover-start: #a3116a; /* Darker fuchsia */
+            --button-gradient-hover-end: #8B008B; /* Dark Magenta */
+            --theme-toggle-color: #495057;
+            --theme-toggle-hover-color: #000;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #e8e8e8; background-color: #0a0d1e; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color var(--transition-speed) var(--transition-func), color var(--transition-speed) var(--transition-func);
+        }
         body.overlay-active { overflow: hidden; }
-        a { text-decoration: none; color: #8f94fb; transition: color 0.3s ease; } /* Link rengi belirgin */
-        a:hover { color: #c0c0ff; }
+        a { text-decoration: none; color: var(--link-color); transition: color var(--transition-speed) var(--transition-func); }
+        a:hover { color: var(--link-hover-color); }
         ul { list-style: none; }
         img, svg, iframe { max-width: 100%; height: auto; vertical-align: middle; display: block; }
 
-        /* --- tsParticles Konteyneri (Aynı) --- */
         #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
-        /* --- Header (Aynı) --- */
-        .main-header { background-color: rgba(10, 15, 43, 0.8); padding: 10px 20px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5); position: relative; z-index: 1000; }
+        .main-header {
+            background-color: var(--bg-header);
+            padding: 10px 20px;
+            box-shadow: 0 3px 10px var(--shadow-color-heavy);
+            position: relative;
+            z-index: 1000;
+            display: flex; /* Align items */
+            justify-content: space-between; /* Space hamburger and toggle */
+            align-items: center;
+            transition: background-color var(--transition-speed) var(--transition-func), box-shadow var(--transition-speed) var(--transition-func);
+        }
         .hamburger-container { display: inline-block; position: relative; cursor: pointer; z-index: 1002; }
         .hamburger-icon { padding: 10px; display: inline-block; }
-        .hamburger-icon span { display: block; width: 28px; height: 3px; background-color: #f0f0f0; margin: 6px 0; transition: all 0.3s ease; border-radius: 1px; }
+        .hamburger-icon span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background-color: var(--text-hamburger);
+            margin: 6px 0;
+            transition: all 0.3s ease, background-color var(--transition-speed) var(--transition-func);
+            border-radius: 1px;
+        }
 
-        /* --- Tam Ekran Menü (Aynı) --- */
-        .menu-options-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1001; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 25px; padding: 60px 40px 40px 40px; background-color: rgba(15, 10, 30, 0.97); backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transform: scale(0.98) translateY(10px); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.4s step-end, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); overflow-y: auto; pointer-events: none; }
-        .menu-options-container.active { opacity: 1; visibility: visible; transform: scale(1) translateY(0); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0s step-start, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); pointer-events: auto; }
-        .close-menu-btn { position: absolute; top: 25px; right: 35px; font-size: 2rem; color: #aaa; cursor: pointer; transition: color 0.2s ease, transform 0.2s ease; z-index: 1003; padding: 5px; }
-        .close-menu-btn:hover { color: #fff; transform: rotate(90deg); }
-        .menu-option-box { background-color: rgba(50, 30, 80, 0.8); color: #e8e8e8; padding: 25px 20px; border-radius: 10px; width: 150px; min-height: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .menu-option-box:hover { background-color: rgba(80, 50, 110, 0.9); transform: translateY(-8px) scale(1.06); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
-        .menu-option-box i { font-size: 2.5em; margin-bottom: 15px; transition: transform 0.35s cubic-bezier(0.68, -0.6, 0.265, 1.6); }
+        /* Theme Toggle Button */
+        .theme-toggle-container {
+            padding: 10px;
+            cursor: pointer;
+            z-index: 1002;
+        }
+        #theme-icon {
+            font-size: 1.4rem;
+            color: var(--theme-toggle-color);
+            transition: color var(--transition-speed) var(--transition-func), transform 0.3s ease;
+        }
+        #theme-icon:hover {
+            color: var(--theme-toggle-hover-color);
+            transform: scale(1.1) rotate(15deg);
+        }
+
+
+        .menu-options-container {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1001;
+            display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 25px;
+            padding: 70px 40px 40px 40px;
+            background-color: var(--bg-menu);
+            backdrop-filter: blur(6px);
+            opacity: 0; visibility: hidden; transform: scale(0.98) translateY(10px);
+            transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.4s step-end, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), background-color var(--transition-speed) var(--transition-func);
+            overflow-y: auto; pointer-events: none;
+        }
+        .menu-options-container.active { opacity: 1; visibility: visible; transform: scale(1) translateY(0); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0s step-start, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), background-color var(--transition-speed) var(--transition-func); pointer-events: auto; }
+        .close-menu-btn { position: absolute; top: 25px; right: 35px; font-size: 2rem; color: var(--text-menu-close); cursor: pointer; transition: color 0.2s ease, transform 0.2s ease; z-index: 1003; padding: 5px; }
+        .close-menu-btn:hover { color: var(--text-menu-close-hover); transform: rotate(90deg); }
+        .menu-option-box {
+            background-color: var(--bg-menu-item);
+            color: var(--text-primary);
+            padding: 25px 20px; border-radius: 10px; width: 150px; min-height: 140px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            transition: transform 0.3s ease, background-color var(--transition-speed) var(--transition-func), box-shadow 0.3s ease, border-color var(--transition-speed) var(--transition-func);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px var(--shadow-color-medium);
+        }
+        .menu-option-box:hover {
+            background-color: var(--bg-menu-item-hover);
+            transform: translateY(-8px) scale(1.06);
+            box-shadow: 0 8px 25px var(--shadow-color-light);
+        }
+        .menu-option-box i { font-size: 2.5em; margin-bottom: 15px; color: var(--accent-primary); transition: transform 0.35s cubic-bezier(0.68, -0.6, 0.265, 1.6), color var(--transition-speed) var(--transition-func); }
         .menu-option-box:hover i { transform: scale(1.3) rotate(15deg); }
         .menu-option-box span { font-size: 0.95rem; font-weight: 500; }
 
-        /* --- YENİ: İletişim Sayfası Ana İçerik Alanı --- */
         .contact-main {
             flex-grow: 1;
             padding: 80px 20px 60px 20px;
             position: relative;
             z-index: 1;
-            display: flex; /* İçeriği ortalamak için */
+            display: flex;
             justify-content: center;
-            align-items: flex-start; /* Yukarıdan başla */
+            align-items: flex-start;
         }
 
         .contact-container {
             max-width: 1200px;
             width: 100%;
-            background-color: rgba(20, 25, 60, 0.7); /* Hafif arka plan */
+            background-color: var(--bg-secondary);
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: grid; /* İki sütunlu yapı için */
-            grid-template-columns: 1fr 1fr; /* Eşit iki sütun */
-            gap: 50px; /* Sütunlar arası boşluk */
+            box-shadow: 0 5px 25px var(--shadow-color-medium);
+            border: 1px solid var(--border-color);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            transition: background-color var(--transition-speed) var(--transition-func), box-shadow var(--transition-speed) var(--transition-func), border-color var(--transition-speed) var(--transition-func);
         }
 
-        /* Sol Sütun: İletişim Bilgileri ve Harita */
         .contact-info-col {}
 
         .contact-container h1 {
             font-size: 2.5rem;
-            color: #c0c0ff;
+            color: var(--accent-secondary);
             margin-bottom: 30px;
             padding-bottom: 10px;
-            border-bottom: 1px solid rgba(192, 192, 255, 0.3);
+            border-bottom: 1px solid var(--border-color-light);
             font-weight: 600;
+            transition: color var(--transition-speed) var(--transition-func), border-color var(--transition-speed) var(--transition-func);
         }
 
-        .contact-details ul {
-            margin-bottom: 30px;
-        }
+        .contact-details ul { margin-bottom: 30px; }
         .contact-details li {
-            display: flex;
-            align-items: flex-start; /* İkon ve metni üste hizala */
-            margin-bottom: 20px;
-            font-size: 1.05rem;
-            color: #d0d0d0;
+            display: flex; align-items: flex-start; margin-bottom: 20px;
+            font-size: 1.05rem; color: var(--text-secondary);
+            transition: color var(--transition-speed) var(--transition-func);
         }
         .contact-details li i {
-            font-size: 1.3em;
-            color: #8f94fb; /* İkon rengi */
-            margin-right: 15px;
-            margin-top: 4px; /* Metinle daha iyi hizalama */
-            width: 25px; /* İkonlar için sabit genişlik */
-            text-align: center;
+            font-size: 1.3em; color: var(--accent-primary); margin-right: 15px; margin-top: 4px;
+            width: 25px; text-align: center;
+            transition: color var(--transition-speed) var(--transition-func);
         }
-        .contact-details li span {
-            flex: 1; /* Kalan alanı doldur */
-        }
-        .contact-details li a { /* Email ve Telefon linkleri */
-             color: #c0c0ff;
-        }
-        .contact-details li a:hover {
-             text-decoration: underline;
-        }
+        .contact-details li span { flex: 1; }
+        .contact-details li a { color: var(--link-color); }
+        .contact-details li a:hover { text-decoration: underline; color: var(--link-hover-color); }
 
-        /* Harita */
         .map-container {
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            height: 350px; /* Sabit harita yüksekliği */
+            border-radius: 8px; overflow: hidden;
+            box-shadow: 0 4px 15px var(--shadow-color-medium);
+            border: 1px solid var(--border-color);
+            height: 350px;
+            transition: box-shadow var(--transition-speed) var(--transition-func), border-color var(--transition-speed) var(--transition-func);
         }
-        .map-container iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
+        .map-container iframe { width: 100%; height: 100%; border: 0; }
 
-        /* Sağ Sütun: İletişim Formu */
         .contact-form-col {}
 
         .contact-form h2 {
-            font-size: 1.8rem;
-            color: #fff;
-            margin-bottom: 25px;
-            font-weight: 500;
+            font-size: 1.8rem; color: var(--text-primary); margin-bottom: 25px; font-weight: 500;
+            transition: color var(--transition-speed) var(--transition-func);
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 20px; }
         .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #bbb;
-            font-size: 0.9rem;
-            font-weight: 500;
+            display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.9rem; font-weight: 500;
+            transition: color var(--transition-speed) var(--transition-func);
         }
         .form-group input[type="text"],
         .form-group input[type="email"],
         .form-group textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 6px;
-            border: 1px solid #4a4f8b;
-            background-color: rgba(10, 15, 43, 0.9);
-            color: #e0e0e0;
+            width: 100%; padding: 12px 15px; border-radius: 6px;
+            border: 1px solid var(--input-border);
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
             font-size: 1rem;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: border-color var(--transition-speed) var(--transition-func), box-shadow var(--transition-speed) var(--transition-func), background-color var(--transition-speed) var(--transition-func), color var(--transition-speed) var(--transition-func);
             outline: none;
         }
         .form-group input[type="text"]:focus,
         .form-group input[type="email"]:focus,
         .form-group textarea:focus {
-            border-color: #8f94fb;
-            box-shadow: 0 0 0 3px rgba(143, 148, 251, 0.3);
+            border-color: var(--input-focus-border);
+            box-shadow: 0 0 0 3px var(--input-focus-shadow);
         }
-         .form-group textarea {
-             min-height: 120px;
-             resize: vertical; /* Sadece dikey boyutlandırma */
-         }
+         .form-group textarea { min-height: 120px; resize: vertical; }
 
-         /* Gönder Butonu */
         .submit-btn {
-            display: inline-block;
-            padding: 12px 35px;
-            border-radius: 30px;
-            border: none;
-            background: linear-gradient(45deg, #8A2BE2, #DC143C); /* Temaya uygun gradyan */
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            display: inline-block; padding: 12px 35px; border-radius: 30px; border: none;
+            background: linear-gradient(45deg, var(--button-gradient-start), var(--button-gradient-end));
+            color: white; /* Keep button text white in both themes */
+            font-size: 1.1rem; font-weight: 500; cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background var(--transition-speed) var(--transition-func);
+            box-shadow: 0 4px 12px var(--shadow-color-light);
         }
         .submit-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
-            background: linear-gradient(45deg, #7B1FA2, #C2185B);
+            box-shadow: 0 6px 18px var(--shadow-color-heavy);
+            background: linear-gradient(45deg, var(--button-gradient-hover-start), var(--button-gradient-hover-end));
         }
 
 
-        /* --- Responsive Tasarım --- */
         @media (max-width: 992px) {
-            .contact-container {
-                grid-template-columns: 1fr; /* Tek sütuna düşür */
-                gap: 40px; /* Dikey boşluk */
-            }
-             .contact-form-col {
-                  margin-top: 20px; /* Formu biraz aşağı al */
-             }
-             .map-container { height: 300px; } /* Harita yüksekliğini azalt */
+            .contact-container { grid-template-columns: 1fr; gap: 40px; }
+             .contact-form-col { margin-top: 20px; }
+             .map-container { height: 300px; }
         }
 
         @media (max-width: 768px) {
-            /* Mobil Menü (Aynı) */
-            /* ... */
             .contact-main { padding: 60px 15px 40px 15px; }
             .contact-container { padding: 30px 25px; }
             .contact-container h1 { font-size: 2.2rem; margin-bottom: 25px; }
@@ -209,29 +299,24 @@
             .submit-btn { font-size: 1rem; padding: 10px 30px; }
         }
         @media (max-width: 480px) {
-            /* Mobil Menü (Aynı) */
-            /* ... */
              .contact-container { padding: 25px 20px; }
              .contact-container h1 { font-size: 1.8rem; }
              .map-container { height: 200px; }
+             .main-header { padding: 10px 15px; } /* Adjust header padding */
+             .theme-toggle-container { padding: 10px 5px; } /* Adjust toggle padding */
         }
 
     </style>
 </head>
 <body>
 
-    <!-- Parçacık Konteyneri -->
     <div id="tsparticles"></div>
-    <!-- Arka Plan Overlay (Detay paneli için gerekiyordu, burada opsiyonel) -->
-    <!-- <div class="overlay-backdrop" id="overlayBackdrop"></div> -->
 
-    <!-- Header -->
     <header class="main-header">
          <div class="hamburger-container">
              <div class="hamburger-icon" id="hamburgerIcon"><span></span><span></span><span></span></div>
              <nav class="menu-options-container" id="menuContainer">
                  <div class="close-menu-btn" id="closeMenuBtn"><i class="fas fa-times"></i></div>
-                 <!-- Menü Linkleri -->
                 <a href="hakkimizda.html" class="menu-option-box"> <i class="fa-solid fa-circle-info"></i> <span>Hakkımızda</span> </a>
                 <a href="kurullar.html" class="menu-option-box"><i class="fa-solid fa-briefcase"></i> <span>Kurullar</span> </a>
                 <a href="ekibimiz.html" class="menu-option-box"><i class="fa-solid fa-users"></i><span>Ekibimiz</span> </a>
@@ -239,52 +324,47 @@
                 <a href="etkinlik.html" class="menu-option-box"> <i class="fa-solid fa-calendar-days"></i> <span>Etkinlik</span> </a>
                 <a href="duyurular.html" class="menu-option-box"> <i class="fa-solid fa-bullhorn"></i> <span>Duyurular</span> </a>
                 <a href="haberler.html" class="menu-option-box"> <i class="fa-solid fa-newspaper"></i><span>Haberler</span> </a>
-                 <!-- Aktif Link (İletişim) -->
-                <!-- <a href="iletisim.html" class="menu-option-box"> <i class="fa-solid fa-envelope"></i> <span>İletişim</span> </a> -->
                 <a href="index.html" class="menu-option-box"> <i class="fas fa-home"></i> <span>Ana Sayfa</span> </a>
              </nav>
         </div>
+         <!-- Theme Toggle Button -->
+         <div id="theme-toggle" class="theme-toggle-container" title="Temayı Değiştir">
+             <i id="theme-icon" class="fas fa-moon"></i> <!-- Default icon -->
+         </div>
     </header>
 
-    <!-- İletişim Ana İçerik Alanı -->
     <main class="contact-main">
         <div class="contact-container">
-
-            <!-- Sol Sütun -->
             <div class="contact-info-col">
                 <h1>Bize Ulaşın</h1>
                 <div class="contact-details">
                     <ul>
                         <li>
                             <i class="fas fa-map-marker-alt"></i>
-                            <span>Antalya Organize Sanayi Bölgesi, Teknoloji Geliştirme Bölgesi, No: XYZ, Döşemealtı/Antalya</span> <!-- <<< Adresi Güncelleyin -->
+                            <span>Antalya Organize Sanayi Bölgesi, Teknoloji Geliştirme Bölgesi, No: XYZ, Döşemealtı/Antalya</span>
                         </li>
                         <li>
                             <i class="fas fa-phone-alt"></i>
-                            <span><a href="tel:+90XXXXXXXXXX">+90 (XXX) XXX XX XX</a></span> <!-- <<< Telefonu Güncelleyin -->
+                            <span><a href="tel:+90XXXXXXXXXX">+90 (XXX) XXX XX XX</a></span>
                         </li>
                          <li>
-                            <i class="fas fa-fax"></i> <!-- İsteğe bağlı: Fax -->
-                            <span><a href="tel:+90XXXXXXXXXX">+90 (XXX) XXX XX XX</a></span> <!-- <<< Fax'ı Güncelleyin -->
+                            <i class="fas fa-fax"></i>
+                            <span><a href="tel:+90XXXXXXXXXX">+90 (XXX) XXX XX XX</a></span>
                         </li>
                         <li>
                             <i class="fas fa-envelope"></i>
-                            <span><a href="mailto:info@antalyateknopark.com">info@antalyateknopark.com</a></span> <!-- <<< Emaili Güncelleyin -->
+                            <span><a href="mailto:info@antalyateknopark.com">info@antalyateknopark.com</a></span>
                         </li>
                     </ul>
                 </div>
-                <!-- Harita -->
                 <div class="map-container">
-                     <!-- DİKKAT: Aşağıdaki src kısmına kendi Google Haritalar embed kodunuzu yapıştırın! -->
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3187.037016663644!2d30.649876!3d37.008187!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c39aa2e8d5f5a3%3A0x1a3d4b9d2e6f0c3a!2sAntalya%20OSB%20Teknopark!5e0!3m2!1str!2str!4v1678886451234!5m2!1str!2str" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
 
-            <!-- Sağ Sütun -->
             <div class="contact-form-col">
                 <h2>Bize Mesaj Gönderin!</h2>
-                <!-- DİKKAT: Bu formun çalışması için sunucu tarafı kodlama veya servis gerekir -->
-                <form id="contactForm" action="MAIL_GONDERME_SCRIPT_YOLU" method="POST"> <!-- action kısmını ayarlayın -->
+                <form id="contactForm" action="MAIL_GONDERME_SCRIPT_YOLU" method="POST">
                     <div class="form-group">
                         <label for="name">Adınız Soyadınız</label>
                         <input type="text" id="name" name="name" required>
@@ -305,49 +385,96 @@
                 </form>
             </div>
 
-        </div> <!-- / .contact-container -->
+        </div>
     </main>
-    <!-- / İletişim Ana İçerik Alanı -->
 
-    <!-- tsParticles Kütüphanesi -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
 
-    <!-- tsParticles Başlatma ve Menü Scripti (Aynı) -->
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
-            // tsParticles başlatma (Aynı)
-            tsParticles.load("tsparticles", { fpsLimit: 60, background: { color: "#0a0d1e" }, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25, width: 1 }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true });
+            const body = document.body;
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const metaThemeColor = document.getElementById('meta-theme-color');
+            const tsParticlesContainer = document.getElementById('tsparticles');
+            let currentTheme = localStorage.getItem('theme') || 'dark'; // Default to dark
 
-            // Menü Açma/Kapatma İşlevselliği (Aynı)
+            // Particle options need to be defined for each theme
+            const particlesDarkOptions = { fpsLimit: 60, background: { color: "#0a0d1e" }, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25, width: 1 }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            const particlesLightOptions = { fpsLimit: 60, background: { color: "#f8f9fa" }, particles: { number: { value: 80, density: { enable: true, area: 900 } }, color: { value: ["#343a40", "#DC143C", "#6c757d", "#adb5bd"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.7}, animation: { enable: true, speed: 0.6, minimumValue: 0.2, sync: false } }, size: { value: {min: 1, max: 4} }, links: { enable: true, distance: 150, color: "#ced4da", opacity: 0.35, width: 1 }, move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            let particlesLoaded = false; // Flag to prevent multiple initial loads
+
+
+            function applyTheme(theme) {
+                if (theme === 'light') {
+                    body.classList.add('light-theme');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    metaThemeColor.setAttribute('content', '#f8f9fa'); // Light theme color for browser UI
+                    if (tsParticlesContainer && typeof tsParticles !== 'undefined') {
+                         tsParticles.load('tsparticles', particlesLightOptions).then(() => particlesLoaded = true);
+                    }
+                } else {
+                    body.classList.remove('light-theme');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    metaThemeColor.setAttribute('content', '#1a1f3c'); // Dark theme color for browser UI
+                    if (tsParticlesContainer && typeof tsParticles !== 'undefined') {
+                        tsParticles.load('tsparticles', particlesDarkOptions).then(() => particlesLoaded = true);;
+                    }
+                }
+                 // Re-apply theme class immediately after potential particle load flicker
+                 if (theme === 'light') body.classList.add('light-theme');
+                 else body.classList.remove('light-theme');
+            }
+
+
+            // Apply stored theme on initial load
+            applyTheme(currentTheme);
+
+
+            // Theme Toggle Button Listener
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    currentTheme = body.classList.contains('light-theme') ? 'dark' : 'light';
+                    localStorage.setItem('theme', currentTheme);
+                    applyTheme(currentTheme);
+                });
+            }
+
+
+            // Menü Açma/Kapatma İşlevselliği
             const hamburgerIcon = document.getElementById('hamburgerIcon');
             const menuContainer = document.getElementById('menuContainer');
             const closeMenuBtn = document.getElementById('closeMenuBtn');
             if (hamburgerIcon && menuContainer && closeMenuBtn) {
-                hamburgerIcon.addEventListener('click', (e) => { e.stopPropagation(); menuContainer.classList.toggle('active'); });
-                closeMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); menuContainer.classList.remove('active'); });
-                menuContainer.addEventListener('click', (e) => { if (e.target.closest('a.menu-option-box')) { menuContainer.classList.remove('active'); } else if (e.target !== closeMenuBtn && !closeMenuBtn.contains(e.target)) { e.stopPropagation(); } });
-                document.addEventListener('click', (e) => { if (menuContainer.classList.contains('active') && !menuContainer.contains(e.target) && !hamburgerIcon.contains(e.target)) { menuContainer.classList.remove('active'); } });
+                hamburgerIcon.addEventListener('click', (e) => { e.stopPropagation(); menuContainer.classList.toggle('active'); body.classList.toggle('overlay-active'); });
+                closeMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); menuContainer.classList.remove('active'); body.classList.remove('overlay-active'); });
+                menuContainer.addEventListener('click', (e) => { if (e.target.closest('a.menu-option-box')) { menuContainer.classList.remove('active'); body.classList.remove('overlay-active'); } else if (e.target !== closeMenuBtn && !closeMenuBtn.contains(e.target)) { e.stopPropagation(); } });
+                document.addEventListener('click', (e) => { if (menuContainer.classList.contains('active') && !menuContainer.contains(e.target) && !hamburgerIcon.contains(e.target)) { menuContainer.classList.remove('active'); body.classList.remove('overlay-active'); } });
             }
 
-            // İsteğe bağlı: Form gönderimi için basit bir JS onayı
+            // Form Submit Handler (Placeholder)
             const contactForm = document.getElementById('contactForm');
             if(contactForm) {
                 contactForm.addEventListener('submit', function(e) {
-                    // Gerçek gönderme işlemi burada engellenmiyor,
-                    // sadece kullanıcıya geri bildirim verilebilir.
-                    // Sunucu tarafı kodlamanız yoksa, gönderme başarısız olacaktır.
-                    // e.preventDefault(); // Göndermeyi JS ile tamamen durdurmak için
-                    // alert('Mesajınız gönderiliyor... (Bu sadece bir testtir)');
+                    // Server-side script needed for actual submission
+                    // e.preventDefault(); // Uncomment to stop default submission for testing
+                    // alert('Form gönderme işlevi için sunucu tarafı kodlama gereklidir.');
                 });
             }
 
         });
     </script>
 
-    <!-- Service Worker Kaydı -->
      <script>
+        // PWA Service Worker
         if ('serviceWorker'in navigator) {
-          navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err));
+          window.addEventListener('load', () => { // Register after page load
+              navigator.serviceWorker.register('service-worker.js')
+                .then(reg => console.log('SW Registered!', reg))
+                .catch(err => console.log('SW Error:', err));
+          });
         }
       </script>
 
