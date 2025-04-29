@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kurullar - Yönetim Kurulu</title> <!-- Başlık güncellendi -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192.png">
+    <meta name="theme-color" content="#1a1f3c">
+
+    <style>
+        /* --- Genel Sıfırlama ve Temel Stiller (index.html'den) --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #e8e8e8; background-color: #0a0d1e; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img, svg, iframe { max-width: 100%; height: auto; vertical-align: middle; display: block; }
+
+        /* --- tsParticles Konteyneri (index.html'den) --- */
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+        /* --- Header (index.html'den) --- */
+        .main-header { background-color: rgba(10, 15, 43, 0.8); padding: 10px 20px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5); position: relative; z-index: 1000; }
+        .hamburger-container { display: inline-block; position: relative; cursor: pointer; z-index: 1002; }
+        .hamburger-icon { padding: 10px; display: inline-block; }
+        .hamburger-icon span { display: block; width: 28px; height: 3px; background-color: #f0f0f0; margin: 6px 0; transition: all 0.3s ease; border-radius: 1px; }
+
+        /* --- Tam Ekran Menü (index.html'den) --- */
+        .menu-options-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1001; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 25px; padding: 60px 40px 40px 40px; background-color: rgba(15, 10, 30, 0.97); backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transform: scale(0.98) translateY(10px); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.4s step-end, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); overflow-y: auto; }
+        .menu-options-container.active { opacity: 1; visibility: visible; transform: scale(1) translateY(0); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0s step-start, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .close-menu-btn { position: absolute; top: 25px; right: 35px; font-size: 2rem; color: #aaa; cursor: pointer; transition: color 0.2s ease, transform 0.2s ease; z-index: 1003; padding: 5px; }
+        .close-menu-btn:hover { color: #fff; transform: rotate(90deg); }
+        .menu-option-box { background-color: rgba(50, 30, 80, 0.8); color: #e8e8e8; padding: 25px 20px; border-radius: 10px; width: 150px; min-height: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .menu-option-box:hover { background-color: rgba(80, 50, 110, 0.9); transform: translateY(-8px) scale(1.06); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+        .menu-option-box i { font-size: 2.5em; margin-bottom: 15px; transition: transform 0.35s cubic-bezier(0.68, -0.6, 0.265, 1.6); }
+        .menu-option-box:hover i { transform: scale(1.3) rotate(15deg); }
+        .menu-option-box span { font-size: 0.95rem; font-weight: 500; }
+
+        /* --- YENİ: Kurullar Sayfası Ana İçerik Alanı --- */
+        .boards-main {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            padding: 80px 20px 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .board-container {
+            max-width: 1200px; /* Grid için daha geniş alan */
+            width: 100%;
+        }
+
+        .board-container h1 {
+            text-align: center;
+            font-size: 2.8rem;
+            color: #c0c0ff;
+            margin-bottom: 50px; /* Grid'den önceki boşluk */
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(192, 192, 255, 0.3);
+            font-weight: 600;
+        }
+
+        /* YENİ: Üye Kartları Grid Düzeni */
+        .members-grid {
+            display: grid;
+            /* Otomatik sığdırma, min 250px, max 1fr (eşit dağıt) */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px; /* Kartlar arası boşluk */
+        }
+
+        /* YENİ: Üye Kartı Stili */
+        @keyframes fadeInSlideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .member-card {
+            background-color: rgba(25, 30, 65, 0.7); /* Kart arka planı */
+            border-radius: 10px;
+            padding: 30px 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            opacity: 0; /* Animasyon için başlangıçta gizli */
+            animation: fadeInSlideUp 0.6s ease-out forwards;
+        }
+        /* Animasyon gecikmeleri (isteğe bağlı - hoş durur) */
+        .member-card:nth-child(1) { animation-delay: 0.1s; }
+        .member-card:nth-child(2) { animation-delay: 0.2s; }
+        .member-card:nth-child(3) { animation-delay: 0.3s; }
+        .member-card:nth-child(4) { animation-delay: 0.4s; }
+        .member-card:nth-child(5) { animation-delay: 0.5s; }
+        .member-card:nth-child(6) { animation-delay: 0.6s; }
+        .member-card:nth-child(7) { animation-delay: 0.7s; }
+        .member-card:nth-child(8) { animation-delay: 0.8s; }
+        .member-card:nth-child(9) { animation-delay: 0.9s; }
+        .member-card:nth-child(10) { animation-delay: 1.0s; }
+        .member-card:nth-child(11) { animation-delay: 1.1s; }
+
+
+        .member-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+            background-color: rgba(40, 45, 85, 0.8);
+        }
+
+        /* YENİ: Üye Foto/İkon Alanı */
+        .member-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%; /* Yuvarlak */
+            background-color: rgba(80, 50, 110, 0.6); /* Morumsu arka plan */
+            margin: 0 auto 20px auto; /* Ortala ve alttan boşluk */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Resim taşarsa kırp */
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .member-photo img { /* Eğer resim kullanırsanız */
+             width: 100%; height: 100%; object-fit: cover;
+        }
+        .member-photo i { /* Eğer ikon kullanırsanız */
+            font-size: 3rem;
+            color: #c0c0ff;
+        }
+
+        /* YENİ: Üye Bilgi Alanı */
+        .member-info {}
+
+        .member-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .member-role {
+            font-size: 0.95rem;
+            color: #a0a0cf; /* Soluk morumsu renk */
+            font-style: italic;
+        }
+
+
+        /* --- Responsive Tasarım --- */
+        @media (max-width: 992px) {
+             .members-grid {
+                  /* 2 sütun */
+                  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+                  gap: 25px;
+             }
+        }
+
+        @media (max-width: 768px) {
+            /* Mobil Menü (Aynı) */
+            /* ... */
+
+            /* Kurullar Sayfası Mobilde */
+            .boards-main { padding: 60px 15px 30px 15px; }
+            .board-container h1 { font-size: 2.2rem; margin-bottom: 40px;}
+            .members-grid {
+                 grid-template-columns: 1fr; /* Tek sütun */
+                 gap: 20px;
+            }
+            .member-card { padding: 25px 20px; }
+            .member-photo { width: 80px; height: 80px; margin-bottom: 15px;}
+            .member-photo i { font-size: 2.5rem;}
+            .member-name { font-size: 1.2rem; }
+            .member-role { font-size: 0.9rem; }
+        }
+        @media (max-width: 480px) {
+            /* Mobil Menü (Aynı) */
+            /* ... */
+
+            .board-container h1 { font-size: 1.8rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Parçacık Konteyneri -->
+    <div id="tsparticles"></div>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="hamburger-container">
+            <div class="hamburger-icon" id="hamburgerIcon">
+                <span></span><span></span><span></span>
+            </div>
+            <!-- Tam Ekran Menü -->
+            <nav class="menu-options-container" id="menuContainer">
+                <div class="close-menu-btn" id="closeMenuBtn"><i class="fas fa-times"></i></div>
+                <!-- Menü Kutuları (Linkleri güncelle!) -->
+                <a href="hakkimizda.html" class="menu-option-box"> <i class="fa-solid fa-circle-info"></i> <span>Hakkımızda</span> </a>
+                <!-- Aktif sayfa linkini kaldırabilir veya farklı stil verebiliriz -->
+                <!-- <a href="kurullar.html" class="menu-option-box"> <i class="fa-solid fa-briefcase"></i> <span>Kurullar</span> </a> -->
+                <a href="ekibimiz.html" class="menu-option-box"><i class="fa-solid fa-users"></i><span>Ekibimiz</span> </a>
+                <a href="firmalar.html" class="menu-option-box"> <i class="fa-solid fa-building"></i> <span>Firmalar</span> </a>
+                <a href="etkinlik.html" class="menu-option-box"> <i class="fa-solid fa-calendar-days"></i> <span>Etkinlik</span> </a>
+                <a href="duyurular.html" class="menu-option-box"> <i class="fa-solid fa-bullhorn"></i> <span>Duyurular</span> </a>
+                <a href="haberler.html" class="menu-option-box"> <i class="fa-solid fa-newspaper"></i><span>Haberler</span> </a>
+                <a href="iletisim.html" class="menu-option-box"> <i class="fa-solid fa-envelope"></i> <span>İletişim</span> </a>
+                <a href="index.html" class="menu-option-box"> <i class="fas fa-home"></i> <span>Ana Sayfa</span> </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Kurullar Ana İçerik Alanı -->
+    <main class="boards-main">
+        <div class="board-container">
+            <h1>Yönetim Kurulu</h1>
+
+            <div class="members-grid">
+                <!-- Üye Kartı 1 -->
+                <div class="member-card">
+                    <div class="member-photo">
+                        <!-- <img src="uye1.jpg" alt="Üye Adı Soyadı"> VEYA İkon Kullan: -->
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Adı Soyadı 1</h3>
+                        <p class="member-role">Yönetim Kurulu Başkanı</p>
+                    </div>
+                </div>
+                <!-- Üye Kartı 2 -->
+                <div class="member-card">
+                    <div class="member-photo"><i class="fas fa-user-tie"></i></div>
+                    <div class="member-info">
+                        <h3 class="member-name">Adı Soyadı 2</h3>
+                        <p class="member-role">Yönetim Kurulu Başkan Vekili</p>
+                    </div>
+                </div>
+                <!-- Üye Kartı 3 -->
+                <div class="member-card">
+                    <div class="member-photo"><i class="fas fa-user-tie"></i></div>
+                    <div class="member-info">
+                        <h3 class="member-name">Adı Soyadı 3</h3>
+                        <p class="member-role">Yönetim Kurulu Üyesi</p>
+                    </div>
+                </div>
+                <!-- Üye Kartı 4 -->
+                <div class="member-card">
+                    <div class="member-photo"><i class="fas fa-user-tie"></i></div>
+                    <div class="member-info">
+                        <h3 class="member-name">Adı Soyadı 4</h3>
+                        <p class="member-role">Yönetim Kurulu Üyesi</p>
+                    </div>
+                </div>
+                <!-- Üye Kartı 5 -->
+                 <div class="member-card">
+                    <div class="member-photo"><i class="fas fa-user-tie"></i></div>
+                    <div class="member-info">
+                        <h3 class="member-name">Adı Soyadı 5</h3>
+                        <p class="member-role">Yönetim Kurulu Üyesi</p>
+                    </div>
+                </div>
+                <!-- Üye Kartı 6 -->
+                 <div class="member-card">
+                    <div class="member-photo"><i class="fas fa-user-tie"></i></div>
+                    <div class="member-info">
+                        <h3 class="member-name">Adı Soyadı 6</h3>
+                        <p class="member-role">Yönetim Kurulu Üyesi</p>
+                    </div>
+                </div>
+                <!-- Üye Kartı 7 -->
+                 <div class="member-card">
+                    <div class="member-photo"><i class="fas fa-user-tie"></i></div>
+                    <div class="member-info">
+                        <h3 class="member-name">Adı Soyadı 7</h3>
+                        <p class="member-role">Yönetim Kurulu Üyesi</p>
+                    </div>
+                </div>
+                <!-- Üye Kartı 8 -->
+                 <div class="member-card">
+                    <div class="member-photo"><i class="fas fa-user-tie"></i></div>
+                    <div class="member-info">
+                        <h3 class="member-name">Adı Soyadı 8</h3>
+                        <p class="member-role">Yönetim Kurulu Üyesi</p>
+                    </div>
+                </div>
+                <!-- Üye Kartı 9 -->
+                 <div class="member-card">
+                    <div class="member-photo"><i class="fas fa-user-tie"></i></div>
+                    <div class="member-info">
+                        <h3 class="member-name">Adı Soyadı 9</h3>
+                        <p class="member-role">Yönetim Kurulu Üyesi</p>
+                    </div>
+                </div>
+                <!-- Üye Kartı 10 -->
+                 <div class="member-card">
+                    <div class="member-photo"><i class="fas fa-user-tie"></i></div>
+                    <div class="member-info">
+                        <h3 class="member-name">Adı Soyadı 10</h3>
+                        <p class="member-role">Yönetim Kurulu Üyesi</p>
+                    </div>
+                </div>
+                <!-- Üye Kartı 11 -->
+                 <div class="member-card">
+                    <div class="member-photo"><i class="fas fa-user-tie"></i></div>
+                    <div class="member-info">
+                        <h3 class="member-name">Adı Soyadı 11</h3>
+                        <p class="member-role">Genel Müdür / YK Üyesi</p>
+                    </div>
+                </div>
+                <!-- Buraya kadar 11 üye -->
+
+            </div> <!-- / .members-grid -->
+        </div> <!-- / .board-container -->
+    </main>
+    <!-- / Kurullar Ana İçerik Alanı -->
+
+    <!-- tsParticles Kütüphanesi -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+
+    <!-- tsParticles Başlatma ve Menü Scripti (Aynı) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // tsParticles başlatma (Aynı)
+            tsParticles.load("tsparticles", { fpsLimit: 60, background: { color: "#0a0d1e" }, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25, width: 1 }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true });
+
+            // Menü Açma/Kapatma İşlevselliği (Aynı)
+            const hamburgerIcon = document.getElementById('hamburgerIcon');
+            const menuContainer = document.getElementById('menuContainer');
+            const closeMenuBtn = document.getElementById('closeMenuBtn');
+            if (hamburgerIcon && menuContainer && closeMenuBtn) {
+                hamburgerIcon.addEventListener('click', (e) => { e.stopPropagation(); menuContainer.classList.toggle('active'); });
+                closeMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); menuContainer.classList.remove('active'); });
+                menuContainer.addEventListener('click', (e) => { if (e.target.closest('a.menu-option-box')) { menuContainer.classList.remove('active'); } else if (e.target !== closeMenuBtn && !closeMenuBtn.contains(e.target)) { e.stopPropagation(); } });
+                document.addEventListener('click', (e) => { if (menuContainer.classList.contains('active') && !menuContainer.contains(e.target) && !hamburgerIcon.contains(e.target)) { menuContainer.classList.remove('active'); } });
+            }
+        });
+    </script>
+
+    <!-- Service Worker Kaydı -->
+     <script>
+        if ('serviceWorker'in navigator) {
+          navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err));
+        }
+      </script>
+
+</body>
+</html>

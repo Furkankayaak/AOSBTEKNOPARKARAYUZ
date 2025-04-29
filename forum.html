@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komüniteler</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="animated-bg">
+        <div class="stars"></div> <div class="stars2"></div> <div class="stars3"></div>
+    </div>
+
+    <div class="container">
+
+        <header class="site-header">
+            <button id="menu-toggle" class="animated-button menu-button" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+            <a href="profil.html" id="home-link" class="animated-button home-button" aria-label="Go to Home"><i class="fas fa-bolt"></i> <span class="home-text">Ana Sayfa</span></a>
+            <div class="header-spacer"></div>
+            <button class="animated-button login-button">Profil</button>
+        </header>
+
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header"><h3>Komüniteler</h3></div>
+            <ul>
+                 <li><a href="programming.html"><i class="fas fa-laptop-code"></i> Yazılım</a></li>
+                 <li><a href="acce.html"><i class="fas fa-microchip"></i> Hızlandırma Programı</a></li>
+                 <li><a href="verim.html"><i class="fas fa-rocket"></i> Veri Bilimi</a></li>
+                 <li><a href="ai.html"><i class="fas fa-robot"></i> AI & ML</a></li>
+                 <li><a href="tekn.html"><i class="fas fa-gamepad"></i> Teknopark </a></li>
+                 <li><a href="networking.html"><i class="fas fa-satellite-dish"></i> Network</a></li>
+                 <li><a href="yatirim.html"><i class="fas fa-mobile-alt"></i> Yatırım</a></li>
+            </ul>
+        </nav>
+
+        <main id="main-content" class="main-content">
+            <h2 class="category-title">Akış</h2>
+
+            <article class="post">
+                <div class="post-header"><span class="post-sub">stream/Programming</span> <span class="post-user">by SyntaxSlinger</span> <span class="post-time">1 hour ago</span></div>
+                <h2 class="post-title">Async/Await in Python: Best Practices 2024</h2>
+                <p class="post-excerpt">Deep dive into handling asynchronous operations efficiently in modern Python applications...</p>
+                <div class="post-actions">
+                    <button class="animated-button action-button like-button" data-type="like"><i class="fas fa-arrow-up"></i> <span class="count">3.1k</span></button>
+                    <button class="animated-button action-button downvote-button" data-type="downvote"><i class="fas fa-arrow-down"></i></button>
+                    <button class="animated-button action-button comment-button" data-type="comment"><i class="fas fa-comment-alt"></i> <span class="count">105</span> Comments</button>
+                    <button class="animated-button action-button share-button" data-type="share"><i class="fas fa-share"></i> Share</button>
+                </div>
+            </article>
+
+             <article class="post">
+                <div class="post-header"><span class="post-sub">stream/AI</span> <span class="post-user">by NeuralNetGuru</span> <span class="post-time">6 hours ago</span></div>
+                <h2 class="post-title">Large Language Models (LLMs): Architecture Explained</h2>
+                <p class="post-excerpt">Understanding Transformers, Attention Mechanisms, and the training data behind models like GPT...</p>
+                 <div class="post-actions">
+                    <button class="animated-button action-button like-button" data-type="like"><i class="fas fa-arrow-up"></i> <span class="count">4.5k</span></button>
+                    <button class="animated-button action-button downvote-button" data-type="downvote"><i class="fas fa-arrow-down"></i></button>
+                    <button class="animated-button action-button comment-button" data-type="comment"><i class="fas fa-comment-alt"></i> <span class="count">210</span> Comments</button>
+                    <button class="animated-button action-button share-button" data-type="share"><i class="fas fa-share"></i> Share</button>
+                </div>
+            </article>
+
+             <article class="post">
+                <div class="post-header"><span class="post-sub">stream/HardwareHub</span> <span class="post-user">by CircuitWizard</span> <span class="post-time">2 hours ago</span></div>
+                <h2 class="post-title">The Rise of Chiplets: Modular CPU/GPU Design</h2>
+                <p class="post-excerpt">How interconnecting smaller specialized chips is changing the landscape of high-performance computing...</p>
+                 <div class="post-actions">
+                    <button class="animated-button action-button like-button" data-type="like"><i class="fas fa-arrow-up"></i> <span class="count">2.2k</span></button>
+                    <button class="animated-button action-button downvote-button" data-type="downvote"><i class="fas fa-arrow-down"></i></button>
+                    <button class="animated-button action-button comment-button" data-type="comment"><i class="fas fa-comment-alt"></i> <span class="count">91</span> Comments</button>
+                    <button class="animated-button action-button share-button" data-type="share"><i class="fas fa-share"></i> Share</button>
+                </div>
+            </article>
+
+            <article class="post">
+                 <div class="post-header"><span class="post-sub">stream/Gaming</span> <span class="post-user">by EngineDev</span> <span class="post-time">14 hours ago</span></div>
+                 <h2 class="post-title">Unreal Engine 5 vs. Unity: Choosing the Right Game Engine</h2>
+                 <p class="post-excerpt">Comparing features, performance, workflows, and licensing models for game developers...</p>
+                 <div class="post-actions">
+                    <button class="animated-button action-button like-button" data-type="like"><i class="fas fa-arrow-up"></i> <span class="count">2.3k</span></button>
+                    <button class="animated-button action-button downvote-button" data-type="downvote"><i class="fas fa-arrow-down"></i></button>
+                    <button class="animated-button action-button comment-button" data-type="comment"><i class="fas fa-comment-alt"></i> <span class="count">120</span> Comments</button>
+                    <button class="animated-button action-button share-button" data-type="share"><i class="fas fa-share"></i> Share</button>
+                </div>
+             </article>
+
+             <article class="post">
+                 <div class="post-header"><span class="post-sub">stream/FutureTech</span> <span class="post-user">by FuturistPrime</span> <span class="post-time">4 hours ago</span></div>
+                 <h2 class="post-title">Brain-Computer Interfaces: The Next Frontier?</h2>
+                 <p class="post-excerpt">Exploring current research, potential applications, and ethical considerations of connecting minds and machines...</p>
+                 <div class="post-actions">
+                    <button class="animated-button action-button like-button" data-type="like"><i class="fas fa-arrow-up"></i> <span class="count">2.8k</span></button>
+                    <button class="animated-button action-button downvote-button" data-type="downvote"><i class="fas fa-arrow-down"></i></button>
+                    <button class="animated-button action-button comment-button" data-type="comment"><i class="fas fa-comment-alt"></i> <span class="count">150</span> Comments</button>
+                    <button class="animated-button action-button share-button" data-type="share"><i class="fas fa-share"></i> Share</button>
+                </div>
+             </article>
+
+        </main>
+
+    </div>
+
+    <div id="share-modal" class="share-modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close Share Modal">×</button>
+            <h3>Share This Post</h3>
+            <div class="share-options">
+                <a href="#" class="share-link copy-link-button" title="Copy Link"><i class="fas fa-link"></i> Copy Link</a>
+                <a href="#" class="share-link" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#" class="share-link" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#" class="share-link" title="Share on Reddit" target="_blank" rel="noopener noreferrer"><i class="fab fa-reddit"></i> Reddit</a>
+            </div>
+            <div class="copy-link-feedback" style="display: none;">Link Copied!</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

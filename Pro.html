@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Profili</title>
+    <!-- Font Awesome CDN (ikonlar için) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Google Fonts (Örnek) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* === CSS Kodları Başlangıcı === */
+        :root {
+            --bg-dark: #0f0f24;
+            --bg-gradient-start: #1a1a3d;
+            --card-bg: #1e1e3c;
+            --card-bg-lighter: #2a2a4d; /* Biraz daha açık kart arka planı */
+            --card-icon-bg: #14142b;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0d0;
+            --text-title: #ffffff;
+            --border-color: rgba(255, 255, 255, 0.15); /* Biraz daha belirgin border */
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --accent-blue: #3498db;
+            --accent-purple: #9b59b6;
+            --accent-green: #2ecc71;
+            --accent-orange: #f39c12;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: linear-gradient(145deg, var(--bg-gradient-start) 0%, var(--bg-dark) 74%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        .container {
+            max-width: 1000px; /* Profil için biraz daha dar olabilir */
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: var(--text-title);
+            font-size: 2.5em; /* Biraz daha küçük başlık */
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        /* Profil Ana Kartı */
+        .profile-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 6px 18px var(--shadow-color);
+            display: flex;
+            gap: 30px; /* Resim ve detaylar arası boşluk */
+            align-items: center; /* Dikeyde ortala */
+            margin-bottom: 30px;
+        }
+
+        .profile-picture-container {
+            flex-shrink: 0; /* Küçülme */
+            text-align: center;
+        }
+
+        .profile-picture {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%; /* Yuvarlak resim */
+            border: 4px solid var(--card-bg-lighter); /* Hafif çerçeve */
+            object-fit: cover; /* Resmin orantısını koru */
+            box-shadow: 0 4px 10px rgba(0,0,0, 0.2);
+            margin-bottom: 10px;
+        }
+
+        .upload-button { /* Resim yükleme butonu stili */
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 0.8em;
+            background-color: var(--accent-blue);
+            color: var(--text-title);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .upload-button:hover {
+            background-color: #2980b9;
+        }
+         .upload-button i { margin-right: 5px;}
+
+
+        .profile-info {
+            flex-grow: 1; /* Kalan alanı kapla */
+        }
+
+        .profile-info h2 { /* Kullanıcı Adı */
+            color: var(--text-title);
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .profile-info .user-title { /* Kullanıcı Ünvanı/Rolü */
+            color: var(--accent-purple);
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: block; /* Alt satıra geçmesi için */
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            font-size: 0.95em;
+        }
+
+        .info-item i {
+            color: var(--accent-blue); /* İkon rengi */
+            font-size: 1.1em;
+            margin-right: 15px;
+            width: 20px; /* İkonların hizalı durması için sabit genişlik */
+            text-align: center;
+        }
+
+        .info-item span {
+             color: var(--text-primary); /* Bilginin kendisi biraz daha belirgin */
+        }
+
+        /* Alt Bölümler (Ayarlar, Aktivite vb.) */
+        .profile-section {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            margin-bottom: 25px;
+        }
+
+         .profile-section h3 {
+            color: var(--text-title);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color); /* Başlık altına çizgi */
+            padding-bottom: 10px;
+         }
+         .profile-section h3 i {
+            margin-right: 10px;
+            color: var(--accent-purple); /* Bölüm başlığı ikonu */
+         }
+
+
+        /* Ayarlar listesi */
+        .settings-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .settings-list li {
+            margin-bottom: 15px;
+        }
+        .settings-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s ease;
+            font-size: 0.95em;
+        }
+        .settings-list a:hover {
+            color: var(--text-title);
+        }
+        .settings-list i {
+            margin-right: 12px;
+            font-size: 1.1em;
+            width: 18px;
+            text-align: center;
+            color: var(--accent-green); /* Ayar ikonları */
+        }
+        .settings-list .fa-angle-right { /* Sağ ok ikonu */
+            margin-left: auto; /* En sağa iter */
+            color: var(--text-secondary);
+            opacity: 0.6;
+         }
+         .settings-list a:hover .fa-angle-right {
+             opacity: 1;
+             color: var(--accent-green);
+         }
+
+         /* Aktivite Listesi (Basit Örnek) */
+        .activity-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 200px; /* Çok uzarsa scroll eklenebilir */
+            overflow-y: auto; /* Gerekirse scroll */
+        }
+        .activity-list li {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+         .activity-list li:last-child {
+            border-bottom: none;
+         }
+
+        .activity-list i {
+            margin-right: 12px;
+            color: var(--accent-orange);
+             width: 16px;
+             text-align: center;
+        }
+        .activity-list .activity-time {
+             margin-left: auto; /* Zamanı sağa iter */
+             font-size: 0.85em;
+             opacity: 0.7;
+        }
+
+        /* Ana Buton (Profil Düzenle) */
+        .profile-action-button {
+            display: block; /* Tam genişlik */
+            width: fit-content; /* İçeriğe göre genişlik */
+            margin: 15px auto 0 auto; /* Ortala ve üstten boşluk */
+            padding: 12px 30px;
+            background-color: var(--accent-blue);
+            color: var(--text-title);
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+        .profile-action-button:hover {
+            background-color: #2980b9;
+            transform: scale(1.02);
+        }
+         .profile-action-button i {
+            margin-right: 8px;
+         }
+
+
+        /* Küçük ekranlar için ayarlamalar */
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .profile-card {
+                flex-direction: column; /* Resmi üste al */
+                padding: 20px;
+                align-items: center; /* Ortala */
+                text-align: center; /* Metinleri de ortala */
+            }
+            .profile-info .user-title {
+                margin-bottom: 15px;
+            }
+            .info-item {
+                justify-content: center; /* Bilgileri ortala */
+                font-size: 0.9em;
+            }
+            .info-item i { margin-right: 10px; }
+            .profile-section { padding: 20px;}
+            .profile-section h3 { font-size: 1.2em; }
+        }
+
+        @media (max-width: 480px) {
+            .profile-picture { width: 120px; height: 120px; }
+            .profile-info h2 { font-size: 1.6em; }
+            .profile-info .user-title { font-size: 1em; }
+            .info-item { font-size: 0.85em; }
+             .profile-action-button { padding: 10px 20px; font-size: 0.9em;}
+        }
+        /* === CSS Kodları Sonu === */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Profilim</h1>
+
+        <!-- Ana Profil Bilgileri Kartı -->
+        <div class="profile-card">
+            <div class="profile-picture-container">
+                <img src="https://via.placeholder.com/150/1e1e3c/FFFFFF?text=Profil" alt="Profil Resmi" class="profile-picture" id="profilePic">
+                <!-- Basit bir resim yükleme butonu (işlevsellik eklenmeli) -->
+                <label for="fileUpload" class="upload-button">
+                    <i class="fa-solid fa-camera"></i> Değiştir
+                 </label>
+                <input type="file" id="fileUpload" style="display: none;">
+            </div>
+            <div class="profile-info">
+                <h2>X Y</h2>
+                <span class="user-title">Stajyer</span>
+
+                <div class="info-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>furkankayak@example.com</span>
+                </div>
+                <div class="info-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>+90 5076751490</span>
+                </div>
+                 <div class="info-item">
+                    <i class="fa-solid fa-building"></i>
+                    <span>Proje ve iş geliştirme </span>
+                </div>
+                <div class="info-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>İstanbul, Türkiye</span>
+                </div>
+                <!-- Daha fazla bilgi eklenebilir -->
+                 <a href="#edit" class="profile-action-button" style="margin-top: 25px; width: auto; padding: 10px 20px; font-size: 0.9em;"> <!-- Küçük Düzenle Butonu -->
+                    <i class="fa-solid fa-pencil"></i> Profili Düzenle
+                </a>
+            </div>
+        </div>
+
+        <!-- Hesap Ayarları Bölümü -->
+        <div class="profile-section">
+             <h3><i class="fa-solid fa-user-gear"></i>Hesap Ayarları</h3>
+             <ul class="settings-list">
+                 <li>
+                    <a href="#">
+                        <i class="fa-solid fa-key"></i> Şifre Değiştir
+                        <i class="fa-solid fa-angle-right"></i>
+                    </a>
+                 </li>
+                 <li>
+                    <a href="#">
+                        <i class="fa-solid fa-bell"></i> Bildirim Tercihleri
+                        <i class="fa-solid fa-angle-right"></i>
+                    </a>
+                 </li>
+                 <li>
+                    <a href="#">
+                         <i class="fa-solid fa-shield-halved"></i> Güvenlik ve Gizlilik
+                        <i class="fa-solid fa-angle-right"></i>
+                    </a>
+                 </li>
+                  <li>
+                    <a href="#">
+                         <i class="fa-solid fa-link"></i> Bağlı Hesaplar
+                        <i class="fa-solid fa-angle-right"></i>
+                    </a>
+                 </li>
+             </ul>
+        </div>
+
+        <!-- Son Aktiviteler Bölümü (Örnek) -->
+        <div class="profile-section">
+            <h3><i class="fa-solid fa-timeline"></i>Son Aktiviteler</h3>
+            <ul class="activity-list">
+                <li><i class="fa-solid fa-file-pen"></i> "Portal'ı güncelledi. <span class="activity-time">1 saat önce</span></li>
+                <li><i class="fa-solid fa-right-to-bracket"></i> Sisteme giriş yaptı. <span class="activity-time">3 saat önce</span></li>
+                <li><i class="fa-solid fa-check"></i> "Görev X'i tamamladı. <span class="activity-time">Dün</span></li>
+                 <li><i class="fa-solid fa-comment"></i> "Proje Z'ye yorum ekledi. <span class="activity-time">Dün</span></li>
+                <!-- Daha fazla aktivite -->
+            </ul>
+        </div>
+
+         <!-- Ana Eylem Butonu (Sayfanın en altına da konabilir)
+         <a href="#edit" class="profile-action-button">
+             <i class="fa-solid fa-pencil"></i> Profili Düzenle
+         </a>
+         -->
+
+    </div> <!-- .container sonu -->
+
+    <script>
+        // Çok basit bir profil resmi önizleme (İsteğe bağlı)
+        const fileUpload = document.getElementById('fileUpload');
+        const profilePic = document.getElementById('profilePic');
+
+        if (fileUpload && profilePic) {
+            fileUpload.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        profilePic.src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bildirimler </title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* === CSS Kodları Başlangıcı === */
+        :root {
+            /* Neon Renk Paleti */
+            --neon-blue: #00ffff;   /* Cyan */
+            --neon-pink: #ff00ff;   /* Magenta */
+            --neon-green: #39ff14;  /* Neon Yeşil */
+            --neon-yellow: #fff01f; /* Neon Sarı */
+            --neon-purple: #c500ff; /* Neon Mor */
+            --neon-orange: #ffac00; /* Neon Turuncu */
+
+            /* Diğer Renkler */
+            --bg-darker: #0a0a14; /* Daha koyu arka plan */
+            --bg-gradient-start: #101028;
+            --card-bg: #181830;   /* Hafif morumsu kart arka planı */
+            --card-bg-hover: #20203c;
+            --text-primary: #e8e8ff; /* Hafif mavi/mor tonlu beyaz */
+            --text-secondary: #a0a0c0; /* Daha soluk ikincil metin */
+            --text-title: #ffffff;
+            --border-color: rgba(100, 100, 255, 0.2); /* Morumsu border */
+            --shadow-color: rgba(0, 0, 0, 0.5);
+
+            /* Işıma Efektleri için Renkler */
+            --glow-blue: 0 0 8px var(--neon-blue), 0 0 12px var(--neon-blue);
+            --glow-pink: 0 0 8px var(--neon-pink), 0 0 12px var(--neon-pink);
+            --glow-green: 0 0 8px var(--neon-green), 0 0 12px var(--neon-green);
+            --glow-yellow: 0 0 8px var(--neon-yellow), 0 0 12px var(--neon-yellow);
+            --glow-purple: 0 0 8px var(--neon-purple), 0 0 12px var(--neon-purple);
+            --glow-orange: 0 0 8px var(--neon-orange), 0 0 12px var(--neon-orange);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: var(--bg-darker);
+            /* Koyu gradient arka plan, nokta deseni kaldırıldı */
+            background-image: linear-gradient(160deg, var(--bg-gradient-start) 0%, var(--bg-darker) 74%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px; /* Biraz daha fazla boşluk */
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 {
+            color: var(--text-title);
+            font-size: 2.4em;
+            margin: 0;
+            font-weight: 700;
+            /* Başlığa Neon Işıma */
+            text-shadow: var(--glow-purple), 0 0 25px rgba(197, 0, 255, 0.5);
+        }
+         h1 i {
+            margin-right: 15px;
+            color: var(--neon-purple); /* İkon rengi */
+            /* İkona da ışıma */
+            text-shadow: var(--glow-purple);
+         }
+
+        .mark-all-read-btn {
+            padding: 9px 18px;
+            background-color: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: none; /* Butonda başlangıçta gölge olmasın */
+        }
+        .mark-all-read-btn:hover {
+            background-color: rgba(197, 0, 255, 0.1); /* Morumsu hover */
+            color: var(--neon-purple);
+            border-color: var(--neon-purple);
+            box-shadow: inset 0 0 8px rgba(197, 0, 255, 0.3), 0 0 10px rgba(197, 0, 255, 0.4);
+            text-shadow: 0 0 5px var(--neon-purple);
+        }
+        .mark-all-read-btn i {
+            margin-right: 6px;
+        }
+
+        .notifications-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .notification-item {
+            background-color: var(--card-bg);
+            border-radius: 8px; /* Biraz daha belirgin köşe */
+            margin-bottom: 18px; /* Öğeler arası boşluk */
+            padding: 20px 25px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent; /* Hover için yer tutucu */
+            border-left: 5px solid transparent; /* Okunmamış için yer tutucu */
+        }
+         .notification-item:hover {
+            background-color: var(--card-bg-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+         }
+
+        /* Okunmamış Bildirim Stili */
+        .notification-item.unread {
+            border-left: 5px solid var(--neon-blue);
+             /* Kenar çizgisine ışıma */
+            box-shadow: 0 5px 15px var(--shadow-color),
+                        inset 5px 0 10px -5px rgba(0, 255, 255, 0.5), /* İçeri doğru hafif ışıma */
+                        -5px 0 8px -4px rgba(0, 255, 255, 0.6); /* Dışarı doğru hafif ışıma */
+        }
+         .notification-item.unread:hover {
+             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6),
+                        inset 5px 0 12px -5px rgba(0, 255, 255, 0.7),
+                        -5px 0 10px -4px rgba(0, 255, 255, 0.8);
+         }
+
+        /* Okunmuş Bildirim Stili */
+         .notification-item.read {
+            opacity: 0.65; /* Daha soluk göster */
+            border-left-color: rgba(160, 160, 192, 0.2); /* Soluk kenar */
+         }
+         .notification-item.read:hover {
+            opacity: 1; /* Hover'da belirginleşsin */
+         }
+
+        .notification-icon {
+            flex-shrink: 0;
+            font-size: 1.8em;
+            margin-top: 3px; /* Hizalama */
+            /* İkonlara Neon Işıma */
+            text-shadow: 0 0 8px; /* Renk aşağıda atanacak */
+        }
+        /* Bildirim tipine göre ikon renkleri ve ışımaları */
+        .notification-icon.type-message { color: var(--neon-blue); text-shadow: var(--glow-blue);}
+        .notification-icon.type-alert { color: var(--neon-orange); text-shadow: var(--glow-orange);}
+        .notification-icon.type-system { color: var(--neon-green); text-shadow: var(--glow-green);}
+        .notification-icon.type-task { color: var(--neon-pink); text-shadow: var(--glow-pink);}
+        .notification-icon.type-comment { color: var(--neon-yellow); text-shadow: var(--glow-yellow);}
+        .notification-icon.type-news { color: var(--neon-purple); text-shadow: var(--glow-purple);}
+
+
+        .notification-content {
+            flex-grow: 1;
+        }
+
+        .notification-title {
+            color: var(--text-title);
+            font-weight: 700; /* Daha kalın başlık */
+            font-size: 1.1em;
+            margin: 0 0 6px 0;
+            display: block;
+        }
+        .notification-item.unread .notification-title {
+             /* Okunmamış başlığa hafif ışıma (abartmadan) */
+             /* text-shadow: 0 0 6px rgba(255, 255, 255, 0.3); */
+        }
+        .notification-item.read .notification-title {
+            color: var(--text-primary);
+        }
+
+        .notification-details {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0 0 10px 0;
+        }
+
+        .notification-time {
+            font-size: 0.8em;
+            color: #8080a0;
+        }
+        .notification-time i {
+            margin-right: 5px;
+        }
+
+        /* Küçük ekranlar için ayarlamalar */
+        @media (max-width: 768px) {
+             h1 { font-size: 2em; }
+             h1 i {margin-right: 10px;}
+            .page-header { flex-direction: column; align-items: flex-start; gap: 15px;}
+            .mark-all-read-btn { align-self: flex-end; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.8em; }
+            .notification-item { padding: 15px 20px; gap: 15px;}
+            .notification-item.unread { border-left-width: 4px; }
+            .notification-icon { font-size: 1.6em;}
+            .notification-title { font-size: 1.05em;}
+            .notification-details { font-size: 0.85em;}
+        }
+        /* === CSS Kodları Sonu === */
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="page-header">
+            <h1><i class="fa-solid fa-satellite-dish"></i>Bildirimler</h1>
+            <button class="mark-all-read-btn">
+                <i class="fa-solid fa-power-off"></i> Tümünü Okundu İşaretle
+            </button>
+        </div>
+
+        <ul class="notifications-list">
+
+            <!-- Bildirim 1: Okunmamış Mesaj -->
+            <li class="notification-item unread">
+                <div class="notification-icon type-message">
+                    <i class="fa-solid fa-comment-dots"></i>
+                </div>
+                <div class="notification-content">
+                    <span class="notification-title">Ayşe Yılmaz'dan yeni mesaj</span>
+                    <p class="notification-details">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac metus nec justo...</p>
+                    <span class="notification-time"><i class="fa-regular fa-clock"></i> 5 dakika önce</span>
+                </div>
+            </li>
+
+            <!-- Bildirim 2: Okunmamış Görev Ataması -->
+            <li class="notification-item unread">
+                 <div class="notification-icon type-task">
+                    <i class="fa-solid fa-list-check"></i>
+                </div>
+                <div class="notification-content">
+                    <span class="notification-title">Yeni Görev Atandı: Raporu Gözden Geçir</span>
+                    <p class="notification-details">Proje Beta kapsamında size yeni bir görev atandı. Son tarih yarın.</p>
+                    <span class="notification-time"><i class="fa-regular fa-clock"></i> 1 saat önce</span>
+                </div>
+            </li>
+
+             <!-- Bildirim 3: Okunmuş Sistem Uyarısı -->
+            <li class="notification-item read">
+                 <div class="notification-icon type-alert">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div class="notification-content">
+                    <span class="notification-title">Depolama Alanı Azalıyor</span>
+                    <p class="notification-details">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec velit neque, auctor sit amet aliquam vel.</p>
+                    <span class="notification-time"><i class="fa-regular fa-clock"></i> 8 saat önce</span>
+                </div>
+            </li>
+
+            <!-- Bildirim 4: Okunmuş Sistem Güncellemesi -->
+            <li class="notification-item read">
+                 <div class="notification-icon type-system">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <div class="notification-content">
+                    <span class="notification-title">Planlı Bakım Tamamlandı</span>
+                    <p class="notification-details">Etiam porta sem malesuada magna mollis euismod. Cras justo odio, dapibus ac facilisis in.</p>
+                    <span class="notification-time"><i class="fa-regular fa-clock"></i> Dün</span>
+                </div>
+            </li>
+
+             <!-- Bildirim 5: Okunmamış Yorum -->
+             <li class="notification-item unread">
+                <div class="notification-icon type-comment">
+                    <i class="fa-regular fa-comments"></i>
+                </div>
+                <div class="notification-content">
+                    <span class="notification-title">Mehmet Öztürk belgenize yorum yaptı</span>
+                    <p class="notification-details">Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <span class="notification-time"><i class="fa-regular fa-clock"></i> Dün</span>
+                </div>
+            </li>
+
+            <!-- Bildirim 6: Okunmuş Genel Bilgi -->
+             <li class="notification-item read">
+                 <div class="notification-icon type-news">
+                    <i class="fa-solid fa-newspaper"></i>
+                </div>
+                <div class="notification-content">
+                    <span class="notification-title">Haftalık Bülten Yayınlandı</span>
+                    <p class="notification-details">Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes.</p>
+                    <span class="notification-time"><i class="fa-regular fa-calendar-days"></i> 16 Temmuz 2024</span>
+                </div>
+            </li>
+
+        </ul>
+
+    </div> <!-- .container sonu -->
+</body>
+</html>

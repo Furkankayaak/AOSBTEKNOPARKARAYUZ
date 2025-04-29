@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayarlar - Gösterişli (Koyu Mavi Arka Plan)</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* === CSS Kodları Başlangıcı === */
+        :root {
+            /* Neon/Canlı Renk Paleti (Aynı kalıyor) */
+            --neon-blue: #00ffff;
+            --neon-pink: #ff00ff;
+            --neon-green: #39ff14;
+            --neon-purple: #c500ff;
+            --neon-orange: #ffac00;
+            --glow-intensity: 8px;
+
+            /* Diğer Renkler (Arka plan güncellendi) */
+            --bg-dark: #0a0a1f; /* Daha koyu lacivert/mor */
+            --bg-medium: #111827; /* Koyu Mavi-Gri */
+            --bg-gradient-start: #1a1a3d; /* Daha önceki koyu mavi */
+            --card-bg: rgba(28, 18, 48, 0.8);
+            --card-bg-hover: rgba(40, 25, 68, 0.9);
+            --text-primary: #e8e8ff;
+            --text-secondary: #a0a0c0;
+            --text-title: #ffffff;
+            --border-color: rgba(100, 100, 255, 0.3); /* Hafif morumsu mavi border */
+            --shadow-color: rgba(100, 100, 255, 0.15); /* Daha hafif mavi/mor gölge */
+            --switch-bg: rgba(255, 255, 255, 0.1);
+            --switch-handle: #e0e0ff;
+            --danger-color: #ff4d4d;
+            --danger-glow: 0 0 8px var(--danger-color), 0 0 12px var(--danger-color);
+        }
+
+        /* Animasyon Tanımları (Aynı kalıyor) */
+        @keyframes backgroundShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { text-shadow: 0 0 var(--glow-intensity) var(--color), 0 0 calc(var(--glow-intensity) * 1.5) var(--color); }
+            50% { text-shadow: 0 0 calc(var(--glow-intensity) * 1.2) var(--color), 0 0 calc(var(--glow-intensity) * 2) var(--color); }
+        }
+         @keyframes pulseBorderGlow {
+             0%, 100% { box-shadow: 0 0 8px 0px var(--color), inset 0 0 5px var(--color-inset); }
+             50% { box-shadow: 0 0 12px 2px var(--color), inset 0 0 8px var(--color-inset); }
+         }
+
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: var(--bg-dark); /* Ana koyu arka plan */
+            /* !!! ARKA PLAN GÜNCELLEMESİ !!! */
+            /* Daha sakin, koyu mavi/mor tonlarında hareketli gradient */
+            background: linear-gradient(145deg, var(--bg-dark), var(--bg-medium), #1e1b4b, var(--bg-gradient-start), var(--bg-dark)); /* Koyu mavi/indigo tonları */
+            background-size: 400% 400%;
+            animation: backgroundShift 25s ease infinite; /* Animasyon biraz yavaşlatıldı */
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: 50px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: var(--text-title);
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            /* Başlık ışıması (Aynı kalıyor) */
+            --color: var(--neon-purple);
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+         h1 i {
+            margin-right: 15px;
+            color: var(--neon-purple);
+         }
+
+        /* Ayar Bölümleri (Aynı kalıyor, backdrop-filter daha belirgin olabilir) */
+        .settings-section {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            margin-bottom: 35px;
+            box-shadow: 0 6px 20px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            backdrop-filter: blur(8px); /* Blur biraz artırıldı */
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out forwards;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; /* Hover için transition eklendi */
+        }
+        .settings-section:nth-child(2) { animation-delay: 0.1s; }
+        .settings-section:nth-child(3) { animation-delay: 0.2s; }
+        .settings-section:nth-child(4) { animation-delay: 0.3s; }
+        .settings-section:nth-child(5) { animation-delay: 0.4s; }
+        .settings-section:nth-child(6) { animation-delay: 0.5s; }
+
+         .settings-section:hover {
+            border-color: var(--neon-purple);
+            box-shadow: 0 8px 25px rgba(197, 0, 255, 0.3); /* Gölge rengi ayarlandı */
+            transform: translateY(-3px) scale(1.01);
+         }
+
+        /* Bölüm Başlığı (Aynı kalıyor) */
+        .settings-section h3 {
+            color: var(--text-title);
+            font-size: 1.3em;
+            font-weight: 600;
+            margin: 0;
+            padding: 18px 25px;
+            background: linear-gradient(90deg, rgba(197, 0, 255, 0.15), rgba(0, 255, 255, 0.1) );
+            border-bottom: 1px solid var(--border-color);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+         .settings-section h3 i {
+             margin-right: 10px;
+             color: var(--neon-purple);
+             text-shadow: 0 0 8px var(--neon-purple);
+         }
+
+        /* Ayar Öğesi (Aynı kalıyor) */
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 25px;
+            border-bottom: 1px solid rgba(100, 100, 255, 0.15);
+            min-height: 45px;
+             transition: background-color 0.3s ease;
+        }
+         .setting-item:hover {
+            background-color: rgba(255,255,255, 0.05);
+         }
+        .settings-section > div:last-child .setting-item,
+        .settings-section > .setting-item:last-child {
+             border-bottom: none;
+        }
+
+        /* Label ve Action alanları (Aynı kalıyor) */
+        .setting-label strong {
+            display: block; font-weight: 600; color: var(--text-primary);
+            font-size: 1em; margin-bottom: 4px;
+        }
+        .setting-label span {
+            display: block; font-size: 0.88em; color: var(--text-secondary); line-height: 1.4;
+        }
+        .setting-action { flex-shrink: 0; margin-left: 20px; }
+
+        /* Ayar Linkleri (Aynı kalıyor) */
+        .setting-item a.action-link {
+            color: var(--neon-blue); text-decoration: none; font-weight: 600;
+            font-size: 0.95em; transition: color 0.3s ease, text-shadow 0.3s ease;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+        }
+        .setting-item a.action-link:hover {
+            color: #80ffff; text-shadow: 0 0 8px var(--neon-blue), 0 0 12px var(--neon-blue);
+        }
+         .setting-item a.action-link i { margin-left: 5px; transition: transform 0.3s ease;}
+         .setting-item a.action-link:hover i { transform: translateX(3px);}
+
+        /* Toggle Switch (Aynı kalıyor) */
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .switch input { display: none; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--switch-bg);
+            transition: .4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            border-radius: 26px; border: 1px solid var(--border-color);
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 20px; width: 20px;
+            left: 3px; bottom: 2px; background-color: var(--switch-handle);
+            transition: .4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            border-radius: 50%; box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        input:checked + .slider {
+            background-color: var(--neon-pink); border-color: var(--neon-pink);
+            box-shadow: 0 0 8px var(--neon-pink);
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px); background-color: white;
+            box-shadow: 0 0 8px var(--neon-pink);
+        }
+
+        /* Select Dropdown (Aynı kalıyor) */
+        .custom-select select {
+            background-color: rgba(0,0,0,0.3); color: var(--text-primary);
+            padding: 10px 35px 10px 15px; border: 1px solid var(--border-color);
+            border-radius: 6px; font-size: 0.95em; appearance: none; cursor: pointer;
+            min-width: 180px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ff00ff'%3E%3Cpath fill-rule='evenodd' d='M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z' clip-rule='evenodd' /%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 10px center;
+            background-size: 18px; transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .custom-select select:hover { border-color: var(--neon-pink); }
+        .custom-select select:focus {
+            outline: none; border-color: var(--neon-pink);
+            box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.3);
+         }
+
+        /* Buton Stilleri (Aynı kalıyor) */
+        .action-button {
+            padding: 10px 20px; font-size: 0.95em; font-weight: 700;
+            border-radius: 6px; cursor: pointer; border: none; position: relative;
+            overflow: hidden; transition: transform 0.2s ease, box-shadow 0.3s ease;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        .action-button i { margin-right: 8px; }
+        .button-primary {
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            color: white; box-shadow: 0 4px 15px rgba(197, 0, 255, 0.3); /* Gölge hafifletildi */
+        }
+        .button-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(197, 0, 255, 0.5);
+        }
+        .button-secondary {
+            background-color: rgba(255, 255, 255, 0.1); color: var(--text-primary);
+             border: 1px solid var(--border-color);
+        }
+        .button-secondary:hover {
+             background-color: rgba(255, 255, 255, 0.2); border-color: var(--neon-blue);
+             color: var(--neon-blue); box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+             transform: scale(1.02);
+        }
+        .button-danger {
+            background-color: transparent; color: var(--danger-color);
+            border: 1px solid var(--danger-color); text-shadow: 0 0 8px var(--danger-color); /* text-shadow düzeltildi */
+        }
+        .button-danger:hover {
+            background-color: rgba(255, 77, 77, 0.1);
+            box-shadow: 0 0 15px var(--danger-color); transform: scale(1.03);
+        }
+
+        /* Küçük ekranlar (Aynı kalıyor) */
+        @media (max-width: 640px) {
+             h1 { font-size: 2em; }
+             .settings-section h3 { font-size: 1.15em; padding: 15px 20px;}
+             .setting-item { flex-direction: column; align-items: flex-start; padding: 18px 20px; gap: 12px;}
+             .setting-label { margin-bottom: 10px;}
+             .setting-action { width: 100%; display: flex; justify-content: flex-start;}
+              .custom-select select { width: 100%; }
+              .action-button { width: 100%; text-align: center; }
+               .setting-item .setting-action a.action-link { display: inline-block; padding: 8px 0;}
+        }
+        /* === CSS Kodları Sonu === */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fa-solid fa-sliders"></i>Ayarlar Merkezi</h1>
+
+        <!-- Bölümler aynı kalıyor (HTML yapısı değişmedi) -->
+        <!-- Hesap Ayarları -->
+        <div class="settings-section">
+            <h3><i class="fa-solid fa-user-astronaut"></i>Hesap</h3>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Kullanıcı Adı</strong>
+                    <span>Görünen kullanıcı adınız: SpaceExplorer</span>
+                </div>
+                <div class="setting-action">
+                    <a href="#" class="action-link">Değiştir <i class="fa-solid fa-angle-right"></i></a>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Şifre</strong>
+                    <span>Güvenlik anahtarınızı güncelleyin.</span>
+                </div>
+                <div class="setting-action">
+                     <a href="#" class="action-link">Şifre Oluştur <i class="fa-solid fa-angle-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Güvenlik Ayarları -->
+        <div class="settings-section">
+            <h3><i class="fa-solid fa-shield-virus"></i>Güvenlik Kalkanı</h3>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <strong>HyperDrive Güvenlik Modu (2FA+)</strong>
+                    <span>Ekstra koruma için kuantum dolaşıklık anahtarı.</span>
+                </div>
+                <div class="setting-action">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Warp Geçidi Logları</strong>
+                    <span>Son portal atlamalarınızı inceleyin.</span>
+                </div>
+                <div class="setting-action">
+                    <a href="#" class="action-link">Logları Göster <i class="fa-solid fa-angle-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bildirim Ayarları -->
+        <div class="settings-section">
+             <h3><i class="fa-solid fa-satellite-dish"></i>Sinyal Tercihleri</h3>
+             <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Subspace İletişimi (E-posta)</strong>
+                    <span>Galaktik güncellemeler için hiper-posta alın.</span>
+                </div>
+                <div class="setting-action">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+             <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Kokpit Uyarıları (Anlık)</strong>
+                    <span>Acil durum ve görev bildirimleri.</span>
+                </div>
+                <div class="setting-action">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Görünüm Ayarları -->
+        <div class="settings-section">
+             <h3><i class="fa-solid fa-display"></i>Görsel Arayüz</h3>
+             <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Hologram Teması</strong>
+                    <span>Kokpit arayüzünüzün görsel stili.</span>
+                </div>
+                <div class="setting-action custom-select">
+                    <select>
+                        <option value="neon" selected>Neon Pulsar (Aktif)</option>
+                        <option value="dark_matter">Karanlık Madde</option>
+                        <option value="star_dust">Yıldız Tozu</option>
+                         <option value="mekanik">Mekanik İskelet</option>
+                    </select>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Evrensel Çevirmen (Dil)</strong>
+                    <span>Galaktik Standart veya yerel dil.</span>
+                </div>
+                <div class="setting-action custom-select">
+                     <select>
+                        <option value="tr" selected>Türkçe (Yerel)</option>
+                        <option value="gal_std">Galactic Standard</option>
+                         <option value="en">English (Terra Prime)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+         <!-- Hesap Yönetimi -->
+        <div class="settings-section">
+             <h3><i class="fa-solid fa-biohazard"></i>Hesap İmhası</h3>
+              <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Kara Kutu Verisi</strong>
+                    <span>Tüm kişisel seyir defterinizi indirin.</span>
+                </div>
+                <div class="setting-action">
+                    <button class="action-button button-secondary">
+                        <i class="fa-solid fa-download"></i> Veri Paketini İndir
+                    </button>
+                </div>
+            </div>
+             <div class="setting-item">
+                <div class="setting-label">
+                    <strong>Kendini İmha Protokolü</strong>
+                    <span style="color: var(--danger-color);">Dikkat! Bu işlem evrenin bu köşesindeki varlığınızı silecektir!</span>
+                </div>
+                <div class="setting-action">
+                    <button class="action-button button-danger">
+                         <i class="fa-solid fa-explosion"></i> Protokolü Başlat
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- .container sonu -->
+</body>
+</html>

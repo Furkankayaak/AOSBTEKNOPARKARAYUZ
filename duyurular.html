@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duyurular - Antalya OSB Teknopark</title> <!-- Başlık Güncellendi -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192.png">
+    <meta name="theme-color" content="#1a1f3c">
+
+    <style>
+        /* --- Genel Sıfırlama ve Temel Stiller (Aynı) --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #e8e8e8; background-color: #0a0d1e; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+        body.overlay-active { overflow: hidden; }
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        a:hover { color: #c0c0ff; }
+        ul { list-style: none; }
+        img, svg, iframe { max-width: 100%; height: auto; vertical-align: middle; display: block; }
+
+        /* --- tsParticles Konteyneri (Aynı) --- */
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+        /* --- Header (Aynı) --- */
+        .main-header { background-color: rgba(10, 15, 43, 0.8); padding: 10px 20px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5); position: relative; z-index: 1000; }
+        .hamburger-container { display: inline-block; position: relative; cursor: pointer; z-index: 1002; }
+        .hamburger-icon { padding: 10px; display: inline-block; }
+        .hamburger-icon span { display: block; width: 28px; height: 3px; background-color: #f0f0f0; margin: 6px 0; transition: all 0.3s ease; border-radius: 1px; }
+
+        /* --- Tam Ekran Menü (Aynı) --- */
+        .menu-options-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1001; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 25px; padding: 60px 40px 40px 40px; background-color: rgba(15, 10, 30, 0.97); backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transform: scale(0.98) translateY(10px); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.4s step-end, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); overflow-y: auto; pointer-events: none; }
+        .menu-options-container.active { opacity: 1; visibility: visible; transform: scale(1) translateY(0); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0s step-start, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); pointer-events: auto; }
+        .close-menu-btn { position: absolute; top: 25px; right: 35px; font-size: 2rem; color: #aaa; cursor: pointer; transition: color 0.2s ease, transform 0.2s ease; z-index: 1003; padding: 5px; }
+        .close-menu-btn:hover { color: #fff; transform: rotate(90deg); }
+        .menu-option-box { background-color: rgba(50, 30, 80, 0.8); color: #e8e8e8; padding: 25px 20px; border-radius: 10px; width: 150px; min-height: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .menu-option-box:hover { background-color: rgba(80, 50, 110, 0.9); transform: translateY(-8px) scale(1.06); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+        .menu-option-box i { font-size: 2.5em; margin-bottom: 15px; transition: transform 0.35s cubic-bezier(0.68, -0.6, 0.265, 1.6); }
+        .menu-option-box:hover i { transform: scale(1.3) rotate(15deg); }
+        .menu-option-box span { font-size: 0.95rem; font-weight: 500; }
+
+        /* --- YENİ: Duyurular Sayfası Ana İçerik Alanı --- */
+        .announcements-main { /* <<< Sınıf adı değişti */
+            flex-grow: 1;
+            padding: 60px 20px 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .announcements-container { /* <<< Sınıf adı değişti */
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .announcements-container h1 { /* <<< Sınıf adı değişti */
+            text-align: center;
+            font-size: 2.8rem;
+            color: #c0c0ff;
+            margin-bottom: 50px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(192, 192, 255, 0.3);
+            font-weight: 600;
+        }
+
+        /* Duyuru Kartları Grid */
+        .announcement-grid { /* <<< Sınıf adı değişti */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+        }
+
+        /* Kart Animasyonu (Aynı) */
+        @keyframes cardAppear { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        /* Duyuru Kartı Stili */
+        .announcement-card { /* <<< Sınıf adı değişti */
+            background-color: rgba(25, 30, 65, 0.7);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            opacity: 0;
+            animation: cardAppear 0.5s ease-out forwards;
+        }
+        /* Animasyon Gecikmeleri */
+        .announcement-card:nth-child(3n+1) { animation-delay: 0.1s; }
+        .announcement-card:nth-child(3n+2) { animation-delay: 0.2s; }
+        .announcement-card:nth-child(3n+3) { animation-delay: 0.3s; }
+
+        .announcement-card:hover { /* <<< Sınıf adı değişti */
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 35px rgba(0,0,0,0.4);
+        }
+
+        .announcement-card-inner { /* <<< Sınıf adı değişti */
+            display: flex; align-items: center; padding: 15px; gap: 15px;
+        }
+        .announcement-image { /* <<< Sınıf adı değişti */
+            width: 100px; height: 100px; flex-shrink: 0; border-radius: 6px; overflow: hidden; background-color: #333; /* Resim yoksa görünsün */ display: flex; justify-content: center; align-items: center;
+        }
+        .announcement-image img { width: 100%; height: 100%; object-fit: cover; }
+        .announcement-image i { font-size: 2.5rem; color: #777; } /* Resim yerine ikon */
+
+        .announcement-summary {} /* <<< Sınıf adı değişti */
+        .announcement-title { /* <<< Sınıf adı değişti */
+            font-size: 1.2rem; font-weight: 600; color: #fff; margin-bottom: 5px; line-height: 1.3;
+        }
+        .announcement-date { /* <<< Sınıf adı değişti */
+            font-size: 0.85rem; color: #a0a0cf; margin-bottom: 8px;
+        }
+        .announcement-date i { margin-right: 5px; }
+        .announcement-teaser { /* <<< Sınıf adı değişti */
+            font-size: 0.9rem; color: #bbb; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        /* --- Detay Paneli Overlay (Aynı Stiller) --- */
+        .announcement-detail-overlay { /* <<< Sınıf adı değişti (veya ID'si) */
+            position: fixed; top: 0; right: -100%; width: 55%; max-width: 700px; height: 100vh; background-color: rgba(25, 20, 50, 0.98); backdrop-filter: blur(8px); z-index: 1010; padding: 30px 40px; overflow-y: auto; box-shadow: -10px 0 30px rgba(0,0,0,0.5); opacity: 0; transition: right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease;
+        }
+        .announcement-detail-overlay.visible { right: 0; opacity: 1; }
+        .detail-content {}
+        .detail-image { width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px; margin-bottom: 25px; background-color: #444; /* Resim yüklenemezse */ }
+        .detail-title { font-size: 2rem; color: #fff; margin-bottom: 10px; line-height: 1.2; }
+        .detail-date { font-size: 1rem; color: #aaa; margin-bottom: 20px; }
+        .detail-date i { margin-right: 6px; }
+        .detail-description p { font-size: 1.05rem; color: #ddd; line-height: 1.7; margin-bottom: 15px; }
+        .close-detail-panel-btn { position: absolute; top: 20px; right: 25px; font-size: 1.8rem; color: #aaa; background: none; border: none; cursor: pointer; padding: 5px; transition: color 0.2s ease, transform 0.2s ease; }
+        .close-detail-panel-btn:hover { color: #fff; transform: scale(1.1); }
+
+        /* Arka Plan Karartma Overlay (Aynı) */
+        .overlay-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 1009; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s step-end; }
+        .overlay-backdrop.visible { opacity: 1; visibility: visible; transition: opacity 0.4s ease, visibility 0s step-start; }
+
+
+        /* --- Responsive Tasarım --- */
+        @media (max-width: 992px) {
+             .announcement-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
+             .announcement-detail-overlay { width: 70%; }
+        }
+        @media (max-width: 768px) {
+            /* Mobil Menü (Aynı) */
+            .menu-options-container { padding: 60px 15px 20px 15px; gap: 15px; align-items: flex-start; justify-content: flex-start; } .menu-option-box { width: calc(50% - 8px); min-height: 100px; padding: 15px 8px; } .menu-option-box i { font-size: 1.8em; margin-bottom: 8px; } .menu-option-box span { font-size: 0.8rem; } .close-menu-btn { top: 20px; right: 25px; font-size: 1.8rem; }
+            /* Duyurular Sayfası Mobilde */
+            .announcements-main { padding: 60px 15px 30px 15px; }
+            .announcements-container h1 { font-size: 2.2rem; margin-bottom: 30px;}
+            .announcement-grid { grid-template-columns: 1fr; gap: 25px; }
+            .announcement-card-inner { padding: 12px; gap: 12px; }
+            .announcement-image { width: 80px; height: 80px; }
+            .announcement-title { font-size: 1.1rem; }
+            .announcement-date { font-size: 0.8rem; }
+            .announcement-teaser { display: none; }
+            .announcement-detail-overlay { width: 90%; padding: 25px; } .detail-image { max-height: 200px; margin-bottom: 20px; } .detail-title { font-size: 1.6rem; } .detail-date { font-size: 0.9rem; margin-bottom: 15px; } .detail-description p { font-size: 0.95rem; } .close-detail-panel-btn { top: 15px; right: 15px; font-size: 1.5rem; }
+        }
+         @media (max-width: 480px) {
+            /* Mobil Menü (Aynı) */
+            .menu-option-box { width: calc(100% - 10px); min-height: 70px; padding: 12px; flex-direction: row; justify-content: flex-start; gap: 15px; } .menu-option-box i { font-size: 1.6em; margin-bottom: 0; } .menu-option-box span { font-size: 0.9rem; text-align: left; }
+            .announcements-container h1 { font-size: 1.8rem; }
+            .announcement-image { width: 70px; height: 70px; }
+            .announcement-detail-overlay { width: 100%; right: -100%; box-shadow: none;}
+         }
+
+    </style>
+</head>
+<body>
+
+    <!-- Parçacık Konteyneri -->
+    <div id="tsparticles"></div>
+    <!-- Arka Plan Overlay -->
+    <div class="overlay-backdrop" id="overlayBackdrop"></div>
+    <!-- Detay Paneli -->
+    <div class="announcement-detail-overlay" id="detailOverlay"> <!-- ID değişti -->
+        <button class="close-detail-panel-btn" id="closeDetailPanelBtn" aria-label="Detayları Kapat"><i class="fas fa-times"></i></button>
+        <div class="detail-content" id="detailContent">
+            <img src="" alt="" class="detail-image" id="detailImage">
+            <h3 class="detail-title" id="detailTitle"></h3>
+            <p class="detail-date" id="detailDate"></p>
+            <div class="detail-description" id="detailDescription"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="main-header">
+         <div class="hamburger-container">
+             <div class="hamburger-icon" id="hamburgerIcon"><span></span><span></span><span></span></div>
+             <nav class="menu-options-container" id="menuContainer">
+                 <div class="close-menu-btn" id="closeMenuBtn"><i class="fas fa-times"></i></div>
+                 <!-- Menü Linkleri -->
+                <a href="hakkimizda.html" class="menu-option-box"> <i class="fa-solid fa-circle-info"></i> <span>Hakkımızda</span> </a>
+                <a href="kurullar.html" class="menu-option-box"><i class="fa-solid fa-briefcase"></i> <span>Kurullar</span> </a>
+                <a href="ekibimiz.html" class="menu-option-box"><i class="fa-solid fa-users"></i><span>Ekibimiz</span> </a>
+                <a href="firmalar.html" class="menu-option-box"> <i class="fa-solid fa-building"></i> <span>Firmalar</span> </a>
+                <a href="etkinlik.html" class="menu-option-box"> <i class="fa-solid fa-calendar-days"></i> <span>Etkinlik</span> </a>
+                <!-- Aktif Link (Duyurular) -->
+                <!-- <a href="duyurular.html" class="menu-option-box"> <i class="fa-solid fa-bullhorn"></i> <span>Duyurular</span> </a> -->
+                <a href="haberler.html" class="menu-option-box"> <i class="fa-solid fa-newspaper"></i><span>Haberler</span> </a>
+                <a href="iletisim.html" class="menu-option-box"> <i class="fa-solid fa-envelope"></i> <span>İletişim</span> </a>
+                <a href="index.html" class="menu-option-box"> <i class="fas fa-home"></i> <span>Ana Sayfa</span> </a>
+             </nav>
+        </div>
+    </header>
+
+    <!-- Duyurular Ana İçerik Alanı -->
+    <main class="announcements-main"> <!-- <<< Sınıf adı değişti -->
+        <div class="announcements-container"> <!-- <<< Sınıf adı değişti -->
+            <h1>Duyurular</h1>
+
+            <div class="announcement-grid"> <!-- <<< Sınıf adı değişti -->
+
+                <!-- Örnek Duyuru Kartı 1 -->
+                 <!-- DİKKAT: data-* attributelarını doldurun! -->
+                <div class="announcement-card" 
+                     data-img="duyuru1.jpg"
+                     data-title="Yeni Destek Programı Başvuruları Başladı!"
+                     data-date="15 Temmuz 2024"
+                     data-desc="<p>TÜBİTAK tarafından açılan XYZ Destek Programı için başvurular başlamıştır. Teknoloji odaklı projeleriniz için bu önemli fırsatı kaçırmayın.</p><p>Son başvuru tarihi 30 Ağustos 2024'tür. Detaylı bilgi ve başvuru koşulları için ilgili linki ziyaret edebilirsiniz.</p><p><a href='#'>Başvuru Rehberi</a></p>">
+                    <div class="announcement-card-inner"> <!-- <<< Sınıf adı değişti -->
+                        <div class="announcement-image"> <!-- <<< Sınıf adı değişti -->
+                            <img src="duyuru1.jpg" alt="Destek Programı Duyurusu" loading="lazy">
+                        </div>
+                        <div class="announcement-summary"> <!-- <<< Sınıf adı değişti -->
+                            <h3 class="announcement-title">Yeni Destek Programı Başvuruları</h3> <!-- <<< Sınıf adı değişti -->
+                            <p class="announcement-date"><i class="far fa-calendar-alt"></i> 15 Temmuz 2024</p> <!-- <<< Sınıf adı değişti -->
+                            <p class="announcement-teaser">TÜBİTAK XYZ Destek Programı başvuruları açıldı...</p> <!-- <<< Sınıf adı değişti -->
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Örnek Duyuru Kartı 2 -->
+                <div class="announcement-card"
+                     data-img="duyuru2.jpg"
+                     data-title="Teknopark İdari Bina Bakım Çalışması"
+                     data-date="10 Temmuz 2024"
+                     data-desc="<p>Değerli firma yetkilileri, 20-22 Temmuz tarihleri arasında idari binamızda gerçekleştirilecek planlı bakım çalışmaları nedeniyle bazı hizmetlerimizde kısa süreli aksamalar yaşanabilir.</p><p>Anlayışınız için teşekkür ederiz.</p>">
+                    <div class="announcement-card-inner">
+                        <div class="announcement-image"><img src="duyuru2.jpg" alt="Bakım Çalışması" loading="lazy"></div>
+                        <div class="announcement-summary">
+                            <h3 class="announcement-title">İdari Bina Bakım Çalışması</h3>
+                            <p class="announcement-date"><i class="far fa-calendar-alt"></i> 10 Temmuz 2024</p>
+                            <p class="announcement-teaser">20-22 Temmuz tarihleri arasında planlı bakım...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Örnek Duyuru Kartı 3 (Resimsiz) -->
+                <div class="announcement-card"
+                     data-img="" /* Resim yoksa boş bırakılabilir */
+                     data-title="Firmalar Arası Anket Çalışması"
+                     data-date="5 Temmuz 2024"
+                     data-desc="<p>Teknoparkımızdaki hizmet kalitesini artırmak amacıyla firma memnuniyet anketi düzenlenmektedir.</p><p>E-posta adreslerinize gönderilen link üzerinden ankete katılımınızı rica ederiz. Katkılarınız bizim için değerlidir.</p>">
+                    <div class="announcement-card-inner">
+                        <div class="announcement-image"> <i class="fas fa-poll"></i> </div> <!-- Resim yerine ikon -->
+                        <div class="announcement-summary">
+                            <h3 class="announcement-title">Firma Memnuniyet Anketi</h3>
+                            <p class="announcement-date"><i class="far fa-calendar-alt"></i> 5 Temmuz 2024</p>
+                            <p class="announcement-teaser">Hizmet kalitemizi değerlendirmek için anketimiz...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ... (Buraya diğer 7+ duyuru kartını ekleyin) ... -->
+                <!-- Örnek 4 -->
+                <div class="announcement-card" data-img="duyuru4.jpg" data-title="Kuluçka Merkezi Başvuruları" data-date="1 Temmuz 2024" data-desc="<p>Yeni dönem kuluçka merkezi başvuruları açılmıştır...</p>"> <div class="announcement-card-inner"> <div class="announcement-image"><img src="duyuru4.jpg" alt="Kuluçka" loading="lazy"></div> <div class="announcement-summary"> <h3 class="announcement-title">Kuluçka Merkezi Başvuruları Açıldı</h3> <p class="announcement-date"><i class="far fa-calendar-alt"></i> 1 Temmuz 2024</p><p class="announcement-teaser">Yeni girişimciler için başvuru süreci...</p> </div> </div> </div>
+                <!-- Örnek 5 -->
+                 <div class="announcement-card" data-img="duyuru5.jpg" data-title="Enerji Kesintisi Planı" data-date="28 Haziran 2024" data-desc="<p>Planlı bakım nedeniyle enerji kesintisi yapılacaktır...</p>"> <div class="announcement-card-inner"> <div class="announcement-image"><img src="duyuru5.jpg" alt="Enerji" loading="lazy"></div> <div class="announcement-summary"> <h3 class="announcement-title">Planlı Elektrik Kesintisi</h3> <p class="announcement-date"><i class="far fa-calendar-alt"></i> 28 Haziran 2024</p><p class="announcement-teaser">Belirtilen saatlerde enerji kesintisi...</p> </div> </div> </div>
+                <!-- Örnek 6 -->
+                <div class="announcement-card" data-img="" data-title="Yeni Yönetmelik Değişikliği" data-date="25 Haziran 2024" data-desc="<p>Teknopark yönetmeliğinde yapılan değişiklikler hakkında bilgilendirme...</p>"> <div class="announcement-card-inner"> <div class="announcement-image"><i class="fas fa-file-alt"></i></div> <div class="announcement-summary"> <h3 class="announcement-title">Yönetmelik Güncellemesi</h3> <p class="announcement-date"><i class="far fa-calendar-alt"></i> 25 Haziran 2024</p><p class="announcement-teaser">Yönetmelikteki önemli değişiklikler...</p> </div> </div> </div>
+                <!-- Örnek 7 -->
+                <div class="announcement-card" data-img="duyuru7.jpg" data-title="Ortak Alan Kullanım Kuralları" data-date="20 Haziran 2024" data-desc="<p>Teknopark ortak alanlarının kullanımıyla ilgili güncel kurallar...</p>"> <div class="announcement-card-inner"> <div class="announcement-image"><img src="duyuru7.jpg" alt="Ortak Alan" loading="lazy"></div> <div class="announcement-summary"> <h3 class="announcement-title">Ortak Alan Kuralları Hk.</h3> <p class="announcement-date"><i class="far fa-calendar-alt"></i> 20 Haziran 2024</p><p class="announcement-teaser">Ortak alanların verimli kullanımı için...</p> </div> </div> </div>
+                <!-- Örnek 8 -->
+                <div class="announcement-card" data-img="duyuru8.jpg" data-title="Ar-Ge Teşvikleri Bilgilendirme Toplantısı" data-date="15 Haziran 2024" data-desc="<p>Firmalarımıza yönelik Ar-Ge teşvikleri hakkında bilgilendirme toplantısı yapılacaktır...</p>"> <div class="announcement-card-inner"> <div class="announcement-image"><img src="duyuru8.jpg" alt="Teşvik" loading="lazy"></div> <div class="announcement-summary"> <h3 class="announcement-title">Ar-Ge Teşvikleri Toplantısı</h3> <p class="announcement-date"><i class="far fa-calendar-alt"></i> 15 Haziran 2024</p><p class="announcement-teaser">Devlet destekleri ve teşvikler hakkında...</p> </div> </div> </div>
+                 <!-- Örnek 9 -->
+                <div class="announcement-card" data-img="" data-title="Güvenlik Talimatları Güncellemesi" data-date="10 Haziran 2024" data-desc="<p>Teknopark güvenlik prosedürleri güncellenmiştir...</p>"> <div class="announcement-card-inner"> <div class="announcement-image"><i class="fas fa-shield-alt"></i></div> <div class="announcement-summary"> <h3 class="announcement-title">Güvenlik Prosedürleri</h3> <p class="announcement-date"><i class="far fa-calendar-alt"></i> 10 Haziran 2024</p><p class="announcement-teaser">Güncel güvenlik talimatları hk...</p> </div> </div> </div>
+                <!-- Örnek 10 -->
+                <div class="announcement-card" data-img="duyuru10.jpg" data-title="Yeni Otopark Düzenlemesi" data-date="5 Haziran 2024" data-desc="<p>Teknopark otopark alanında yeni düzenlemeler yapılmıştır...</p>"> <div class="announcement-card-inner"> <div class="announcement-image"><img src="duyuru10.jpg" alt="Otopark" loading="lazy"></div> <div class="announcement-summary"> <h3 class="announcement-title">Otopark Kullanımı Hk.</h3> <p class="announcement-date"><i class="far fa-calendar-alt"></i> 5 Haziran 2024</p><p class="announcement-teaser">Yeni otopark yerleşim planı ve kurallar...</p> </div> </div> </div>
+
+
+            </div> <!-- / .announcement-grid -->
+        </div> <!-- / .announcements-container -->
+    </main>
+    <!-- / Duyurular Ana İçerik Alanı -->
+
+    <!-- tsParticles Kütüphanesi -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+
+    <!-- tsParticles Başlatma, Menü ve Duyuru Detay Scripti -->
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // tsParticles başlatma (Aynı)
+            tsParticles.load("tsparticles", { /* ... önceki config ... */ fpsLimit: 60, background: { color: "#0a0d1e" }, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25, width: 1 }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true });
+
+            // Menü Açma/Kapatma İşlevselliği (Aynı)
+            const hamburgerIcon = document.getElementById('hamburgerIcon');
+            const menuContainer = document.getElementById('menuContainer');
+            const closeMenuBtn = document.getElementById('closeMenuBtn');
+            if (hamburgerIcon && menuContainer && closeMenuBtn) {
+                hamburgerIcon.addEventListener('click', (e) => { e.stopPropagation(); menuContainer.classList.toggle('active'); });
+                closeMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); menuContainer.classList.remove('active'); });
+                menuContainer.addEventListener('click', (e) => { if (e.target.closest('a.menu-option-box')) { menuContainer.classList.remove('active'); } else if (e.target !== closeMenuBtn && !closeMenuBtn.contains(e.target)) { e.stopPropagation(); } });
+                document.addEventListener('click', (e) => { if (menuContainer.classList.contains('active') && !menuContainer.contains(e.target) && !hamburgerIcon.contains(e.target)) { menuContainer.classList.remove('active'); } });
+            }
+
+             // --- Duyuru Detay Paneli Scripti (Etkinlik ile neredeyse aynı) ---
+             const announcementGrid = document.querySelector('.announcement-grid'); // <<< Seçici değişti
+             const detailOverlay = document.getElementById('detailOverlay'); // <<< ID değişti (HTML'de de güncellendi)
+             const overlayBackdrop = document.getElementById('overlayBackdrop');
+             const closeDetailBtn = document.getElementById('closeDetailPanelBtn');
+             const detailImage = document.getElementById('detailImage');
+             const detailTitle = document.getElementById('detailTitle');
+             const detailDate = document.getElementById('detailDate');
+             const detailDescription = document.getElementById('detailDescription');
+
+             if (announcementGrid && detailOverlay && overlayBackdrop && closeDetailBtn) {
+                 announcementGrid.addEventListener('click', function(e) {
+                     const card = e.target.closest('.announcement-card'); // <<< Seçici değişti
+                     if (!card) return;
+
+                     const img = card.dataset.img;
+                     const title = card.dataset.title;
+                     const date = card.dataset.date;
+                     const desc = card.dataset.desc;
+
+                     // Resim yoksa ikonu göstermek için ekstra kontrol (isteğe bağlı)
+                     const imgContainer = card.querySelector('.announcement-image');
+                     const defaultIconHTML = '<i class="fas fa-bullhorn fa-3x"></i>'; // Varsayılan duyuru ikonu
+
+                     if (img && img.trim() !== '') {
+                         detailImage.style.display = 'block'; // Resmi göster
+                         detailImage.src = img;
+                         detailImage.alt = title || 'Duyuru Resmi';
+                     } else {
+                         detailImage.style.display = 'none'; // Resmi gizle (yerine belki ikon koyulabilir panele)
+                         // Veya placeholder: detailImage.src = 'placeholder-duyuru.png';
+                     }
+
+
+                     detailTitle.textContent = title || 'Başlık Yok';
+                     detailDate.innerHTML = `<i class="far fa-calendar-alt"></i> ${date || 'Tarih Belirtilmemiş'}`;
+                     detailDescription.innerHTML = desc || '<p>Açıklama bulunamadı.</p>';
+
+                     detailOverlay.classList.add('visible');
+                     overlayBackdrop.classList.add('visible');
+                     document.body.classList.add('overlay-active');
+                 });
+
+                 const closePanel = () => {
+                     detailOverlay.classList.remove('visible');
+                     overlayBackdrop.classList.remove('visible');
+                     document.body.classList.remove('overlay-active');
+                 }
+                 closeDetailBtn.addEventListener('click', closePanel);
+                 overlayBackdrop.addEventListener('click', closePanel);
+             }
+             // --- / Duyuru Detay Paneli Scripti ---
+
+        });
+    </script>
+
+    <!-- Service Worker Kaydı -->
+     <script>
+        if ('serviceWorker'in navigator) {
+          navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err));
+        }
+      </script>
+
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anasayfa - Hoş Geldiniz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192.png">
+    <meta name="theme-color" content="#0a0d1e">
+
+    <style>
+        /* --- THEME VARIABLES --- */
+        :root {
+            /* Dark Theme */
+            --body-bg-dark: #0a0d1e;
+            --header-bg-dark: rgba(10, 15, 43, 0.8);
+            --text-primary-dark: #e8e8e8;
+            --particle-color1-dark: "#ffffff";
+            --particle-color2-dark: "#8A2BE2";
+            --particle-color3-dark: "#6a6ff1";
+            --particle-color4-dark: "#c0c0ff";
+            --particle-link-dark: "#4a4f8b";
+            --button-border-dark: #a060f0;
+            --button-text-dark: #f0a0ff;
+            --button-bg-hover-dark: rgba(160, 96, 240, 0.15);
+            --logo-shadow-dark: rgba(200, 180, 255, 0.4);
+            --auth-border-dark: #666;
+            --slider-bg-dark: #555;
+
+            /* Light Theme */
+            --body-bg-light: #f8f9fa; /* Light grey/white */
+            --header-bg-light: rgba(255, 255, 255, 0.96);
+            --text-primary-light: #343a40;
+            --text-secondary-light: #6c757d;
+            /* Light Theme Particle Vars (Generative Topography) */
+            --topography-particle-color: "#cccccc"; /* Neredeyse görünmez parçacık */
+            --topography-line-color: "#d8dde2";   /* Çok soluk gri çizgi */
+            --topography-triangle-color: "#e8edf1"; /* Çok çok soluk dolgu */
+            --button-border-light: #adb5bd;
+            --button-text-light: #495057;
+            --button-bg-hover-light: #e9ecef;
+            --logo-shadow-light: rgba(0, 0, 0, 0.1);
+            --auth-border-light: #dee2e6;
+            --slider-bg-light: #007bff; /* Standard blue */
+
+            /* Generic Vars */
+            --body-bg: var(--body-bg-dark);
+            --header-bg: var(--header-bg-dark);
+            --text-primary: var(--text-primary-dark);
+            --button-border: var(--button-border-dark);
+            --button-text: var(--button-text-dark);
+            --button-bg-hover: var(--button-bg-hover-dark);
+            --logo-shadow: var(--logo-shadow-dark);
+            --auth-border: var(--auth-border-dark);
+            --slider-bg: var(--slider-bg-dark);
+
+            --theme-transition-duration: 0.6s;
+            --page-transition-duration: 0.4s;
+        }
+
+        body.light-theme {
+            --body-bg: var(--body-bg-light);
+            --header-bg: var(--header-bg-light);
+            --text-primary: var(--text-primary-light);
+            --text-secondary: var(--text-secondary-light);
+            --button-border: var(--button-border-light);
+            --button-text: var(--button-text-light);
+            --button-bg-hover: var(--button-bg-hover-light);
+            --logo-shadow: var(--logo-shadow-light);
+            --auth-border: var(--auth-border-light);
+            --slider-bg: var(--slider-bg-light);
+        }
+
+        /* Base Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { overflow-x: hidden; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6; color: var(--text-primary);
+            background-color: var(--body-bg); display: flex; flex-direction: column;
+            min-height: 100vh; position: relative; overflow: hidden;
+            transition: background-color var(--theme-transition-duration) ease,
+                        color var(--theme-transition-duration) ease,
+                        opacity var(--page-transition-duration) ease-out;
+            opacity: 1;
+        }
+        body.fade-out { opacity: 0; }
+        a { text-decoration: none; color: inherit; }
+
+        /* tsParticles */
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+        /* Header, Theme Switch, Main Content, Buttons, Responsive */
+        /* (No CSS changes needed here) */
+        .main-header { background-color: var(--header-bg); padding: 10px 20px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: flex-end; align-items: center; min-height: 60px; transition: background-color var(--theme-transition-duration) ease, box-shadow var(--theme-transition-duration) ease; }
+        body.light-theme .main-header { box-shadow: 0 2px 4px rgba(0, 0, 0, 0.07); }
+        .theme-switch-wrapper { display: flex; align-items: center; margin-left: auto; }
+        .theme-switch { display: inline-block; height: 28px; position: relative; width: 55px; }
+        .theme-switch input { display: none; }
+        .slider { background-color: var(--slider-bg); bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: background-color 0.4s ease; }
+        .slider:before { background-color: #fff; bottom: 4px; content: ""; height: 20px; left: 4px; position: absolute; width: 20px; transition: transform 0.4s ease; }
+        .slider.round { border-radius: 34px; }
+        .slider.round:before { border-radius: 50%; }
+        .slider .fa-sun, .slider .fa-moon { position: absolute; top: 50%; transform: translateY(-50%); font-size: 14px; color: #f0e68c; transition: opacity 0.4s ease; }
+        .slider .fa-moon { color: #e0e0e0; right: 6px; opacity: 1; }
+        .slider .fa-sun { left: 6px; opacity: 0; }
+        input:checked + .slider { background-color: var(--slider-bg-light); }
+        input:checked + .slider:before { transform: translateX(27px); }
+        input:checked + .slider .fa-sun { opacity: 1; }
+        input:checked + .slider .fa-moon { opacity: 0; }
+        .home-main { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 60px 20px; position: relative; z-index: 1; }
+        .content-container { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 1140px; gap: 70px; }
+        .logo-wrapper { flex-shrink: 0; }
+        .animated-logo { width: 170px; height: auto; animation: floatAnimation 3.5s ease-in-out infinite; filter: drop-shadow(0 0 18px var(--logo-shadow)); transition: filter var(--theme-transition-duration) ease; }
+        @keyframes floatAnimation { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .auth-buttons { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; border-left: 1px solid var(--auth-border); padding-left: 35px; transition: border-color var(--theme-transition-duration) ease; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 13px 20px; border: 1px solid transparent; border-radius: 30px; font-size: 1.05rem; font-weight: 500; cursor: pointer; width: 245px; text-align: center; transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); overflow: hidden; white-space: nowrap; }
+        body.light-theme .btn { box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05); }
+        .btn:hover { transform: translateY(-4px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); }
+        body.light-theme .btn:hover { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08); }
+        .btn i, .btn .google-logo-img { margin-right: 10px; vertical-align: middle; flex-shrink: 0; }
+        .btn i { font-size: 1.1em; }
+        .btn-login { background: linear-gradient(45deg, #8A2BE2, #DC143C); color: white; border: 1px solid transparent; }
+        .btn-login:hover { background: linear-gradient(45deg, #7B1FA2, #C2185B); }
+        .btn-register { background-color: transparent; color: var(--button-text); border: 1px solid var(--button-border); transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+        .btn-register:hover { background-color: var(--button-bg-hover); color: var(--button-text-hover); border-color: var(--button-border-hover); }
+        .btn-google { background-color: #ffffff; color: #3c4043; border: 1px solid #dadce0; font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1); }
+        .btn-google:hover { background-color: #f8f9fa; border-color: #c6cacc; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+        .google-logo-img { width: 18px; height: 18px; }
+        @media (max-width: 768px) { .main-header { padding: 10px 15px; min-height: 55px; } .content-container { flex-direction: column; gap: 50px; } .auth-buttons { align-items: center; width: 100%; max-width: 320px; border-left: none; padding-left: 0; } .btn { width: 100%; max-width: 320px; padding: 12px 20px; } .animated-logo { width: 140px; } .theme-switch { height: 26px; width: 50px; } .slider:before { height: 18px; width: 18px; } input:checked + .slider:before { transform: translateX(24px); } .slider .fa-sun, .slider .fa-moon { font-size: 12px; } }
+        @media (max-width: 480px) { .animated-logo { width: 110px; } .auth-buttons { gap: 15px; } .btn { font-size: 1rem; padding: 11px 15px; } }
+
+    </style>
+</head>
+<body class="dark-theme">
+
+    <div id="tsparticles"></div>
+
+    <header class="main-header">
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="theme-checkbox">
+                <input type="checkbox" id="theme-checkbox" />
+                <div class="slider round"> <i class="fas fa-sun"></i> <i class="fas fa-moon"></i> </div>
+            </label>
+        </div>
+    </header>
+
+    <main class="home-main">
+        <div class="content-container">
+            <div class="logo-wrapper"> <img src="logom.png" alt="Logo" class="animated-logo" /> </div>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-login">Giriş Yap</a>
+                <a href="register.html" class="btn btn-register">Kayıt Ol</a>
+                <a href="google_login_demo_tr.html" class="btn btn-google">
+                    <img src="google-logo.png" alt="Google logo" class="google-logo-img"> Google ile devam et
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            const themeCheckbox = document.getElementById('theme-checkbox');
+            const particlesEl = document.getElementById('tsparticles');
+            const PAGE_TRANSITION_DURATION_MS = parseFloat(getCssVar('--page-transition-duration', '0.4')) * 1000;
+            const THEME_TRANSITION_DURATION_MS = parseFloat(getCssVar('--theme-transition-duration', '0.6')) * 1000;
+            let particlesInstance = null;
+
+            function getCssVar(variableName, fallback = '') {
+                 try { return getComputedStyle(document.documentElement).getPropertyValue(variableName)?.trim().replace(/"/g, '') || fallback; } catch (e) { return fallback; }
+            }
+
+            // --- Particle Options Definitions ---
+
+            const particleOptionsDark = {
+                fpsLimit: 60, particles: { number: { value: 100, density: { enable: true, area: 800 } }, color: { value: [getCssVar('--particle-color1-dark',"#ffffff"), getCssVar('--particle-color2-dark',"#8A2BE2"), getCssVar('--particle-color3-dark',"#6a6ff1"), getCssVar('--particle-color4-dark',"#c0c0ff")] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: getCssVar('--particle-link-dark',"#4a4f8b"), opacity: 0.25, width: 1 }, move: { enable: true, speed: 0.8, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true
+            };
+
+            // Light Theme: Generative Topography / Data Landscape
+            const particleOptionsLight_Topography = {
+                 fpsLimit: 60,
+                 background: { color: "transparent" },
+                 particles: {
+                     number: { value: 25, density: { enable: true, area: 1400 } }, // Fewer particles, larger area -> sparser
+                     color: { value: getCssVar('--topography-particle-color', '#cccccc') }, // Almost invisible color
+                     shape: { type: "circle" },
+                     opacity: { value: 0.05 }, // Extremely low opacity
+                     size: { value: 0.5 }, // Barely visible size
+                     links: {
+                         enable: true,
+                         distance: 180, // Connect over larger distances
+                         color: getCssVar('--topography-line-color', '#d8dde2'), // Very light grey lines
+                         opacity: 0.25, // Faint but visible lines
+                         width: 0.2, // Very thin lines
+                         triangles: { // Subtle filled areas where 3 connect
+                             enable: true,
+                             color: getCssVar('--topography-triangle-color', '#e8edf1'),
+                             opacity: 0.02 // Extremely faint fill
+                         },
+                         warp: false // Optional: true can curve lines
+                     },
+                     move: {
+                         enable: true,
+                         speed: 0.15, // VERY slow drift
+                         direction: "none",
+                         random: true,
+                         straight: false,
+                         outModes: { default: "bounce" } // Keep within view
+                     }
+                 },
+                 interactivity: { events: { onHover: { enable: false }, onClick: { enable: false }, resize: true } },
+                 detectRetina: true
+            };
+
+
+             function setupParticles(theme) {
+                const options = (theme === 'light') ? particleOptionsLight_Topography : particleOptionsDark;
+                const containerId = 'tsparticles';
+                if (particlesInstance) { try { particlesInstance.destroy(); } catch (e) { const canvas = particlesEl.querySelector('canvas'); if(canvas) canvas.remove(); } finally { particlesInstance = null; } }
+                setTimeout(() => { tsParticles.load(containerId, options).then(container => { particlesInstance = container; }).catch(error => { console.error(`Error loading particles for theme ${theme}:`, error); }); }, 50);
+            }
+
+            // --- Theme Switching ---
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+             function applyTheme(theme, isInitialLoad = false) {
+                const isLight = theme === 'light';
+                body.classList.remove('light-theme', 'dark-theme');
+                body.classList.add(isLight ? 'light-theme' : 'dark-theme');
+                themeCheckbox.checked = isLight;
+                const pwaColor = getCssVar(isLight ? '--body-bg-light' : '--body-bg-dark');
+                document.querySelector('meta[name="theme-color"]').setAttribute('content', pwaColor || (isLight ? '#f8f9fa' : '#0a0d1e'));
+                if (!isInitialLoad) { localStorage.setItem('theme', theme); }
+                setupParticles(theme);
+            }
+            applyTheme(currentTheme, true);
+            themeCheckbox.addEventListener('change', () => { applyTheme(themeCheckbox.checked ? 'light' : 'dark'); });
+
+            // Smooth Page Transitions
+            const navigationLinks = document.querySelectorAll('a.btn[href]');
+            navigationLinks.forEach(link => { link.addEventListener('click', function(event) { const href = this.getAttribute('href'); if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('tel:')) { event.preventDefault(); body.classList.add('fade-out'); setTimeout(() => { window.location.href = href; }, PAGE_TRANSITION_DURATION_MS); } }); });
+            window.addEventListener('pageshow', function(event) { if (event.persisted || body.classList.contains('fade-out')) { body.classList.remove('fade-out'); } });
+        });
+    </script>
+    <script> if ('serviceWorker'in navigator) { navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err)); } </script>
+
+</body>
+</html>

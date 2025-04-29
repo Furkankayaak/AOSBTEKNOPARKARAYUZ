@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hesap Kurtarma - Google Hesapları</title> <!-- Başlık güncellendi -->
+    <link rel="icon" href="https://www.google.com/favicon.ico" type="image/x-icon">
+    <style>
+        /* Önceki CSS kodunun aynısını buraya kopyalayın (Fontlar, değişkenler, body, containerlar, input, button, footer vb. stiller) */
+        /* Sadece gerekli olanları kopyalamak yerine tüm stilleri kopyalamak tutarlılık sağlar */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&display=swap');
+
+        :root { /* Aynı değişkenler */
+            --google-blue: #1a73e8;
+            --google-blue-hover: #1765cc;
+            --google-blue-active: #1454ad;
+            --google-border-color: #dadce0;
+            --google-text-color: #202124;
+            --google-secondary-text-color: #5f6368;
+            --google-input-label-color: #5f6368;
+            --google-input-border-color: #dadce0;
+            --google-input-border-focus-color: #1a73e8;
+            --google-error-color: #d93025;
+            --google-error-background-color: #fce8e6;
+            --google-error-border-color: #fcc9c4;
+        }
+        html, body { height: 100%; margin: 0; padding: 0; font-family: 'Roboto', Arial, sans-serif; font-size: 14px; line-height: 1.4286; color: var(--google-text-color); background-color: #fff; }
+        .outer-container { display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding-top: 48px; box-sizing: border-box; }
+        .login-container { width: 100%; max-width: 448px; padding: 48px 40px 36px; margin: 0 auto; border: 1px solid var(--google-border-color); border-radius: 8px; box-sizing: border-box; background-color: #fff; text-align: center; }
+        .google-logo { width: 75px; height: auto; margin-bottom: 12px; }
+        .login-container h1 { font-family: 'Google Sans', 'Roboto', Arial, sans-serif; font-size: 24px; font-weight: 400; line-height: 1.3333; color: var(--google-text-color); margin-top: 0; margin-bottom: 8px; }
+        .login-container .subtitle { font-size: 16px; font-weight: 400; letter-spacing: 0.1px; line-height: 1.5; color: var(--google-text-color); margin-bottom: 24px; text-align: left;} /* Sola hizalı */
+        .input-wrapper { position: relative; margin-bottom: 8px; text-align: left; }
+        .input-wrapper label { position: absolute; top: 16px; left: 16px; font-size: 16px; color: var(--google-input-label-color); pointer-events: none; transition: all 0.2s ease-in-out; background-color: #fff; padding: 0 4px; }
+        .input-wrapper input { width: 100%; height: 56px; padding: 16px 15px 16px 15px; font-size: 16px; color: var(--google-text-color); border: 1px solid var(--google-input-border-color); border-radius: 4px; box-sizing: border-box; outline: none; background-color: transparent; }
+        .input-wrapper input:focus { border: 2px solid var(--google-input-border-focus-color); padding-left: 14px; padding-right: 14px; }
+        .input-wrapper input.has-error { border: 2px solid var(--google-error-color); padding-left: 14px; padding-right: 14px;}
+        .input-wrapper input.has-error:focus { border: 2px solid var(--google-error-color);}
+        .input-wrapper input:focus + label, .input-wrapper input:not(:placeholder-shown) + label { top: -8px; left: 12px; font-size: 12px; color: var(--google-input-border-focus-color); }
+        .input-wrapper input.has-error:focus + label, .input-wrapper input.has-error:not(:placeholder-shown) + label{ color: var(--google-error-color); }
+        .input-wrapper input:not(:placeholder-shown):not(:focus):not(.has-error) + label { color: var(--google-input-label-color); }
+        .error-message { display: none; text-align: left; font-size: 12px; color: var(--google-error-color); padding: 4px 16px 0px 16px; margin-bottom: 16px; min-height: 18px; }
+        .error-message.visible { display: block; }
+        .error-message svg { fill: var(--google-error-color); vertical-align: bottom; margin-right: 8px; width: 16px; height: 16px; }
+        .actions { display: flex; justify-content: flex-end; /* Sadece İleri butonu sağda */ align-items: center; margin-top: 32px; }
+        .next-button { background-color: var(--google-blue); color: white; font-family: 'Google Sans', 'Roboto', Arial, sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.25px; border: none; border-radius: 4px; padding: 9px 24px; cursor: pointer; transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease; }
+        .next-button:hover { background-color: var(--google-blue-hover); box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15); }
+        .next-button:active { background-color: var(--google-blue-active); box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15); }
+        .next-button:focus { outline: 2px solid var(--google-blue-hover); outline-offset: 2px; }
+        .footer { margin-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; padding: 0 40px; max-width: 448px; margin: 24px auto 0; box-sizing: border-box; }
+        .footer-left select { background: none; border: none; padding: 8px 0px 8px 0px; color: var(--google-secondary-text-color); font-size: 12px; cursor: pointer; -webkit-appearance: none; -moz-appearance: none; appearance: none; }
+        .footer-right { display: flex; gap: 24px; }
+        .footer-right a { font-size: 12px; color: var(--google-secondary-text-color); text-decoration: none; }
+        .footer-right a:hover { text-decoration: underline; }
+        /* Bu sayfaya özel stil: Geri butonu (opsiyonel) */
+        .back-button { /* Eğer geri butonu eklemek isterseniz */
+            background-color: transparent;
+            color: var(--google-blue);
+            font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            border-radius: 4px;
+            padding: 9px 16px;
+            cursor: pointer;
+            margin-right: 8px; /* İleri butonundan ayırmak için */
+        }
+         .back-button:hover {
+             background-color: rgba(26, 115, 232, 0.05);
+         }
+
+    </style>
+</head>
+<body>
+
+    <div class="outer-container">
+        <div class="login-container">
+            <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google" class="google-logo" style="width: 75px; height: 24px; margin-bottom: 16px;">
+
+            <h1>E-postanızı bulun</h1>
+            <p class="subtitle" style="text-align: left;">Telefon numaranızı veya kurtarma e-postanızı girin</p> <!-- Subtitle güncellendi ve sola hizalandı -->
+
+            <form id="findEmailForm" onsubmit="showFindEmailDemo(event)">
+                <div class="input-wrapper">
+                     <!-- Input type 'text' olarak değiştirildi, tel veya eposta olabilir -->
+                    <input type="text" id="recoveryIdentifier" name="recoveryIdentifier" autocapitalize="none" spellcheck="false" placeholder=" " aria-label="Telefon numarası veya e-posta"/>
+                    <label for="recoveryIdentifier">Telefon numarası veya e-posta</label>
+                </div>
+                 <!-- Hata Mesajı Alanı -->
+                <div id="error-message-container" class="error-message">
+                     <svg aria-hidden="true" fill="currentColor" focusable="false" width="16px" height="16px" viewBox="0 0 24 24" xmlns="https://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path></svg>
+                     <span id="error-text"></span>
+                </div>
+
+                <div class="actions" style="justify-content: flex-end;"> <!-- Sadece İleri butonu -->
+                    <!-- Opsiyonel: Geri butonu eklenebilir -->
+                    <!-- <button type="button" class="back-button" onclick="window.location.href='google_login_demo_tr.html'">Geri</button> -->
+                    <button type="submit" class="next-button">İleri</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-left">
+             <select aria-label="Dili değiştir">
+                 <option value="tr">Türkçe</option>
+                 <option value="en-US">English (United States)</option>
+             </select>
+        </div>
+        <div class="footer-right">
+            <a href="#" onclick="event.preventDefault(); alert('Demo: Yardım tıklandı')">Yardım</a>
+            <a href="#" onclick="event.preventDefault(); alert('Demo: Gizlilik tıklandı')">Gizlilik</a>
+            <a href="#" onclick="event.preventDefault(); alert('Demo: Şartlar tıklandı')">Şartlar</a>
+        </div>
+    </footer>
+
+    <script>
+        function showFindEmailDemo(event) {
+            event.preventDefault(); // Form gönderimini engelle
+
+            const recoveryInput = document.getElementById('recoveryIdentifier');
+            const recoveryValue = recoveryInput.value.trim();
+            const errorContainer = document.getElementById('error-message-container');
+            const errorText = document.getElementById('error-text');
+
+            // Önceki hataları temizle
+            errorContainer.classList.remove('visible');
+            recoveryInput.classList.remove('has-error');
+            errorText.textContent = '';
+
+            if (!recoveryValue) {
+                // Alan boşsa hata göster
+                errorText.textContent = 'Telefon numaranızı veya kurtarma e-postanızı girin';
+                errorContainer.classList.add('visible');
+                recoveryInput.classList.add('has-error');
+                recoveryInput.focus();
+            } else {
+                // Demo mesajı göster (gerçek arama yapılmaz)
+                alert('Demo: E-posta bulma işlevi burada çalışmaz. Bu sadece görsel bir sunumdur.');
+                // İsteğe bağlı olarak hata mesajı alanını da kullanabilirsiniz:
+                // errorText.textContent = 'Demo: E-posta bulma işlevi uygulanmadı.';
+                // errorContainer.classList.add('visible');
+            }
+        }
+
+         // Sayfa yüklendiğinde input'un placeholder'ını ayarlama (label animasyonu için)
+         document.addEventListener('DOMContentLoaded', () => {
+             const input = document.getElementById('recoveryIdentifier');
+              if(input.value) {
+                 input.setAttribute('placeholder', ' ');
+             }
+             input.addEventListener('blur', () => {
+                if(!input.value) {
+                    input.removeAttribute('placeholder');
+                } else {
+                     input.setAttribute('placeholder', ' ');
+                }
+             });
+         });
+    </script>
+
+</body>
+</html>

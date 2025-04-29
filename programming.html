@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komüniteler</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Include Font Awesome 5 for brand icons -->
+
+</head>
+<body>
+
+    <div id="animated-bg">
+        <div class="stars"></div> <div class="stars2"></div> <div class="stars3"></div>
+    </div>
+
+    <div class="container">
+
+        <header class="site-header">
+            <button id="menu-toggle" class="animated-button menu-button" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+             <a href="profil.html" id="home-link" class="animated-button home-button" aria-label="Go to Home"><i class="fas fa-bolt"></i> <span class="home-text">Ana Sayfa</span></a>
+            <div class="header-spacer"></div>
+            <button class="animated-button login-button">Profil</button>
+        </header>
+
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header"><h3>Komüniteler</h3></div>
+             <ul>
+                 <li><a href="programming.html" class="active-stream"><i class="fas fa-laptop-code"></i> Yazılım(Buradasın)</a></li>
+                 <li><a href="hardware.html"><i class="fas fa-microchip"></i> Hızlandırma Programı</a></li>
+                 <li><a href="futuretech.html"><i class="fas fa-rocket"></i> Veri Bilimi</a></li>
+                 <li><a href="ai.html"><i class="fas fa-robot"></i> AI & ML</a></li>
+                 <li><a href="gaming.html"><i class="fas fa-gamepad"></i>  Teknopark</a></li>
+                 <li><a href="networking.html"><i class="fas fa-satellite-dish"></i> Network</a></li>
+                 <li><a href="mobile.html"><i class="fas fa-mobile-alt"></i> Yatırım</a></li>
+            </ul>
+        </nav>
+
+        <main id="main-content" class="main-content">
+            <h2 class="category-title" id="programming">Programming Stream</h2>
+
+            <article class="post">
+                <div class="post-header"><span class="post-sub">stream/Programming</span> <span class="post-user">Z tarafından</span> <span class="post-time">1 saat önce</span></div>
+                <h2 class="post-title">Async/Await in Python: Best Practices 2024</h2>
+                <p class="post-excerpt">Deep dive into handling asynchronous operations efficiently in modern Python applications...</p>
+                <div class="post-actions">
+                    <button class="animated-button action-button like-button" data-type="like"><i class="fas fa-arrow-up"></i> <span class="count">3.1k</span></button>
+                    <button class="animated-button action-button downvote-button" data-type="downvote"><i class="fas fa-arrow-down"></i></button>
+                    <button class="animated-button action-button comment-button" data-type="comment"><i class="fas fa-comment-alt"></i> <span class="count">105</span> Yorum</button>
+                    <button class="animated-button action-button share-button" data-type="share"><i class="fas fa-share"></i> Paylaş</button>
+                </div>
+            </article>
+             <article class="post">
+                <div class="post-header"><span class="post-sub">stream/Programming</span> <span class="post-user">Y tarafından</span> <span class="post-time">5 saat önce</span></div>
+                <h2 class="post-title">WebAssembly: Bridging the Gap Between Web and Native</h2>
+                <p class="post-excerpt">Exploring the power of WASM for performance-critical web applications and code reuse...</p>
+                 <div class="post-actions">
+                    <button class="animated-button action-button like-button" data-type="like"><i class="fas fa-arrow-up"></i> <span class="count">1.8k</span></button>
+                    <button class="animated-button action-button downvote-button" data-type="downvote"><i class="fas fa-arrow-down"></i></button>
+                    <button class="animated-button action-button comment-button" data-type="comment"><i class="fas fa-comment-alt"></i> <span class="count">72</span> Yorum</button>
+                    <button class="animated-button action-button share-button" data-type="share"><i class="fas fa-share"></i> Paylaş</button>
+                </div>
+            </article>
+             <article class="post">
+                <div class="post-header"><span class="post-sub">stream/Programming</span> <span class="post-user">X tarafından</span> <span class="post-time">1 gün önce</span></div>
+                <h2 class="post-title">Advanced TypeScript Patterns for Large Scale Apps</h2>
+                <p class="post-excerpt">Using mapped types, conditional types, and utility types to build robust and maintainable codebases...</p>
+                 <div class="post-actions">
+                    <button class="animated-button action-button like-button" data-type="like"><i class="fas fa-arrow-up"></i> <span class="count">950</span></button>
+                    <button class="animated-button action-button downvote-button" data-type="downvote"><i class="fas fa-arrow-down"></i></button>
+                    <button class="animated-button action-button comment-button" data-type="comment"><i class="fas fa-comment-alt"></i> <span class="count">45</span> Yorum</button>
+                    <button class="animated-button action-button share-button" data-type="share"><i class="fas fa-share"></i> Paylaş</button>
+                </div>
+            </article>
+            <article class="post">
+                <div class="post-header"><span class="post-sub">r/Yazılım</span> <span class="post-user"> Fatih Mehmet Çetin tarafından</span> <span class="post-time">2 gün önce</span></div>
+                <h2 class="post-title">Memory Safety in Rust Without a Garbage Collector</h2>
+                <p class="post-excerpt">Understanding ownership, borrowing, and lifetimes – the core concepts behind Rust's safety guarantees...</p>
+                 <div class="post-actions">
+                    <button class="animated-button action-button like-button" data-type="like"><i class="fas fa-arrow-up"></i> <span class="count">2.5k</span></button>
+                    <button class="animated-button action-button downvote-button" data-type="downvote"><i class="fas fa-arrow-down"></i></button>
+                    <button class="animated-button action-button comment-button" data-type="comment"><i class="fas fa-comment-alt"></i> <span class="count">112</span> Yorum</button>
+                    <button class="animated-button action-button share-button" data-type="share"><i class="fas fa-share"></i> Paylaş</button>
+                </div>
+            </article>
+             <article class="post">
+                <div class="post-header"><span class="post-sub">r/Yazılım</span> <span class="post-user">Y tarafından</span> <span class="post-time">3 gün önce</span></div>
+                <h2 class="post-title">Optimizing Database Queries: Indexing Strategies</h2>
+                <p class="post-excerpt">When to use B-Trees, Hash Indexes, Full-Text Search and other techniques for faster data retrieval...</p>
+                 <div class="post-actions">
+                    <button class="animated-button action-button like-button" data-type="like"><i class="fas fa-arrow-up"></i> <span class="count">780</span></button>
+                    <button class="animated-button action-button downvote-button" data-type="downvote"><i class="fas fa-arrow-down"></i></button>
+                    <button class="animated-button action-button comment-button" data-type="comment"><i class="fas fa-comment-alt"></i> <span class="count">33</span> Yorum</button>
+                    <button class="animated-button action-button share-button" data-type="share"><i class="fas fa-share"></i> Paylaş</button>
+                </div>
+            </article>
+             <article class="post">
+                <div class="post-header"><span class="post-sub">r/Yazılım</span> <span class="post-user">X tarafından</span> <span class="post-time">4 gün önce</span></div>
+                <h2 class="post-title">Serverless Architectures: Pros, Cons, and Use Cases</h2>
+                <p class="post-excerpt">Deciding when Function-as-a-Service (FaaS) is the right choice compared to traditional servers or containers...</p>
+                 <div class="post-actions">
+                    <button class="animated-button action-button like-button" data-type="like"><i class="fas fa-arrow-up"></i> <span class="count">1.1k</span></button>
+                    <button class="animated-button action-button downvote-button" data-type="downvote"><i class="fas fa-arrow-down"></i></button>
+                    <button class="animated-button action-button comment-button" data-type="comment"><i class="fas fa-comment-alt"></i> <span class="count">58</span> Yorum</button>
+                    <button class="animated-button action-button share-button" data-type="share"><i class="fas fa-share"></i> Paylaş</button>
+                </div>
+            </article>
+
+        </main>
+
+    </div>
+
+    <div id="share-modal" class="share-modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close Share Modal">×</button>
+            <h3>Gönderiyi Paylaş</h3>
+            <div class="share-options">
+                <a href="#" class="share-link copy-link-button" title="Copy Link"><i class="fas fa-link"></i> Linki Kopyala!</a>
+                <a href="https://x.com/?lang=en" class="share-link" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="https://www.facebook.com/" class="share-link" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="https://www.reddit.com/" class="share-link" title="Share on Reddit" target="_blank" rel="noopener noreferrer"><i class="fab fa-reddit"></i> Reddit</a>
+             </div>
+             <div class="copy-link-feedback" style="display: none;">Link Kopyalandı!</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

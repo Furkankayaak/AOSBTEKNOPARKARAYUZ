@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oturum açın - Google Hesapları</title>
+    <link rel="icon" href="https://www.google.com/favicon.ico" type="image/x-icon"> <!-- Google Favicon -->
+    <style>
+        /* Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&display=swap');
+
+        :root {
+            --google-blue: #1a73e8;
+            --google-blue-hover: #1765cc;
+            --google-blue-active: #1454ad;
+            --google-border-color: #dadce0;
+            --google-text-color: #202124;
+            --google-secondary-text-color: #5f6368;
+            --google-input-label-color: #5f6368;
+            --google-input-border-color: #dadce0;
+            --google-input-border-focus-color: #1a73e8;
+            --google-error-color: #d93025; /* Kırmızı hata rengi */
+            --google-error-background-color: #fce8e6;
+            --google-error-border-color: #fcc9c4;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.4286;
+            color: var(--google-text-color);
+            background-color: #fff;
+        }
+
+        .outer-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding-top: 48px;
+            box-sizing: border-box;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 448px;
+            padding: 48px 40px 36px;
+            margin: 0 auto;
+            border: 1px solid var(--google-border-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .google-logo {
+            width: 75px;
+            height: auto;
+            margin-bottom: 12px;
+        }
+
+        .login-container h1 {
+            font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 1.3333;
+            color: var(--google-text-color);
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .login-container .subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 0.1px;
+            line-height: 1.5;
+            color: var(--google-text-color);
+            margin-bottom: 24px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 8px; /* Hata mesajı için boşluk azaltıldı */
+            text-align: left;
+        }
+
+        .input-wrapper label {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            font-size: 16px;
+            color: var(--google-input-label-color);
+            pointer-events: none;
+            transition: all 0.2s ease-in-out;
+            background-color: #fff;
+            padding: 0 4px;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            height: 56px;
+            padding: 16px 15px 16px 15px;
+            font-size: 16px;
+            color: var(--google-text-color);
+            border: 1px solid var(--google-input-border-color);
+            border-radius: 4px;
+            box-sizing: border-box;
+            outline: none;
+            background-color: transparent;
+        }
+
+        .input-wrapper input:focus {
+            border: 2px solid var(--google-input-border-focus-color);
+            padding-left: 14px;
+             padding-right: 14px;
+        }
+
+        /* Hata durumunda input kenarlığı */
+        .input-wrapper input.has-error {
+            border: 2px solid var(--google-error-color);
+             padding-left: 14px;
+             padding-right: 14px;
+        }
+        .input-wrapper input.has-error:focus {
+             border: 2px solid var(--google-error-color); /* Focus'ta da kırmızı kalsın */
+        }
+
+
+        .input-wrapper input:focus + label,
+        .input-wrapper input:not(:placeholder-shown) + label {
+            top: -8px;
+            left: 12px;
+            font-size: 12px;
+            color: var(--google-input-border-focus-color);
+        }
+        /* Hata durumunda label rengi */
+        .input-wrapper input.has-error:focus + label,
+        .input-wrapper input.has-error:not(:placeholder-shown) + label{
+             color: var(--google-error-color);
+        }
+        .input-wrapper input:not(:placeholder-shown):not(:focus):not(.has-error) + label {
+             color: var(--google-input-label-color);
+        }
+
+        /* Hata Mesajı Stili */
+        .error-message {
+            display: none; /* Başlangıçta gizli */
+            text-align: left;
+            font-size: 12px;
+            color: var(--google-error-color);
+            padding: 4px 16px 0px 16px; /* Üst, Sağ, Alt, Sol */
+            margin-bottom: 16px; /* Altındaki elemana boşluk */
+            min-height: 18px; /* Yer kaplaması için */
+        }
+         .error-message.visible {
+             display: block; /* Görünür yap */
+         }
+        .error-message svg { /* Hata ikonu */
+             fill: var(--google-error-color);
+             vertical-align: bottom;
+             margin-right: 8px;
+             width: 16px;
+             height: 16px;
+        }
+
+        .forgot-email {
+            display: block;
+            margin-top: 8px; /* Hata mesajından sonraki boşluk */
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .forgot-email a,
+        .create-account a {
+            font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--google-blue);
+            text-decoration: none;
+            border-radius: 4px;
+            padding: 2px 4px;
+        }
+        .forgot-email a:hover,
+        .create-account a:hover {
+            text-decoration: underline;
+            background-color: rgba(26, 115, 232, 0.05);
+        }
+        .forgot-email a:focus,
+        .create-account a:focus {
+             outline: 2px solid var(--google-blue-hover);
+             outline-offset: 2px;
+        }
+
+
+        .info-text {
+            font-size: 14px;
+            line-height: 1.4286;
+            color: var(--google-secondary-text-color);
+            text-align: left;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+         .info-text a {
+             color: var(--google-blue);
+             text-decoration: none;
+         }
+         .info-text a:hover {
+             text-decoration: underline;
+         }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 32px;
+        }
+
+        .next-button {
+            background-color: var(--google-blue);
+            color: white;
+            font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.25px;
+            border: none;
+            border-radius: 4px;
+            padding: 9px 24px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease;
+        }
+
+        .next-button:hover {
+            background-color: var(--google-blue-hover);
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+        }
+        .next-button:active {
+             background-color: var(--google-blue-active);
+             box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+        }
+        .next-button:focus {
+             outline: 2px solid var(--google-blue-hover);
+             outline-offset: 2px;
+        }
+
+        .footer {
+            margin-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 0 40px;
+            max-width: 448px;
+            margin: 24px auto 0;
+            box-sizing: border-box;
+        }
+
+        .footer-left select {
+            background: none;
+            border: none;
+            padding: 8px 0px 8px 0px;
+            color: var(--google-secondary-text-color);
+            font-size: 12px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-right a {
+            font-size: 12px;
+            color: var(--google-secondary-text-color);
+            text-decoration: none;
+        }
+        .footer-right a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="outer-container">
+        <div class="login-container">
+            <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google" class="google-logo" style="width: 75px; height: 24px; margin-bottom: 16px;">
+
+            <h1>Oturum açın</h1>
+            <p class="subtitle">Google Hesabınızı kullanın</p>
+
+            <form id="loginForm" onsubmit="validateAndRedirect(event)">
+                <div class="input-wrapper">
+                    <input type="text" id="identifierId" name="identifier" autocapitalize="none" spellcheck="false" placeholder=" " aria-label="E-posta veya telefon" /> <!-- required kaldırıldı, JS ile kontrol edilecek -->
+                    <label for="identifierId">E-posta veya telefon</label>
+                </div>
+                <!-- Hata Mesajı Alanı -->
+                <div id="error-message-container" class="error-message">
+                     <svg aria-hidden="true" fill="currentColor" focusable="false" width="16px" height="16px" viewBox="0 0 24 24" xmlns="https://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path></svg>
+                     <span id="error-text"></span>
+                </div>
+
+                <div class="forgot-email">
+                    <!-- "google_forgot_email_demo_tr.html" dosyasına yönlendir -->
+                    <a href="google_forgot_email_demo_tr.html">E-postanızı mı unuttunuz?</a>
+                </div>
+
+                <div class="info-text">
+                    Bu bilgisayar sizin değil mi? Gizli oturum açmak için Misafir modunu kullanın.
+                    <a href="#" onclick="event.preventDefault(); alert('Demo: Daha fazla bilgi tıklandı')">Daha fazla bilgi</a>
+                </div>
+
+                <div class="actions">
+                    <div class="create-account">
+                        <a href="#" onclick="event.preventDefault(); alert('Demo: Hesap oluşturun tıklandı')">Hesap oluşturun</a>
+                    </div>
+                    <button type="submit" class="next-button">İleri</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-left">
+             <select aria-label="Dili değiştir">
+                 <option value="tr">Türkçe</option>
+                 <option value="en-US">English (United States)</option>
+             </select>
+        </div>
+        <div class="footer-right">
+            <a href="#" onclick="event.preventDefault(); alert('Demo: Yardım tıklandı')">Yardım</a>
+            <a href="#" onclick="event.preventDefault(); alert('Demo: Gizlilik tıklandı')">Gizlilik</a>
+            <a href="#" onclick="event.preventDefault(); alert('Demo: Şartlar tıklandı')">Şartlar</a>
+        </div>
+    </footer>
+
+    <script>
+        function validateAndRedirect(event) {
+            event.preventDefault(); // Formun normal gönderimini engelle
+
+            const emailInput = document.getElementById('identifierId');
+            const emailValue = emailInput.value.trim();
+            const errorContainer = document.getElementById('error-message-container');
+            const errorText = document.getElementById('error-text');
+
+            // Basit e-posta formatı kontrolü için regex
+            // Google daha karmaşık kontrol yapar (telefon no vs.), ama demo için bu yeterli
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            // Önceki hataları temizle
+            errorContainer.classList.remove('visible');
+            emailInput.classList.remove('has-error');
+            errorText.textContent = '';
+
+
+            if (!emailValue) {
+                 // Alan boşsa hata göster
+                 errorText.textContent = 'E-posta veya telefon numaranızı girin';
+                 errorContainer.classList.add('visible');
+                 emailInput.classList.add('has-error');
+                 emailInput.focus(); // Hatalı alana odaklan
+            } else if (emailRegex.test(emailValue)) {
+                // E-posta formatı geçerliyse yönlendir
+                // !!! BURAYI KENDİ HEDEF SAYFANIZLA DEĞİŞTİRİN !!!
+                window.location.href = 'profil.html';
+            } else {
+                // Geçersiz format hatası göster
+                errorText.textContent = 'Geçerli bir e-posta veya telefon numarası girin';
+                errorContainer.classList.add('visible');
+                emailInput.classList.add('has-error');
+                emailInput.focus(); // Hatalı alana odaklan
+            }
+        }
+
+        // Sayfa yüklendiğinde input'un placeholder'ını ayarlama (label animasyonu için)
+        document.addEventListener('DOMContentLoaded', () => {
+             const input = document.getElementById('identifierId');
+             if(input.value) {
+                 input.setAttribute('placeholder', ' ');
+             }
+             input.addEventListener('blur', () => {
+                if(!input.value) {
+                    input.removeAttribute('placeholder');
+                } else {
+                     input.setAttribute('placeholder', ' ');
+                }
+             });
+        });
+    </script>
+
+</body>
+</html>
