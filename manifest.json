@@ -1,7 +1,7 @@
 {
     "name": "AOSBTEKNOPARK",
     "short_name": "AOSBTEKNOPARK",
-    "start_url": "https://furkankayaak.github.io/deneme1/",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#120c2e",
     "theme_color": "#3a2e73",
