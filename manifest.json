@@ -1,0 +1,22 @@
+{
+    "name": "AOSBTEKNOPARK",
+    "short_name": "AOSBTEKNOPARK",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#120c2e",
+    "theme_color": "#3a2e73",
+    "scope": "/",
+    "icons": [
+      {
+        "src": "/icons/icon_192x192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/icons/icon_512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ]
+  }
+  
