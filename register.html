@@ -11,296 +11,157 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            overflow-x: hidden;
-            transition: background-color 0.4s ease, color 0.4s ease;
-        }
-        a { text-decoration: none; transition: color 0.3s ease; }
-        ul { list-style: none; }
-        img, svg, iframe { max-width: 100%; height: auto; vertical-align: middle; display: block; }
-        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-
-        /* --- Dark Theme (Varsayılan) --- */
-        body.dark-theme {
-            color: #e8e8e8;
-            background-color: #0a0d1e;
-        }
-        .dark-theme .main-header { background-color: rgba(10, 15, 43, 0.85); box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5); }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; transition: background-color 0.4s ease, color 0.4s ease; }
+        body.modal-open { overflow: hidden; }
+        a { text-decoration: none; color: inherit; }
+        body.dark-theme { color: #e8e8e8; background-color: #0a0d1e; }
+        .dark-theme .form-container { background-color: rgba(26, 32, 53, 0.7); border: 1px solid rgba(138, 43, 226, 0.2); }
+        .dark-theme .form-title { color: #ffffff; }
+        .dark-theme .form-label { color: #ccc; }
+        .dark-theme .form-input, .dark-theme .form-select { background-color: rgba(10, 15, 43, 0.85); border: 1px solid #4a4f8b; color: #e8e8e8; }
+        .dark-theme .form-input:focus, .dark-theme .form-select:focus { border-color: #9370DB; box-shadow: 0 0 8px rgba(147, 112, 219, 0.4); }
+        .dark-theme .btn-submit { background: linear-gradient(45deg, #8A2BE2, #DC143C); color: white; }
+        .dark-theme .login-link a { color: #f0a0ff; }
         .dark-theme #theme-toggle { color: #f0f0f0; }
-        .dark-theme a { color: #a0a0ff; }
-        .dark-theme a:hover { color: #c0c0ff; text-decoration: underline;}
-        .dark-theme .auth-container { background-color: rgba(20, 25, 60, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); }
-        .dark-theme .auth-container h1 { color: #fff; }
-        .dark-theme .form-group label { color: #bbb; }
-        .dark-theme .form-group input,
-        .dark-theme .form-group select,
-        .dark-theme .form-group textarea { border: 1px solid #4a4f8b; background-color: rgba(10, 15, 43, 0.9); color: #e0e0e0; }
-        .dark-theme .form-group input::placeholder,
-        .dark-theme .form-group textarea::placeholder { color: #777; opacity: 1;}
-        .dark-theme .form-group select:invalid { color: #bbb; }
-        .dark-theme .form-group option { background-color: #1a1f3c; color: #e0e0e0; }
-        .dark-theme .form-group select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23bbb' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 1 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z'/%3E%3C/svg%3E"); }
-        .dark-theme .form-group input:focus,
-        .dark-theme .form-group select:focus,
-        .dark-theme .form-group textarea:focus { border-color: #8f94fb; box-shadow: 0 0 0 3px rgba(143, 148, 251, 0.3); }
-        .dark-theme .conditional-fields { border-top: 1px dashed rgba(255, 255, 255, 0.2); }
-        .dark-theme .conditional-title { color: #c0c0ff; }
-        .dark-theme .submit-btn { background: linear-gradient(45deg, #8A2BE2, #DC143C); color: white; border: none; }
-        .dark-theme .submit-btn:hover { background: linear-gradient(45deg, #7B1FA2, #C2185B); box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4); }
-        .dark-theme .switch-form-link { color: #bbb; }
-        .dark-theme .switch-form-link a { color: #a0a0ff;}
-
-
-        /* --- Light Theme --- */
-        body.light-theme {
-            color: #2c3e50;
-            background-color: #ecf0f1;
-        }
-        .light-theme .main-header { background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
+        .dark-theme .terms-label a { color: #9370DB; }
+        body.light-theme { color: #2c3e50; background-color: #ecf0f1; }
+        .light-theme .form-container { background-color: #ffffff; box-shadow: 0 5px 25px rgba(0,0,0,0.1); }
+        .light-theme .form-title { color: #2c3e50; }
+        .light-theme .form-label { color: #555; }
+        .light-theme .form-input, .light-theme .form-select { background-color: #f8f9fa; border: 1px solid #bdc3c7; color: #2c3e50; }
+        .light-theme .form-input:focus, .light-theme .form-select:focus { border-color: #3498db; box-shadow: 0 0 8px rgba(52, 152, 219, 0.3); }
+        .light-theme .btn-submit { background: linear-gradient(45deg, #3498db, #2980b9); color: white; }
+        .light-theme .login-link a { color: #2980b9; }
         .light-theme #theme-toggle { color: #34495e; }
-        .light-theme a { color: #2980b9; }
-        .light-theme a:hover { color: #1f6fa0; text-decoration: underline;}
-        .light-theme .auth-container {
-            background: linear-gradient(135deg, rgba(106, 17, 203, 0.65) 0%, rgba(199, 21, 133, 0.7) 60%, rgba(238, 130, 238, 0.65) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(6px);
-        }
-        .light-theme .auth-container h1 { color: #ffffff; text-shadow: 1px 1px 3px rgba(0,0,0,0.35); }
-        .light-theme .form-group label { color: #f0f0f0; font-weight: 500; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
-        .light-theme .form-group input,
-        .light-theme .form-group select,
-        .light-theme .form-group textarea {
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            background-color: rgba(255, 255, 255, 0.18);
-            color: #ffffff;
-        }
-        .light-theme .form-group input::placeholder,
-        .light-theme .form-group textarea::placeholder { color: rgba(255, 255, 255, 0.7); opacity: 1;}
-        .light-theme .form-group select:invalid { color: rgba(255, 255, 255, 0.7); }
-        .light-theme .form-group option { background-color: rgba(106, 17, 203, 0.8); color: #ffffff; } /* Option arkaplanı gradient ile uyumlu */
-        .light-theme .form-group select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23eee' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 1 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z'/%3E%3C/svg%3E"); }
-        .light-theme .form-group input:focus,
-        .light-theme .form-group select:focus,
-        .light-theme .form-group textarea:focus {
-            border-color: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
-            background-color: rgba(255, 255, 255, 0.25);
-        }
-        .light-theme .conditional-fields { border-top: 1px dashed rgba(255, 255, 255, 0.3); }
-        .light-theme .conditional-title { color: #f5d5ff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
-        .light-theme .submit-btn {
-            background: linear-gradient(45deg, #3498db, #2980b9); /* Mavi Buton */
-            color: white;
-            border: none;
-            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
-        }
-        .light-theme .submit-btn:hover {
-            background: linear-gradient(45deg, #2980b9, #1f6fa0);
-            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
-        }
-        .light-theme .switch-form-link { color: #f0f0f0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
-        .light-theme .switch-form-link a { color: #f5d5ff; font-weight: 600; }
-        .light-theme .switch-form-link a:hover { color: #ffffff; }
-
-
-        .main-header {
-            padding: 10px 20px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-        }
-
-        #theme-toggle {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.6rem;
-            padding: 8px 12px;
-            transition: transform 0.3s ease, color 0.4s ease;
-        }
-        #theme-toggle:hover {
-            transform: scale(1.1) rotate(15deg);
-        }
+        .light-theme .terms-label a { color: #3498db; }
         #theme-toggle .fa-sun { display: none; }
         .light-theme #theme-toggle .fa-sun { display: inline-block; }
         .light-theme #theme-toggle .fa-moon { display: none; }
-
-        .auth-main { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 80px 20px 40px 20px; position: relative; z-index: 1; width: 100%; min-height: 100vh; }
-        .auth-container { width: 100%; max-width: 550px; padding: 35px 30px; border-radius: 12px; }
-        .auth-container h1 { text-align: center; font-size: 2rem; margin-bottom: 30px; font-weight: 600; }
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; margin-bottom: 5px; font-size: 0.85rem; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border-radius: 6px; font-size: 0.95rem; outline: none; transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; }
-        .form-group select { cursor: pointer; appearance: none; background-repeat: no-repeat; background-position: right 10px center; background-size: 12px; padding-right: 30px; }
-        .form-group textarea { min-height: 80px; resize: vertical; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .conditional-fields { display: none; margin-top: 15px; padding-top: 15px; }
-        .conditional-fields.visible { display: block; }
-        .conditional-title { font-size: 0.9rem; margin-bottom: 10px; font-weight: 500; }
-        .submit-btn { display: block; width: 100%; padding: 11px; border-radius: 25px; font-size: 1.05rem; font-weight: 500; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease; margin-top: 20px; margin-bottom: 18px; }
-        .submit-btn:hover { transform: translateY(-2px); }
-        .switch-form-link { text-align: center; font-size: 0.85rem; }
-        .switch-form-link a { font-weight: 500; }
-
-         @media (max-width: 576px) {
-              .main-header { padding: 10px 15px; }
-              #theme-toggle { font-size: 1.5rem; padding: 6px 10px;}
-              .auth-main { padding: 70px 15px 30px 15px; }
-              .auth-container { max-width: 95%; padding: 30px 20px;}
-              .auth-container h1 { font-size: 1.7rem; margin-bottom: 25px; }
-              .form-row { grid-template-columns: 1fr; gap: 0;}
-              .form-row .form-group { margin-bottom: 16px; }
-              .submit-btn { font-size: 1rem; padding: 10px; border-radius: 25px; }
-              .switch-form-link { font-size: 0.8rem; }
-         }
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .register-page-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; flex-grow: 1; padding: 40px 20px; }
+        .header-controls { position: absolute; top: 10px; right: 20px; display: flex; gap: 15px; align-items: center; }
+        #home-link { font-size: 1.5rem; }
+        #theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.6rem; }
+        .form-container { width: 100%; max-width: 550px; padding: 40px; border-radius: 10px; z-index: 1; }
+        .form-title { text-align: center; font-size: 2rem; font-weight: 600; margin-bottom: 10px; }
+        .form-subtitle { text-align: center; font-size: 1rem; margin-bottom: 30px; opacity: 0.8; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem; }
+        .form-input, .form-select { width: 100%; padding: 12px 15px; border-radius: 6px; font-size: 1rem; transition: all 0.3s ease; outline: none; }
+        .form-row { display: flex; gap: 20px; }
+        .form-row .form-group { flex: 1; }
+        .dynamic-field { display: none; animation: fadeIn 0.5s ease-in-out; }
+        .dynamic-field.visible { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .terms-group { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        .terms-label { font-size: 0.9rem; opacity: 0.9; font-weight: 400; }
+        .terms-label a { font-weight: 600; text-decoration: underline; cursor: pointer; }
+        #terms-checkbox { width: 18px; height: 18px; flex-shrink: 0; }
+        .btn-submit { width: 100%; padding: 14px; border: none; border-radius: 6px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; margin-top: 10px; }
+        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .login-link { text-align: center; margin-top: 20px; font-size: 0.9rem; }
+        .login-link a { font-weight: 600; }
+        .login-link a:hover { text-decoration: underline; }
+        .modal-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: flex; justify-content: center; align-items: center; padding: 20px; visibility: hidden; opacity: 0; transition: visibility 0s 0.3s, opacity 0.3s ease; }
+        .modal-container.visible { visibility: visible; opacity: 1; transition: visibility 0s, opacity 0.3s ease; }
+        .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(5px); background-color: rgba(10, 15, 43, 0.6); }
+        .light-theme .modal-overlay { background-color: rgba(236, 240, 241, 0.6); }
+        .modal-content { position: relative; z-index: 1; width: 100%; max-width: 800px; max-height: 80vh; padding: 30px 40px; border-radius: 12px; transform: scale(0.95); transition: transform 0.3s ease; display: flex; flex-direction: column; }
+        .modal-container.visible .modal-content { transform: scale(1); }
+        .dark-theme .modal-content { background-color: #1a2035; border: 1px solid rgba(138, 43, 226, 0.3); }
+        .light-theme .modal-content { background-color: #fff; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-title { font-size: 1.8rem; font-weight: 600; }
+        .modal-close { background: none; border: none; font-size: 2rem; cursor: pointer; opacity: 0.7; transition: opacity 0.2s, transform 0.2s; }
+        .modal-close:hover { opacity: 1; transform: rotate(90deg); }
+        .dark-theme .modal-close { color: #fff; } .light-theme .modal-close { color: #333; }
+        .modal-body { overflow-y: auto; line-height: 1.7; }
+        .modal-body p { margin-bottom: 1em; }
+        @media (max-width: 600px) { .form-container { padding: 30px 25px; } .form-row { flex-direction: column; gap: 0; } .form-title { font-size: 1.8rem; } .modal-content { padding: 25px; } .modal-title { font-size: 1.5rem; }}
     </style>
 </head>
 <body class="dark-theme">
-
     <div id="tsparticles"></div>
-
-    <header class="main-header">
-        <button id="theme-toggle" aria-label="Temayı Değiştir">
-            <i class="fas fa-sun"></i>
-            <i class="fas fa-moon"></i>
-        </button>
-    </header>
-
-     <main class="auth-main">
-        <div class="auth-container">
-            <h1>Kayıt Ol</h1>
-            <form id="registerForm" method="POST">
-                 <div class="form-group"> <label for="userType">Kullanıcı Tipiniz *</label> <select id="userType" name="userType" required> <option value="" disabled selected>Seçiniz...</option> <option value="girisimci">Girişimci</option> <option value="calisan">Girişimci Firma Çalışanı</option> <option value="ekip">Teknopark Ekibi</option> <option value="yatirimci">Yatırımcı</option> </select> </div>
-                 <div class="form-row"> <div class="form-group"> <label for="register-name">Adınız *</label> <input type="text" id="register-name" name="firstName" required placeholder="Adınızı girin"> </div> <div class="form-group"> <label for="register-surname">Soyadınız *</label> <input type="text" id="register-surname" name="lastName" required placeholder="Soyadınızı girin"> </div> </div>
-                 <div class="form-group"> <label for="register-email">E-posta Adresiniz *</label> <input type="email" id="register-email" name="email" required placeholder="ornek@eposta.com"> </div>
-                 <div class="form-row"> <div class="form-group"> <label for="register-password">Şifre *</label> <input type="password" id="register-password" name="password" required placeholder="Şifrenizi belirleyin"> </div> <div class="form-group"> <label for="register-password-confirm">Şifre Tekrar *</label> <input type="password" id="register-password-confirm" name="passwordConfirm" required placeholder="Şifrenizi tekrar girin"> </div> </div>
-                 <div id="conditionalFieldsContainer">
-                     <div class="conditional-fields" id="girisimciFields"> <p class="conditional-title">Girişimci Bilgileri</p> <div class="form-group"> <label for="firmaAdiGirisimci">Firma Adı *</label> <select id="firmaAdiGirisimci" name="firmaAdi"> <option value="" disabled selected>Firma Seçiniz...</option> <option value="TechNova Yazılım">TechNova Yazılım</option> <option value="BiyoGen Araştırma">BiyoGen Araştırma</option> </select> </div> <div class="form-group"> <label for="vergiNo">Vergi/TC Kimlik No *</label> <input type="text" id="vergiNo" name="vergiNo" placeholder="Vergi veya TC Kimlik No"> </div> <div class="form-group"> <label for="sektor">Sektör</label> <input type="text" id="sektor" name="sektor" placeholder="Faaliyet gösterdiğiniz sektör"> </div> </div>
-                     <div class="conditional-fields" id="calisanFields"> <p class="conditional-title">Çalışan Bilgileri</p> <div class="form-group"> <label for="firmaAdiCalisan">Çalıştığınız Firma Adı *</label> <select id="firmaAdiCalisan" name="calisanFirmaAdi"> <option value="" disabled selected>Firma Seçiniz...</option> <option value="TechNova Yazılım">TechNova Yazılım</option> <option value="BiyoGen Araştırma">BiyoGen Araştırma</option> </select> </div> <div class="form-group"> <label for="pozisyon">Pozisyonunuz</label> <input type="text" id="pozisyon" name="pozisyon" placeholder="Göreviniz"> </div> </div>
-                     <div class="conditional-fields" id="ekipFields"> <p class="conditional-title">Teknopark Ekip Bilgileri</p> <div class="form-group"> <label for="birimEkip">Biriminiz *</label> <select id="birimEkip" name="birim"> <option value="" disabled selected>Birim Seçiniz...</option> <option value="yonetim">Yönetim Birimi</option> <option value="tto">Teknoloji Transfer Ofisi (TTO)</option> <option value="kulucka">Kuluçka Merkezi</option> </select> </div> </div>
-                     <div class="conditional-fields" id="yatirimciFields"> <p class="conditional-title">Yatırımcı Bilgileri</p> <div class="form-group"> <label for="yatirimciSirket">Şirket Adı (varsa)</label> <input type="text" id="yatirimciSirket" name="yatirimciSirket" placeholder="Yatırım şirketinizin adı"> </div> <div class="form-group"> <label for="ilgiAlanlari">İlgilendiğiniz Alanlar</label> <textarea id="ilgiAlanlari" name="ilgiAlanlari" rows="3" placeholder="Yatırım yapmayı düşündüğünüz sektörler, teknolojiler vb."></textarea> </div> </div>
-                 </div>
-                <button type="submit" class="submit-btn">Kayıt Ol</button>
-                <p class="switch-form-link"> Zaten hesabın var mı? <a href="login.html">Giriş Yap</a> </p>
+    <div class="header-controls">
+        <a href="index.html" id="home-link" aria-label="Ana Sayfa"><i class="fas fa-home"></i></a>
+        <button id="theme-toggle" aria-label="Temayı Değiştir"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button>
+    </div>
+    <div class="register-page-wrapper">
+        <div class="form-container">
+            <h1 class="form-title">Hesap Oluştur</h1>
+            <p class="form-subtitle">Ekosisteme katılmak için ilk adımı atın.</p>
+            <form id="register-form">
+                <div class="form-group"><label for="user-role" class="form-label">Platformdaki Rolünüz:</label><select id="user-role" class="form-select" required><option value="">Lütfen bir rol seçin...</option><option value="girisimci">Girişimci</option><option value="yatirimci">Yatırımcı</option><option value="teknopark">Teknopark Ekibi</option><option value="mentor">Mentor</option><option value="sanayici">Sanayici</option></select></div>
+                <hr style="border: none; border-top: 1px solid rgba(128, 128, 128, 0.2); margin: 30px 0;">
+                <div class="form-row"><div class="form-group"><label for="first-name" class="form-label">Adınız</label><input type="text" id="first-name" class="form-input" required></div><div class="form-group"><label for="last-name" class="form-label">Soyadınız</label><input type="text" id="last-name" class="form-input" required></div></div>
+                <div id="girisimci-fields" class="dynamic-field"><div class="form-group"><label for="company-name" class="form-label">Firma Adı</label><input type="text" id="company-name" class="form-input"></div><div class="form-row"><div class="form-group"><label for="company-sector" class="form-label">Firma Sektörü</label><select id="company-sector" class="form-select"><option value="">Sektör seçin...</option><option value="yazilim">Yazılım ve Bilişim</option><option value="saglik">Sağlık Teknolojileri</option><option value="finans">Finans Teknolojileri (FinTech)</option><option value="diger">Diğer</option></select></div><div class="form-group"><label for="girisimci-role" class="form-label">Göreviniz</label><select id="girisimci-role" class="form-select"><option value="kurucu">Kurucu / Yönetici</option><option value="calisan">Çalışan</option></select></div></div><div id="other-sector-wrapper" class="form-group dynamic-field"><label for="other-sector-input" class="form-label">Lütfen Sektörünüzü Belirtin</label><input type="text" id="other-sector-input" class="form-input" placeholder="Örn: Eğitim Teknolojileri"></div></div>
+                <div id="yatirimci-fields" class="dynamic-field"><div class="form-group"><label for="interest-areas" class="form-label">İlgilenilen Alanlar/Sektörler</label><input type="text" id="interest-areas" class="form-input" placeholder="Örn: Yapay Zeka, SaaS, Sağlık"></div></div>
+                <div id="teknopark-fields" class="dynamic-field"><div class="form-group"><label for="team-unit" class="form-label">Kurul / Ekip</label><select id="team-unit" class="form-select"><option value="yonetim">Yönetim Kurulu</option><option value="idari">İdari Ekip</option></select></div></div>
+                <div class="form-group"><label for="email" class="form-label">E-posta Adresiniz</label><input type="email" id="email" class="form-input" required></div>
+                <div class="form-row"><div class="form-group"><label for="password" class="form-label">Şifre</label><input type="password" id="password" class="form-input" required></div><div class="form-group"><label for="password-confirm" class="form-label">Şifreyi Tekrarla</label><input type="password" id="password-confirm" class="form-input" required></div></div>
+                <div class="terms-group"><input type="checkbox" id="terms-checkbox" required><label for="terms-checkbox" class="terms-label"><a id="terms-link">Kullanıcı Sözleşmesini</a> okudum ve kabul ediyorum.</label></div>
+                <button type="submit" class="btn-submit">Hesabımı Oluştur</button>
             </form>
+            <p class="login-link">Zaten bir hesabınız var mı? <a href="login.html">Giriş Yapın</a></p>
         </div>
-    </main>
-
+    </div>
+    <div id="modal-container" class="modal-container"><div class="modal-overlay"></div><div class="modal-content"><div class="modal-header"><h2 class="modal-title">Kullanıcı Sözleşmesi</h2><button id="modal-close" class="modal-close">×</button></div><div class="modal-body"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat.</p><p>Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh.</p><p>Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</p></div></div></div>
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
-             const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25, width: 1 }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
-             const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 130, density: { enable: true, area: 900 } }, color: { value: ["#555555", "#8B008B", "#3498db", "#2c3e50"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.7}, animation: { enable: true, speed: 0.6, minimumValue: 0.2, sync: false } }, size: { value: {min: 1, max: 4} }, links: { enable: true, distance: 140, color: "#8B008B", opacity: 0.35, width: 1.5 }, move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
-             let currentParticlesConfig = darkThemeParticlesConfig;
+            const body = document.body;
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const registerForm = document.getElementById('register-form');
+            const userRoleSelect = document.getElementById('user-role');
+            const companySectorSelect = document.getElementById('company-sector');
+            const otherSectorWrapper = document.getElementById('other-sector-wrapper');
+            const dynamicFields = { girisimci: document.getElementById('girisimci-fields'), yatirimci: document.getElementById('yatirimci-fields'), teknopark: document.getElementById('teknopark-fields') };
+            const termsLink = document.getElementById('terms-link');
+            const modalContainer = document.getElementById('modal-container');
+            const modalCloseBtn = document.getElementById('modal-close');
 
-             const themeToggleBtn = document.getElementById('theme-toggle');
-             const body = document.body;
-             const themeMeta = document.querySelector('meta[name="theme-color"]');
+            const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25, width: 1 }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 130, density: { enable: true, area: 900 } }, color: { value: ["#555555", "#8B008B", "#3498db", "#2c3e50"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.7}, animation: { enable: true, speed: 0.6, minimumValue: 0.2, sync: false } }, size: { value: {min: 1, max: 4} }, links: { enable: true, distance: 140, color: "#8B008B", opacity: 0.35, width: 1.5 }, move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
 
-             const savedTheme = localStorage.getItem('theme') || 'dark';
-             applyTheme(savedTheme);
+            function applyTheme(theme) {
+                let config;
+                if (theme === 'light') { body.classList.remove('dark-theme'); body.classList.add('light-theme'); config = lightThemeParticlesConfig;
+                } else { body.classList.remove('light-theme'); body.classList.add('dark-theme'); config = darkThemeParticlesConfig; }
+                localStorage.setItem('theme', theme);
+                tsParticles.load("tsparticles", config);
+            }
 
-             themeToggleBtn.addEventListener('click', () => {
-                 const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark';
-                 applyTheme(newTheme);
-             });
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const userName = document.getElementById('first-name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+                const passwordConfirm = document.getElementById('password-confirm').value;
+                const termsCheckbox = document.getElementById('terms-checkbox');
+                if (password.length < 6) { alert('Şifre en az 6 karakter olmalıdır.'); return; }
+                if (password !== passwordConfirm) { alert('Girdiğiniz şifreler uyuşmuyor.'); return; }
+                if (!termsCheckbox.checked) { alert('Kullanıcı sözleşmesini kabul etmelisiniz.'); return; }
+                const newUser = { name: userName || 'Kullanıcı', email: email, password: password };
+                localStorage.setItem('platformUser', JSON.stringify(newUser));
+                localStorage.setItem('loggedInUserName', newUser.name);
+                const submitButton = registerForm.querySelector('.btn-submit');
+                submitButton.textContent = 'Hesap Oluşturuluyor...';
+                submitButton.disabled = true;
+                setTimeout(() => { window.location.href = 'profil.html'; }, 2000);
+            });
 
-             function applyTheme(theme) {
-                 const isParticlesPage = typeof tsParticles !== 'undefined' && document.getElementById('tsparticles');
+            function closeModal() { modalContainer.classList.remove('visible'); body.classList.remove('modal-open'); }
+            if (termsLink) { termsLink.addEventListener('click', (e) => { modalContainer.classList.add('visible'); body.classList.add('modal-open'); }); }
+            if (modalCloseBtn) { modalCloseBtn.addEventListener('click', closeModal); }
+            if (modalContainer) { modalContainer.addEventListener('click', (e) => { if (e.target === modalContainer) { closeModal(); } }); }
+            
+            userRoleSelect.addEventListener('change', (e) => { const selectedRole = e.target.value; Object.values(dynamicFields).forEach(field => { if (field) field.classList.remove('visible'); }); if (dynamicFields[selectedRole]) { dynamicFields[selectedRole].classList.add('visible'); } });
+            if (companySectorSelect) { companySectorSelect.addEventListener('change', (e) => { if (e.target.value === 'diger') { otherSectorWrapper.classList.add('visible'); } else { otherSectorWrapper.classList.remove('visible'); } }); }
 
-                 if (theme === 'light') {
-                     body.classList.remove('dark-theme');
-                     body.classList.add('light-theme');
-                     if(themeMeta) themeMeta.setAttribute('content', '#ecf0f1');
-                     if (isParticlesPage) currentParticlesConfig = lightThemeParticlesConfig;
-                 } else {
-                     body.classList.remove('light-theme');
-                     body.classList.add('dark-theme');
-                      if(themeMeta) themeMeta.setAttribute('content', '#0a0d1e');
-                      if (isParticlesPage) currentParticlesConfig = darkThemeParticlesConfig;
-                 }
-                 localStorage.setItem('theme', theme);
-
-                 if (isParticlesPage) {
-                     tsParticles.load("tsparticles", currentParticlesConfig);
-                 }
-             }
-
-             const userTypeSelect = document.getElementById('userType');
-             const conditionalFieldsContainer = document.getElementById('conditionalFieldsContainer');
-             const allConditionalFields = conditionalFieldsContainer.querySelectorAll('.conditional-fields');
-             const registerForm = document.getElementById('registerForm');
-             const nameInput = document.getElementById('register-name');
-             const surnameInput = document.getElementById('register-surname');
-
-             if(userTypeSelect && conditionalFieldsContainer && allConditionalFields) {
-                 userTypeSelect.addEventListener('change', function() {
-                     const selectedType = this.value;
-                     allConditionalFields.forEach(fieldDiv => {
-                         fieldDiv.classList.remove('visible');
-                         fieldDiv.querySelectorAll('input, textarea, select').forEach(input => input.required = false);
-                     });
-                     const fieldsToShow = document.getElementById(selectedType + 'Fields');
-                     if (fieldsToShow) {
-                         fieldsToShow.classList.add('visible');
-                         fieldsToShow.querySelectorAll('input, textarea, select').forEach(input => {
-                             const label = fieldsToShow.querySelector(`label[for="${input.id}"]`);
-                             if (input.tagName === 'SELECT') {
-                                 if (input.options[0] && input.options[0].disabled) {
-                                     input.required = true;
-                                 }
-                             } else if (label && label.textContent.includes('*')) {
-                                 input.required = true;
-                             }
-                         });
-                     }
-                 });
-                 if (userTypeSelect.value) {
-                      userTypeSelect.dispatchEvent(new Event('change'));
-                 }
-             }
-
-             if (registerForm && nameInput && surnameInput && userTypeSelect) {
-                 registerForm.addEventListener('submit', function(e) {
-                     const password = document.getElementById('register-password').value;
-                     const passwordConfirm = document.getElementById('register-password-confirm').value;
-
-                     if (!registerForm.checkValidity()) {
-                         e.preventDefault();
-                         return;
-                     }
-
-                     if (password !== passwordConfirm) {
-                         alert('Şifreler eşleşmiyor!');
-                         e.preventDefault();
-                         return;
-                     }
-
-                     e.preventDefault();
-                     const firstName = nameInput.value.trim();
-                     const lastName = surnameInput.value.trim();
-                     const userType = userTypeSelect.value;
-                     const fullName = `${firstName} ${lastName}`.trim() || 'Kullanıcı';
-
-                     localStorage.setItem('loggedInUserName', firstName.trim() || 'Kullanıcı');
-                     localStorage.setItem('loggedInUserType', userType);
-
-                     window.location.href = 'profil.html';
-                 });
-             }
+            themeToggleBtn.addEventListener('click', () => { const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark'; applyTheme(newTheme); });
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
         });
     </script>
-     <script> if ('serviceWorker'in navigator) { navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err)); } </script>
 </body>
 </html>

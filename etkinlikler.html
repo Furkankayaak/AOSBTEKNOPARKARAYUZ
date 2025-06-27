@@ -4,347 +4,148 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Etkinlikler - Antalya OSB Teknopark</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icons/icon-192.png">
-    <meta name="theme-color" content="#1a1f3c">
-
+    <meta name="theme-color" content="#0b0f2b">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            overflow-x: hidden;
-            transition: background-color 0.4s ease, color 0.4s ease;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; transition: background-color 0.4s ease, color 0.4s ease; }
         body.overlay-active { overflow: hidden; }
         a { text-decoration: none; transition: color 0.3s ease; }
-        ul { list-style: none; }
-        img, svg, iframe { max-width: 100%; height: auto; vertical-align: middle; display: block; }
         #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-
-        /* --- Theme Variables --- */
-        body.dark-theme {
-            --bg-main: #0a0d1e;
-            --bg-header: rgba(10, 15, 43, 0.85);
-            --bg-card: rgba(25, 30, 65, 0.7);
-            --bg-card-hover: rgba(40, 45, 85, 0.8);
-            --bg-detail-panel: rgba(25, 20, 50, 0.98);
-            --bg-menu: rgba(15, 10, 30, 0.97);
-            --bg-menu-option: rgba(50, 30, 80, 0.8);
-            --bg-menu-option-hover: rgba(80, 50, 110, 0.9);
-            --text-primary: #e8e8e8;
-            --text-secondary: #bbb;
-            --text-tertiary: #a0a0cf; /* date, teaser */
-            --text-title: #c0c0ff;
-            --text-card-title: #fff;
-            --text-detail-primary: #ddd;
-            --text-detail-secondary: #aaa;
-            --text-menu: #e8e8e8;
-            --accent-primary: #a0a0ff;
-            --accent-secondary: #c0c0ff;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --border-header-bottom: rgba(192, 192, 255, 0.3);
-            --shadow-color: rgba(0,0,0,0.5);
-            --shadow-card: 0 5px 20px rgba(0,0,0,0.3);
-            --shadow-card-hover: 0 10px 35px rgba(0,0,0,0.4);
-            --shadow-detail-panel: -10px 0 30px rgba(0,0,0,0.5);
-            --image-bg: #333;
-            --image-icon-color: #777;
-            --hamburger-bg: #f0f0f0;
-            --close-btn-color: #aaa;
-            --close-btn-color-hover: #fff;
-        }
-
-        body.light-theme {
-            --bg-main: #ecf0f1;
-            --bg-header: rgba(255, 255, 255, 0.95);
-            --bg-card: linear-gradient(135deg, rgba(106, 17, 203, 0.65) 0%, rgba(199, 21, 133, 0.7) 60%, rgba(238, 130, 238, 0.65) 100%);
-            --bg-card-hover: linear-gradient(135deg, rgba(106, 17, 203, 0.75) 0%, rgba(199, 21, 133, 0.8) 60%, rgba(238, 130, 238, 0.75) 100%);
-            --bg-detail-panel: linear-gradient(135deg, rgba(106, 17, 203, 0.95) 0%, rgba(199, 21, 133, 0.97) 100%);
-            --bg-menu: rgba(255, 255, 255, 0.98);
-            --bg-menu-option: rgba(236, 240, 241, 0.9);
-            --bg-menu-option-hover: #ffffff;
-            --text-primary: #2c3e50;
-            --text-secondary: #555;
-            --text-tertiary: #f0d5ff; /* date, teaser on card */
-            --text-title: #2980b9; /* Page title */
-            --text-card-title: #ffffff;
-            --text-detail-primary: #f0f0f0;
-            --text-detail-secondary: #e5c0ff;
-            --text-menu: #34495e;
-            --accent-primary: #2980b9;
-            --accent-secondary: #1f6fa0;
-            --border-color: rgba(255, 255, 255, 0.3);
-            --border-header-bottom: #dfe4ea;
-            --shadow-color: rgba(0,0,0,0.15);
-            --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.1);
-            --shadow-card-hover: 0 10px 35px rgba(0, 0, 0, 0.15);
-            --shadow-detail-panel: -8px 0 25px rgba(0,0,0,0.2);
-            --image-bg: #eee;
-            --image-icon-color: #bbb;
-            --hamburger-bg: #333;
-            --close-btn-color: #ccc;
-            --close-btn-color-hover: #fff;
-        }
-
-        /* --- Base Styles (using variables) --- */
+        body.dark-theme { --bg-main: #0b0f2b; --bg-card: rgba(20, 30, 70, 0.75); --text-primary: #e8e8f8; --text-secondary: #a8b0d0; --text-title: #fff; --accent-primary: #00BFFF; --border-color: rgba(0, 191, 255, 0.3); }
+        body.light-theme { --bg-main: #f4f7fc; --bg-card: #ffffff; --text-primary: #2c3e50; --text-secondary: #566573; --text-title: #2c3e50; --accent-primary: #3498db; --border-color: rgba(0,0,0,0.1); }
         body { color: var(--text-primary); background-color: var(--bg-main); }
-        a { color: var(--accent-primary); }
-        a:hover { color: var(--accent-secondary); }
-
-        /* --- Header --- */
-        .main-header { background-color: var(--bg-header); padding: 10px 20px; box-shadow: 0 3px 10px var(--shadow-color); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-header-bottom); }
-        .header-left { flex-grow: 1; }
-        .header-right { display: flex; align-items: center; }
-        .hamburger-container { display: inline-block; position: relative; cursor: pointer; z-index: 1002; }
-        .hamburger-icon { padding: 10px; display: inline-block; }
-        .hamburger-icon span { display: block; width: 28px; height: 3px; background-color: var(--hamburger-bg); margin: 6px 0; transition: all 0.3s ease; border-radius: 1px; }
-        #theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.6rem; padding: 8px 12px; color: var(--text-primary); transition: transform 0.3s ease, color 0.4s ease; }
-        .light-theme #theme-toggle { color: #34495e; }
-        #theme-toggle:hover { transform: scale(1.1) rotate(15deg); }
+        .page-controls { position: absolute; top: 15px; right: 20px; display: flex; gap: 20px; z-index: 1000; }
+        #theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.4rem; padding: 5px; color: var(--text-secondary); }
         #theme-toggle .fa-sun { display: none; }
         .light-theme #theme-toggle .fa-sun { display: inline-block; }
         .light-theme #theme-toggle .fa-moon { display: none; }
-
-        /* --- Tam Ekran Menü --- */
-        .menu-options-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1001; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 25px; padding: 60px 40px 40px 40px; background-color: var(--bg-menu); backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transform: scale(0.98) translateY(10px); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.4s step-end, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); overflow-y: auto; pointer-events: none; }
-        .menu-options-container.active { opacity: 1; visibility: visible; transform: scale(1) translateY(0); transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0s step-start, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); pointer-events: auto; }
-        .close-menu-btn { position: absolute; top: 25px; right: 35px; font-size: 2rem; color: var(--close-btn-color); cursor: pointer; transition: color 0.2s ease, transform 0.2s ease; z-index: 1003; padding: 5px; }
-        .close-menu-btn:hover { color: var(--close-btn-color-hover); transform: rotate(90deg); }
-        .menu-option-box { background-color: var(--bg-menu-option); color: var(--text-menu); padding: 25px 20px; border-radius: 10px; width: 150px; min-height: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .menu-option-box:hover { background-color: var(--bg-menu-option-hover); transform: translateY(-8px) scale(1.06); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
-        .light-theme .menu-option-box { border: 1px solid #bdc3c7; box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
-        .light-theme .menu-option-box:hover { box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
-        .menu-option-box i { font-size: 2.5em; margin-bottom: 15px; transition: transform 0.35s cubic-bezier(0.68, -0.6, 0.265, 1.6); }
-        .menu-option-box:hover i { transform: scale(1.3) rotate(15deg); }
-        .menu-option-box span { font-size: 0.95rem; font-weight: 500; }
-
-        /* --- Etkinlik Sayfası Ana İçerik Alanı --- */
-        .events-main { flex-grow: 1; padding: 60px 20px 40px 20px; position: relative; z-index: 1; }
-        .events-container { max-width: 1200px; margin: 0 auto; width: 100%; }
-        .events-container h1 { text-align: center; font-size: 2.8rem; color: var(--text-title); margin-bottom: 50px; padding-bottom: 15px; border-bottom: 2px solid var(--border-header-bottom); font-weight: 600; }
-
-        /* Etkinlik Kartları Grid */
-        .event-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 35px; }
-
-        /* Kart Animasyonu */
-        @keyframes cardAppear { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-
-        /* Etkinlik Kartı Stili */
-        .event-card { background: var(--bg-card); backdrop-filter: blur(6px); border-radius: 10px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: var(--shadow-card); cursor: pointer; position: relative; transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.3s ease, background-color 0.3s ease; opacity: 0; animation: cardAppear 0.5s ease-out forwards; }
-        .event-card:nth-child(3n+1) { animation-delay: 0.1s; } .event-card:nth-child(3n+2) { animation-delay: 0.2s; } .event-card:nth-child(3n+3) { animation-delay: 0.3s; }
-        .event-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: var(--shadow-card-hover); background: var(--bg-card-hover); border-color: var(--border-color-hover); }
-
-        .event-card-inner { display: flex; align-items: center; padding: 15px; gap: 15px; }
-        .event-image { width: 100px; height: 100px; flex-shrink: 0; border-radius: 6px; overflow: hidden; background-color: var(--image-bg); }
-        .event-image img { width: 100%; height: 100%; object-fit: cover; }
-        .event-summary {}
-        .event-title { font-size: 1.2rem; font-weight: 600; color: var(--text-card-title); margin-bottom: 5px; line-height: 1.3; }
-        .event-date { font-size: 0.85rem; color: var(--text-tertiary); margin-bottom: 8px; }
-        .event-date i { margin-right: 5px; }
-        .event-teaser { font-size: 0.9rem; color: var(--text-secondary); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
-        .light-theme .event-teaser { color: rgba(255,255,255,0.85); }
-
-        /* --- Detay Paneli Overlay --- */
-        .event-detail-overlay { position: fixed; top: 0; right: -100%; width: 55%; max-width: 700px; height: 100vh; background-color: var(--bg-detail-panel); backdrop-filter: blur(8px); z-index: 1010; padding: 30px 40px; overflow-y: auto; box-shadow: var(--shadow-detail-panel); opacity: 0; transition: right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease; }
-        .event-detail-overlay.visible { right: 0; opacity: 1; }
-
-        /* Panel İçeriği */
-        .detail-content {}
-        .detail-image { width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px; margin-bottom: 25px; background-color: var(--image-bg); }
-        .detail-title { font-size: 2rem; color: var(--text-card-title); margin-bottom: 10px; line-height: 1.2; }
-        .detail-date { font-size: 1rem; color: var(--text-detail-secondary); margin-bottom: 20px; }
-        .detail-date i { margin-right: 6px; }
-        .detail-description p { font-size: 1.05rem; color: var(--text-detail-primary); line-height: 1.7; margin-bottom: 15px; }
-        .detail-description a { color: var(--accent-secondary); font-weight: 500; text-decoration: underline; }
-        .light-theme .detail-description a { color: #f5d5ff; }
-
-        /* Panel Kapatma Butonu */
-        .close-detail-panel-btn { position: absolute; top: 20px; right: 25px; font-size: 1.8rem; color: var(--close-btn-color); background: none; border: none; cursor: pointer; padding: 5px; transition: color 0.2s ease, transform 0.2s ease; }
-        .close-detail-panel-btn:hover { color: var(--close-btn-color-hover); transform: scale(1.1); }
-
-        /* Arka Plan Karartma Overlay */
-        .overlay-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 1009; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s step-end; }
-        .overlay-backdrop.visible { opacity: 1; visibility: visible; transition: opacity 0.4s ease, visibility 0s step-start; }
-
-        /* --- Responsive Tasarım --- */
-        @media (max-width: 992px) { .event-detail-overlay { width: 70%; } }
-        @media (max-width: 768px) {
-             .main-header { padding: 10px 15px; }
-             #theme-toggle { font-size: 1.5rem; padding: 6px 10px;}
-             .events-main { padding: 60px 15px 30px 15px; } .events-container h1 { font-size: 2.2rem; margin-bottom: 30px;} .event-grid { grid-template-columns: 1fr; gap: 25px; } .event-card-inner { padding: 12px; gap: 12px; } .event-image { width: 80px; height: 80px; } .event-title { font-size: 1.1rem; } .event-date { font-size: 0.8rem; } .event-teaser { display: none; }
-             .event-detail-overlay { width: 90%; padding: 25px; } .detail-image { max-height: 200px; margin-bottom: 20px; } .detail-title { font-size: 1.6rem; } .detail-date { font-size: 0.9rem; margin-bottom: 15px; } .detail-description p { font-size: 0.95rem; } .close-detail-panel-btn { top: 15px; right: 15px; font-size: 1.5rem; }
-             .menu-options-container { padding: 60px 15px 20px 15px; gap: 15px; align-items: flex-start; justify-content: flex-start; } .menu-option-box { width: calc(50% - 8px); min-height: 100px; padding: 15px 8px; } .menu-option-box i { font-size: 1.8em; margin-bottom: 8px; } .menu-option-box span { font-size: 0.8rem; } .close-menu-btn { top: 20px; right: 25px; font-size: 1.8rem; }
-        }
-         @media (max-width: 480px) {
-             .events-container h1 { font-size: 1.8rem; } .event-image { width: 70px; height: 70px; } .event-detail-overlay { width: 100%; right: -100%; box-shadow: none;}
-             .menu-option-box { width: calc(100% - 10px); min-height: 70px; padding: 12px; flex-direction: row; justify-content: flex-start; gap: 15px; } .menu-option-box i { font-size: 1.6em; margin-bottom: 0; } .menu-option-box span { font-size: 0.9rem; text-align: left; }
-         }
-
+        .page-main-content { flex-grow: 1; padding: 50px 25px; }
+        .page-container { max-width: 1200px; margin: 0 auto; width: 100%; }
+        .page-header { position: relative; text-align: center; margin-bottom: 50px; }
+        .back-to-dashboard { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 8px; font-size: 1rem; color: var(--text-secondary); }
+        .back-to-dashboard:hover { color: var(--accent-primary); }
+        .page-title { font-size: 2.8rem; font-weight: 700; color: var(--text-title); }
+        .light-theme .page-title { color: var(--text-primary); }
+        .events-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .event-card { background: var(--bg-card); backdrop-filter: blur(8px); border-radius: 10px; border: 1px solid var(--border-color); padding: 25px; display: flex; flex-direction: column; transition: transform 0.3s, box-shadow 0.3s; }
+        .light-theme .event-card { box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+        .event-card.registered { border-left: 5px solid var(--accent-primary); }
+        .event-card:hover { transform: translateY(-5px); }
+        .event-date { font-weight: 600; color: var(--accent-primary); margin-bottom: 10px; }
+        .event-title { font-size: 1.5rem; color: var(--text-title); margin-bottom: 15px; }
+        .event-description { flex-grow: 1; color: var(--text-secondary); margin-bottom: 20px; }
+        .event-actions { display: flex; justify-content: flex-end; align-items: center; gap: 15px; margin-top: auto; }
+        .attendee-info { font-size: 0.9rem; color: var(--text-secondary); }
+        .btn-action { display: inline-block; text-align: center; padding: 9px 22px; border: 1px solid var(--accent-primary); color: var(--accent-primary); background-color: transparent; border-radius: 20px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; }
+        .btn-action:hover { background-color: var(--accent-primary); color: var(--bg-main, #0b0f2b); }
+        .light-theme .btn-action:hover { color: #fff; }
+        .btn-action.disabled { background: #555; color: #aaa; border-color: #555; cursor: not-allowed; opacity: 0.7; }
+        .btn-action.checkin { background-color: rgba(255, 0, 0, 0.15); border-color: rgba(255, 0, 0, 0.5); color: #ffc0cb; animation: pulse-red 2s infinite; }
+        .btn-action.checked-in { background: #28a745; color: white; border-color: #28a745; cursor: default; }
+        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); } 70% { box-shadow: 0 0 10px 15px rgba(255, 0, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); } }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: var(--bg-main); padding: 30px; border-radius: 8px; text-align: center; border: 1px solid var(--border-color); }
+        .modal-content h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--text-title); }
+        .modal-content p { margin-bottom: 20px; }
+        .modal-content input { width: 100px; padding: 8px; text-align: center; font-size: 1rem; margin-bottom: 20px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 5px; }
+        .modal-actions button { margin: 0 10px; }
+        @media (max-width: 768px) { .back-to-dashboard { display: none; } }
     </style>
 </head>
 <body class="dark-theme">
-
     <div id="tsparticles"></div>
-    <div class="overlay-backdrop" id="overlayBackdrop"></div>
-    <div class="event-detail-overlay" id="eventDetailOverlay">
-        <button class="close-detail-panel-btn" id="closeDetailPanelBtn" aria-label="Detayları Kapat"><i class="fas fa-times"></i></button>
-        <div class="detail-content" id="detailContent">
-            <img src="" alt="" class="detail-image" id="detailImage">
-            <h3 class="detail-title" id="detailTitle"></h3>
-            <p class="detail-date" id="detailDate"></p>
-            <div class="detail-description" id="detailDescription"></div>
-        </div>
+    <div class="page-controls">
+        <button id="theme-toggle" aria-label="Temayı Değiştir"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button>
     </div>
-
-    <header class="main-header">
-       <div class="header-left">
-           <div class="hamburger-container">
-                 <div class="hamburger-icon" id="hamburgerIcon"><span></span><span></span><span></span></div>
-                 <nav class="menu-options-container" id="menuContainer">
-                     <div class="close-menu-btn" id="closeMenuBtn"><i class="fas fa-times"></i></div>
-                    <a href="hakkimizda.html" class="menu-option-box"> <i class="fa-solid fa-circle-info"></i> <span>Hakkımızda</span> </a>
-                    <a href="kurullar.html" class="menu-option-box"><i class="fa-solid fa-briefcase"></i> <span>Kurullar</span> </a>
-                    <a href="ekibimiz.html" class="menu-option-box"><i class="fa-solid fa-users"></i><span>Ekibimiz</span> </a>
-                    <a href="firmalar.html" class="menu-option-box"> <i class="fa-solid fa-building"></i> <span>Firmalar</span> </a>
-                    <a href="duyurular.html" class="menu-option-box"> <i class="fa-solid fa-bullhorn"></i> <span>Duyurular</span> </a>
-                    <a href="haberler.html" class="menu-option-box"> <i class="fa-solid fa-newspaper"></i><span>Haberler</span> </a>
-                    <a href="iletisim.html" class="menu-option-box"> <i class="fa-solid fa-envelope"></i> <span>İletişim</span> </a>
-                    <a href="index.html" class="menu-option-box"> <i class="fas fa-home"></i> <span>Ana Sayfa</span> </a>
-                 </nav>
-           </div>
-       </div>
-       <div class="header-right">
-           <button id="theme-toggle" aria-label="Temayı Değiştir">
-               <i class="fas fa-sun"></i>
-               <i class="fas fa-moon"></i>
-           </button>
-       </div>
-    </header>
-
-    <main class="events-main">
-        <div class="events-container">
-            <h1>Etkinlikler</h1>
-            <div class="event-grid">
-                <div class="event-card" data-img="etkinlik1.jpg" data-title="Büyük Teknoloji Zirvesi" data-date="25 Ekim 2024, 09:00 - 17:00 | Konferans Salonu" data-desc="<p>Sektör liderleri, akademisyenler ve girişimcilerin katılımıyla yapay zeka, bulut bilişim ve siber güvenlik konularının ele alınacağı bu zirveyi kaçırmayın. Ağ oluşturma fırsatları ve yenilikçi sunumlar sizi bekliyor.</p><p>Kayıt ve detaylı program için takipte kalın!</p>"> <div class="event-card-inner"> <div class="event-image"> <img src="etkinlik1.jpg" alt="Teknoloji Zirvesi" loading="lazy"> </div> <div class="event-summary"> <h3 class="event-title">Büyük Teknoloji Zirvesi</h3> <p class="event-date"><i class="far fa-calendar-alt"></i> 25 Ekim 2024</p> <p class="event-teaser">Yapay zeka ve geleceğin teknolojileri üzerine...</p> </div> </div> </div>
-                <div class="event-card" data-img="etkinlik2.jpg" data-title="Yoğun Girişimcilik Kampı" data-date="1-3 Kasım 2024 | Kuluçka Merkezi" data-desc="<p>3 gün sürecek bu yoğun kampta iş modeli oluşturma, pazar analizi, finansman bulma ve sunum teknikleri gibi konularda uzmanlardan eğitim alma ve mentorluk desteği alma fırsatı yakalayın.</p><p>Başvurular yakında açılacaktır.</p>"> <div class="event-card-inner"> <div class="event-image"><img src="etkinlik2.jpg" alt="Girişimcilik Kampı" loading="lazy"></div> <div class="event-summary"> <h3 class="event-title">Yoğun Girişimcilik Kampı</h3> <p class="event-date"><i class="far fa-calendar-alt"></i> 1-3 Kasım 2024</p> <p class="event-teaser">Fikrini hayata geçirmek isteyen genç girişimcilere...</p> </div> </div> </div>
-                <div class="event-card" data-img="etkinlik3.jpg" data-title="Modern Web Teknolojileri Workshop" data-date="10 Kasım 2024, 10:00 - 16:00 | Eğitim Salonu" data-desc="<p>Bu tam günlük atölye çalışmasında, güncel web geliştirme araçları ve teknikleri üzerine uygulamalı örneklerle bilginizi derinleştirin. Katılım sınırlıdır.</p>"> <div class="event-card-inner"> <div class="event-image"><img src="etkinlik3.jpg" alt="Yazılım Geliştirme Workshop" loading="lazy"></div> <div class="event-summary"> <h3 class="event-title">Modern Web Teknolojileri Workshop</h3> <p class="event-date"><i class="far fa-calendar-alt"></i> 10 Kasım 2024</p> <p class="event-teaser">React, Node.js ve Docker üzerine uygulamalı eğitim.</p> </div> </div> </div>
-                <div class="event-card" data-img="etkinlik4.jpg" data-title="Teknopark Demo Day" data-date="15 Aralık 2024 | Ana Salon" data-desc="<p>Kuluçka programımızdan mezun olan başarılı girişimlerin yatırımcılar ve sektör profesyonelleri önünde sunum yapacağı heyecan verici bir etkinlik.</p>"> <div class="event-card-inner"> <div class="event-image"><img src="etkinlik4.jpg" alt="Demo Day" loading="lazy"></div> <div class="event-summary"> <h3 class="event-title">Teknopark Demo Day</h3> <p class="event-date"><i class="far fa-calendar-alt"></i> 15 Aralık 2024</p> <p class="event-teaser">Kuluçka firmalarımızın yatırımcı sunumları.</p> </div> </div> </div>
-                <div class="event-card" data-img="etkinlik5.jpg" data-title="Teknopark Buluşması: Networking" data-date="Her Ayın Son Cuması, 17:00 | Sosyal Alan" data-desc="<p>Antalya OSB Teknopark ailesi olarak bir araya geldiğimiz, yeni iş birlikleri için fırsatlar yarattığımız rahat bir tanışma ve sohbet etkinliği.</p>"> <div class="event-card-inner"> <div class="event-image"><img src="etkinlik5.jpg" alt="Networking Etkinliği" loading="lazy"></div> <div class="event-summary"> <h3 class="event-title">Teknopark Buluşması: Networking</h3> <p class="event-date"><i class="far fa-calendar-alt"></i> Her Ayın Son Cuması</p> <p class="event-teaser">Firmalarımız ve ekosistem paydaşları için tanışma fırsatı.</p> </div> </div> </div>
-                <div class="event-card" data-img="etkinlik6.jpg" data-title="Proje Pazarı" data-date="Gelecek Dönem" data-desc="<p>Üniversite-Sanayi işbirliği projeleri sergilenecek...</p>"> <div class="event-card-inner"> <div class="event-image"><img src="etkinlik6.jpg" alt="Etkinlik 6" loading="lazy"></div> <div class="event-summary"> <h3 class="event-title">Proje Pazarı</h3> <p class="event-date"><i class="far fa-calendar-alt"></i> Gelecek Dönem</p><p class="event-teaser">Üniversite-Sanayi işbirliği projeleri sergilenecek.</p> </div> </div> </div>
-                <div class="event-card" data-img="etkinlik7.jpg" data-title="Patent Eğitimi" data-date="Gelecek Dönem" data-desc="<p>Buluşlarınızı nasıl koruyacağınızı öğrenin...</p>"> <div class="event-card-inner"> <div class="event-image"><img src="etkinlik7.jpg" alt="Etkinlik 7" loading="lazy"></div> <div class="event-summary"> <h3 class="event-title">Patent ve Fikri Mülkiyet Eğitimi</h3> <p class="event-date"><i class="far fa-calendar-alt"></i> Gelecek Dönem</p><p class="event-teaser">Buluşlarınızı nasıl koruyacağınızı öğrenin.</p> </div> </div> </div>
-                <div class="event-card" data-img="etkinlik8.jpg" data-title="Yatırımcı Sunum Teknikleri" data-date="Gelecek Dönem" data-desc="<p>Girişimciler için etkili sunum eğitimi...</p>"> <div class="event-card-inner"> <div class="event-image"><img src="etkinlik8.jpg" alt="Etkinlik 8" loading="lazy"></div> <div class="event-summary"> <h3 class="event-title">Yatırımcı Sunum Teknikleri</h3> <p class="event-date"><i class="far fa-calendar-alt"></i> Gelecek Dönem</p><p class="event-teaser">Girişimciler için etkili sunum eğitimi.</p> </div> </div> </div>
-                <div class="event-card" data-img="etkinlik9.jpg" data-title="Siber Güvenlik Semineri" data-date="Gelecek Dönem" data-desc="<p>Firmalar için siber riskler ve önlemler...</p>"> <div class="event-card-inner"> <div class="event-image"><img src="etkinlik9.jpg" alt="Etkinlik 9" loading="lazy"></div> <div class="event-summary"> <h3 class="event-title">Siber Güvenlik Farkındalık Semineri</h3> <p class="event-date"><i class="far fa-calendar-alt"></i> Gelecek Dönem</p><p class="event-teaser">Firmalar için siber riskler ve önlemler.</p> </div> </div> </div>
-                <div class="event-card" data-img="etkinlik10.jpg" data-title="Yazılım Test Otomasyonu" data-date="Gelecek Dönem" data-desc="<p>Uygulamalı test otomasyon araçları eğitimi...</p>"> <div class="event-card-inner"> <div class="event-image"><img src="etkinlik10.jpg" alt="Etkinlik 10" loading="lazy"></div> <div class="event-summary"> <h3 class="event-title">Yazılım Test Otomasyonu</h3> <p class="event-date"><i class="far fa-calendar-alt"></i> Gelecek Dönem</p><p class="event-teaser">Uygulamalı test otomasyon araçları eğitimi.</p> </div> </div> </div>
+    <main class="page-main-content">
+        <div class="page-container">
+            <div class="page-header">
+                <a href="profil.html" class="back-to-dashboard"><i class="fas fa-arrow-left"></i> Ana Panele Dön</a>
+                <h1 class="page-title">Etkinlikler</h1>
             </div>
+            <div id="events-grid" class="events-grid"></div>
         </div>
     </main>
-
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-event-title">Etkinliğe Kaydol</h3>
+            <p>Bu etkinliğe kaç kişi olarak katılacaksınız?</p>
+            <input type="number" id="attendee-count" min="1" value="1">
+            <div class="modal-actions">
+                <button id="confirm-registration" class="btn-action">Kaydı Tamamla</button>
+                <button id="cancel-registration" class="btn-action" style="background:transparent; border-color:#888; color:#888;">İptal</button>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25, width: 1 }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
-            const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 130, density: { enable: true, area: 900 } }, color: { value: ["#555555", "#8B008B", "#3498db", "#2c3e50"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.7}, animation: { enable: true, speed: 0.6, minimumValue: 0.2, sync: false } }, size: { value: {min: 1, max: 4} }, links: { enable: true, distance: 140, color: "#8B008B", opacity: 0.35, width: 1.5 }, move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
-            let currentParticlesConfig = darkThemeParticlesConfig;
-
-            const themeToggleBtn = document.getElementById('theme-toggle');
-            const body = document.body;
-            const themeMeta = document.querySelector('meta[name="theme-color"]');
-
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            applyTheme(savedTheme);
-
-            if(themeToggleBtn) {
-                themeToggleBtn.addEventListener('click', () => {
-                    const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark';
-                    applyTheme(newTheme);
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!localStorage.getItem('loggedInUserName')) { window.location.href = 'login.html'; return; }
+            
+            const eventsData = [{ id: 1, name: "Yapay Zeka Semineri", date: "25 Ekim 2024", description: "Yapay zekanın iş dünyasına etkilerini ve gelecekteki trendleri keşfedin." },{ id: 2, name: "Yatırımcı Buluşması", date: "15 Kasım 2024", description: "Gelecek vaat eden girişimcilerle potansiyel yatırımcıları bir araya getiren özel bir network etkinliği." },{ id: 3, name: "Mobil Workshop", date: "05 Aralık 2024", description: "Sıfırdan-uzmanlığa mobil uygulama geliştirmenin inceliklerini öğrenin." }];
+            let userRegistrations = JSON.parse(localStorage.getItem('userRegistrations')) || {};
+            const eventsGrid = document.getElementById('events-grid');
+            
+            function renderEvents() {
+                eventsGrid.innerHTML = '';
+                eventsData.forEach(event => {
+                    const registration = userRegistrations[event.id];
+                    let actionButtonHTML = '';
+                    if (registration) {
+                        if (registration.checkedIn) { actionButtonHTML = `<button class="btn-action checked-in" disabled><i class="fas fa-check"></i> Check-in Yapıldı</button>`; } 
+                        else { actionButtonHTML = `<a href="checkin.html" class="btn-action checkin">Check-in Yap</a>`; }
+                    } else { actionButtonHTML = `<button class="btn-action" data-action="register" data-event-id="${event.id}" data-event-name="${event.name}">Kayıt Ol</button>`; }
+                    
+                    const card = document.createElement('div');
+                    card.className = `event-card ${registration ? 'registered' : ''}`;
+                    card.innerHTML = `<div class="event-date">${event.date}</div><h3 class="event-title">${event.name}</h3><p class="event-description">${event.description}</p><div class="event-actions">${registration ? `<div class="attendee-info">Kayıtlı (${registration.count} kişi)</div>` : ''}${actionButtonHTML}</div>`;
+                    eventsGrid.appendChild(card);
                 });
             }
 
+            const modal = document.getElementById('register-modal');
+            const body = document.body;
+            let currentEventId;
+            eventsGrid.addEventListener('click', (e) => {
+                if (e.target.dataset.action === 'register') {
+                    currentEventId = e.target.dataset.eventId;
+                    document.getElementById('modal-event-title').textContent = `${e.target.dataset.eventName} - Kaydol`;
+                    modal.style.display = 'flex';
+                    body.classList.add('overlay-active');
+                }
+            });
+
+            function closeModal() { modal.style.display = 'none'; body.classList.remove('overlay-active'); }
+            document.getElementById('cancel-registration').addEventListener('click', closeModal);
+            document.getElementById('confirm-registration').addEventListener('click', () => {
+                const count = document.getElementById('attendee-count').value;
+                if (count < 1) { alert("Lütfen geçerli bir kişi sayısı girin."); return; }
+                userRegistrations[currentEventId] = { count: count, checkedIn: false };
+                localStorage.setItem('userRegistrations', JSON.stringify(userRegistrations));
+                closeModal();
+                renderEvents();
+            });
+
+            renderEvents();
+
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 70 }, color: { value: ["#ffffff", "#00BFFF", "#87CEFA", "#add8e6"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.5} }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 150, color: "#3a5f9b", opacity: 0.15, width: 1 }, move: { enable: true, speed: 0.7, direction: "none", random: true, straight: false, outModes: { default: "bounce" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 90 }, color: { value: ["#6A4A85", "#8A5A9E", "#3498db", "#5dade2"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.6} }, size: { value: {min: 1, max: 3.5} }, links: { enable: true, distance: 160, color: "#a0a0ff", opacity: 0.2, width: 1 }, move: { enable: true, speed: 0.8, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            
             function applyTheme(theme) {
-                const isParticlesPage = typeof tsParticles !== 'undefined' && document.getElementById('tsparticles');
-
-                if (theme === 'light') {
-                    body.classList.remove('dark-theme');
-                    body.classList.add('light-theme');
-                    if(themeMeta) themeMeta.setAttribute('content', '#ecf0f1');
-                    if (isParticlesPage) currentParticlesConfig = lightThemeParticlesConfig;
-                } else {
-                    body.classList.remove('light-theme');
-                    body.classList.add('dark-theme');
-                     if(themeMeta) themeMeta.setAttribute('content', '#1a1f3c');
-                     if (isParticlesPage) currentParticlesConfig = darkThemeParticlesConfig;
-                }
+                let config = theme === 'light' ? lightThemeParticlesConfig : darkThemeParticlesConfig;
+                if (theme === 'light') { body.classList.remove('dark-theme'); body.classList.add('light-theme'); } else { body.classList.remove('light-theme'); body.classList.add('dark-theme'); }
                 localStorage.setItem('theme', theme);
-
-                if (isParticlesPage) {
-                    tsParticles.load("tsparticles", currentParticlesConfig);
-                }
+                if (typeof tsParticles !== 'undefined' && document.getElementById('tsparticles')) { tsParticles.load("tsparticles", config); }
             }
-
-            const hamburgerIcon = document.getElementById('hamburgerIcon');
-            const menuContainer = document.getElementById('menuContainer');
-            const closeMenuBtn = document.getElementById('closeMenuBtn');
-            if (hamburgerIcon && menuContainer && closeMenuBtn) {
-                hamburgerIcon.addEventListener('click', (e) => { e.stopPropagation(); menuContainer.classList.toggle('active'); });
-                closeMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); menuContainer.classList.remove('active'); });
-                menuContainer.addEventListener('click', (e) => { if (e.target.closest('a.menu-option-box')) { menuContainer.classList.remove('active'); } else if (e.target !== closeMenuBtn && !closeMenuBtn.contains(e.target)) { e.stopPropagation(); } });
-                document.addEventListener('click', (e) => { if (menuContainer.classList.contains('active') && !menuContainer.contains(e.target) && !hamburgerIcon.contains(e.target)) { menuContainer.classList.remove('active'); } });
-            }
-
-             const eventGrid = document.querySelector('.event-grid');
-             const detailOverlay = document.getElementById('eventDetailOverlay');
-             const overlayBackdrop = document.getElementById('overlayBackdrop');
-             const closeDetailBtn = document.getElementById('closeDetailPanelBtn');
-             const detailImage = document.getElementById('detailImage');
-             const detailTitle = document.getElementById('detailTitle');
-             const detailDate = document.getElementById('detailDate');
-             const detailDescription = document.getElementById('detailDescription');
-
-             if (eventGrid && detailOverlay && overlayBackdrop && closeDetailBtn) {
-                 eventGrid.addEventListener('click', function(e) {
-                     const card = e.target.closest('.event-card');
-                     if (!card) return;
-                     const img = card.dataset.img;
-                     const title = card.dataset.title;
-                     const date = card.dataset.date;
-                     const desc = card.dataset.desc;
-                     if (img && img.trim() !== '') {
-                         detailImage.style.display = 'block';
-                         detailImage.src = img;
-                         detailImage.alt = title || 'Etkinlik Resmi';
-                     } else {
-                         detailImage.style.display = 'none';
-                     }
-                     detailTitle.textContent = title || 'Başlık Yok';
-                     detailDate.innerHTML = `<i class="far fa-calendar-alt"></i> ${date || 'Tarih Belirtilmemiş'}`;
-                     detailDescription.innerHTML = desc || '<p>Açıklama bulunamadı.</p>';
-                     detailOverlay.classList.add('visible');
-                     overlayBackdrop.classList.add('visible');
-                     document.body.classList.add('overlay-active');
-                 });
-                 const closePanel = () => {
-                     detailOverlay.classList.remove('visible');
-                     overlayBackdrop.classList.remove('visible');
-                     document.body.classList.remove('overlay-active');
-                 }
-                 closeDetailBtn.addEventListener('click', closePanel);
-                 overlayBackdrop.addEventListener('click', closePanel);
-             }
-
-             // tsParticles.load("tsparticles", currentParticlesConfig);
-
+            themeToggleBtn.addEventListener('click', () => { const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark'; applyTheme(newTheme); });
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
         });
     </script>
-     <script>
-        if ('serviceWorker'in navigator) {
-          navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err));
-        }
-      </script>
 </body>
 </html>

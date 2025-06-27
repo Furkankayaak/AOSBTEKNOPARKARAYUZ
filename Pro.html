@@ -3,311 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kullanıcı Profili - Antalya OSB Teknopark</title> <!-- Başlık Güncellendi -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="manifest" href="manifest.json"> <!-- PWA Eklendi -->
-    <link rel="icon" href="icons/icon-192.png"> <!-- PWA Eklendi -->
-    <meta name="theme-color" content="#0f0f24"> <!-- Dark tema meta rengi -->
-
+    <title>Profilim - Antalya OSB Teknopark</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192.png">
+    <meta name="theme-color" content="#0b0f2b">
     <style>
-        /* === Tema Değişkenleri === */
-        body.dark-theme {
-            --bg-main: #0f0f24;
-            --bg-gradient-start: #1a1a3d;
-            --bg-header: rgba(10, 15, 43, 0.85); /* Header için ayrı background */
-            --card-bg: #1e1e3c;
-            --card-bg-lighter: #2a2a4d;
-            --text-primary: #e0e0e0;
-            --text-secondary: #b0b0d0;
-            --text-title: #ffffff;
-            --border-color: rgba(255, 255, 255, 0.15);
-            --shadow-color: rgba(0, 0, 0, 0.3);
-            --accent-blue: #3498db;
-            --accent-purple: #9b59b6;
-            --accent-green: #2ecc71;
-            --accent-orange: #f39c12;
-            --button-bg: var(--accent-blue);
-            --button-text: var(--text-title);
-            --button-hover-bg: #2980b9;
-            --theme-toggle-color: #f0f0f0;
-            --theme-toggle-hover: #fff;
-        }
-
-        body.light-theme {
-            --bg-main: #ecf0f1;
-            --bg-gradient-start: #f4f7fc;
-            --bg-header: rgba(255, 255, 255, 0.95);
-            /* Profil kartı ve alt bölümler gradient olacak */
-            --card-bg: linear-gradient(135deg, rgba(106, 17, 203, 0.65) 0%, rgba(199, 21, 133, 0.7) 60%, rgba(238, 130, 238, 0.65) 100%);
-            --card-bg-lighter: rgba(255, 255, 255, 0.2); /* Gradient üzeri çerçeve */
-            --text-primary: #ffffff; /* Gradient üzeri ana metin */
-            --text-secondary: rgba(255, 255, 255, 0.85); /* Gradient üzeri ikincil metin */
-            --text-title: #ffffff; /* Gradient üzeri başlık */
-            --border-color: rgba(255, 255, 255, 0.3); /* Gradient üzeri kenarlık */
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --accent-blue: #f0d5ff; /* Gradient üzeri ikonlar için açık mor */
-            --accent-purple: #fff; /* Gradient üzeri başlık için beyaz */
-            --accent-green: #a9ffaa; /* Gradient üzeri ikonlar için açık yeşil */
-            --accent-orange: #ffd5a1; /* Gradient üzeri ikonlar için açık turuncu */
-            --button-bg: rgba(255, 255, 255, 0.2); /* Gradient üzeri buton bg */
-            --button-text: #fff; /* Gradient üzeri buton text */
-            --button-hover-bg: rgba(255, 255, 255, 0.3);
-            --theme-toggle-color: #1c1e21;
-            --theme-toggle-hover: #00376b;
-            /* Sayfa başlığı (H1) ve linkler için ayrı renkler */
-            --page-title-color: #2980b9;
-            --page-link-color: #2980b9;
-            --page-link-hover-color: #1f6fa0;
-        }
-
-        /* === Genel Stiller === */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body {
-            margin: 0; padding: 0;
-            font-family: 'Nunito Sans', sans-serif;
-            background-color: var(--bg-main);
-            background-image: linear-gradient(145deg, var(--bg-gradient-start) 0%, var(--bg-main) 74%);
-            background-attachment: fixed;
-            color: var(--text-primary);
-            min-height: 100vh;
-            padding-bottom: 40px;
-            transition: background-color 0.4s ease, color 0.4s ease;
-        }
-        .light-theme {
-            color: #2c3e50; /* Light tema genel metin rengi */
-        }
-        .light-theme a { /* Light tema genel link rengi */
-             color: var(--page-link-color);
-        }
-        .light-theme a:hover {
-             color: var(--page-link-hover-color);
-        }
-
-        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-        h1 { color: var(--text-page-title, var(--text-title)); font-size: 2.5em; text-align: center; margin-top: 30px; margin-bottom: 20px; font-weight: 700; transition: color 0.4s ease; }
-
-        /* --- Header --- */
-        .main-header { background-color: var(--bg-header); padding: 10px 20px; box-shadow: 0 3px 10px var(--shadow-color); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: flex-end; align-items: center; border-bottom: 1px solid var(--border-header-bottom); transition: background-color 0.4s ease, border-color 0.4s ease; }
-        #theme-toggle { color: var(--theme-toggle-color); margin-left: 10px; background: none; border: none; cursor: pointer; font-size: 1.5rem; padding: 5px 8px; transition: transform 0.3s ease, color 0.4s ease; }
-        #theme-toggle:hover { color: var(--theme-toggle-hover); transform: scale(1.1); }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; transition: background-color 0.4s ease, color 0.4s ease; }
+        a { text-decoration: none; transition: color 0.3s ease; }
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        body.dark-theme { --bg-main: #0b0f2b; --bg-card: rgba(20, 30, 70, 0.75); --text-primary: #e8e8f8; --text-secondary: #a8b0d0; --text-title: #fff; --accent-primary: #00BFFF; --border-color: rgba(0, 191, 255, 0.3); }
+        body.light-theme { --bg-main: #f4f7fc; --bg-card: #ffffff; --text-primary: #2c3e50; --text-secondary: #566573; --text-title: #2c3e50; --accent-primary: #3498db; --border-color: rgba(0,0,0,0.1); }
+        body { color: var(--text-primary); background-color: var(--bg-main); }
+        .page-controls { position: absolute; top: 15px; right: 20px; display: flex; gap: 20px; z-index: 1000; }
+        #theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.4rem; padding: 5px; color: var(--text-secondary); }
         #theme-toggle .fa-sun { display: none; }
         .light-theme #theme-toggle .fa-sun { display: inline-block; }
         .light-theme #theme-toggle .fa-moon { display: none; }
-
-        /* --- Profil Kartı --- */
-        .profile-card { background: var(--card-bg); border-radius: 10px; padding: 30px; box-shadow: 0 6px 18px var(--shadow-color); display: flex; gap: 30px; align-items: center; margin-bottom: 30px; border: 1px solid var(--border-color); transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease; backdrop-filter: blur(5px); }
-        .profile-picture-container { flex-shrink: 0; text-align: center; }
-        .profile-picture { width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--card-bg-lighter); object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0, 0.2); margin-bottom: 10px; }
-        .upload-button { background-color: var(--button-bg); color: var(--button-text); display: inline-block; padding: 6px 12px; font-size: 0.8em; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.2s ease; }
-        .upload-button:hover { background-color: var(--button-hover-bg); }
-        .upload-button i { margin-right: 5px;}
-        .profile-info { flex-grow: 1; }
-        .profile-info h2 { color: var(--text-title); margin-top: 0; margin-bottom: 5px; font-size: 1.8em; font-weight: 700; transition: color 0.4s ease; }
-        .profile-info .user-title { color: var(--accent-purple); font-size: 1.1em; font-weight: 600; margin-bottom: 20px; display: block; transition: color 0.4s ease; }
-        .info-item { display: flex; align-items: center; margin-bottom: 12px; color: var(--text-secondary); font-size: 0.95em; transition: color 0.4s ease; }
-        .info-item i { color: var(--accent-blue); font-size: 1.1em; margin-right: 15px; width: 20px; text-align: center; transition: color 0.4s ease; }
-        .info-item span { color: var(--text-primary); transition: color 0.4s ease; }
-
-        /* --- Alt Bölümler --- */
-        .profile-section { background: var(--card-bg); border-radius: 8px; padding: 25px; box-shadow: 0 4px 12px var(--shadow-color); margin-bottom: 25px; border: 1px solid var(--border-color); transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease; backdrop-filter: blur(5px);}
-        .profile-section h3 { color: var(--text-title); margin-top: 0; margin-bottom: 20px; font-size: 1.3em; font-weight: 600; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; transition: color 0.4s ease, border-color 0.4s ease;}
-        .profile-section h3 i { margin-right: 10px; color: var(--accent-purple); transition: color 0.4s ease; }
-        .settings-list { list-style: none; padding: 0; margin: 0; }
-        .settings-list li { margin-bottom: 15px; }
-        .settings-list a { color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; transition: color 0.2s ease; font-size: 0.95em; }
-        .settings-list a:hover { color: var(--text-title); }
-        .settings-list i { margin-right: 12px; font-size: 1.1em; width: 18px; text-align: center; color: var(--accent-green); transition: color 0.4s ease; }
-        .settings-list .fa-angle-right { margin-left: auto; color: var(--text-secondary); opacity: 0.6; }
-        .settings-list a:hover .fa-angle-right { opacity: 1; color: var(--accent-green); }
-        .activity-list { list-style: none; padding: 0; margin: 0; max-height: 200px; overflow-y: auto; }
-        .activity-list li { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border-color); font-size: 0.9em; color: var(--text-secondary); transition: color 0.4s ease, border-color 0.4s ease;}
-        .activity-list li:last-child { border-bottom: none; }
-        .activity-list i { margin-right: 12px; color: var(--accent-orange); width: 16px; text-align: center; transition: color 0.4s ease; }
-        .activity-list .activity-time { margin-left: auto; font-size: 0.85em; opacity: 0.7; }
-        .profile-action-button { background-color: var(--button-bg); color: var(--button-text); display: block; width: fit-content; margin: 15px auto 0 auto; padding: 12px 30px; border: none; border-radius: 6px; font-size: 1em; font-weight: 600; text-align: center; text-decoration: none; cursor: pointer; transition: background-color 0.2s ease, transform 0.1s ease, color 0.4s ease; }
-        .profile-action-button:hover { background-color: var(--button-hover-bg); transform: scale(1.02); }
-        .profile-action-button i { margin-right: 8px; }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .main-header { padding: 10px 15px; }
-            #theme-toggle { font-size: 1.5rem; padding: 6px 10px;}
-            h1 { font-size: 2em; }
-            .profile-card { flex-direction: column; padding: 20px; align-items: center; text-align: center; }
-            .profile-info .user-title { margin-bottom: 15px; }
-            .info-item { justify-content: center; font-size: 0.9em; }
-            .info-item i { margin-right: 10px; }
-            .profile-section { padding: 20px;}
-            .profile-section h3 { font-size: 1.2em; }
-        }
-        @media (max-width: 480px) {
-            .profile-picture { width: 120px; height: 120px; }
-            .profile-info h2 { font-size: 1.6em; }
-            .profile-info .user-title { font-size: 1em; }
-            .info-item { font-size: 0.85em; }
-             .profile-action-button { padding: 10px 20px; font-size: 0.9em;}
-        }
+        .page-main-content { flex-grow: 1; padding: 50px 25px; }
+        .page-container { max-width: 900px; margin: 0 auto; width: 100%; }
+        .page-header { position: relative; text-align: center; margin-bottom: 40px; }
+        .back-to-dashboard { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 8px; font-size: 1rem; color: var(--text-secondary); }
+        .back-to-dashboard:hover { color: var(--accent-primary); }
+        .page-title { font-size: 2.8rem; font-weight: 700; color: var(--text-title); }
+        .light-theme .page-title { color: var(--text-primary); }
+        .profile-content { background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color); padding: 40px; }
+        .light-theme .profile-content { box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+        .profile-field { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; padding: 18px 0; border-bottom: 1px solid var(--border-color); }
+        .profile-field:last-child { border-bottom: none; }
+        .profile-field-label { font-weight: 600; color: var(--text-secondary); margin-right: 20px; }
+        .profile-field-value { color: var(--text-primary); font-size: 1.1rem; }
+        .light-theme .profile-field-value { color: var(--text-title); }
+        @media (max-width: 768px) { .back-to-dashboard { display: none; } }
     </style>
 </head>
 <body class="dark-theme">
-
-     <header class="main-header">
-         <!-- Header içeriği (Sadece Toggle Buton) -->
-         <div style="flex-grow: 1;"></div> <!-- Boşluk -->
-         <button id="theme-toggle" aria-label="Temayı Değiştir">
-             <i class="fas fa-sun"></i>
-             <i class="fas fa-moon"></i>
-         </button>
-     </header>
-
-    <div class="container">
-        <h1>Profilim</h1>
-
-        <div class="profile-card">
-            <div class="profile-picture-container">
-                <img src="https://via.placeholder.com/150/1e1e3c/FFFFFF?text=Profil" alt="Profil Resmi" class="profile-picture" id="profilePic">
-                <label for="fileUpload" class="upload-button">
-                    <i class="fa-solid fa-camera"></i> Değiştir
-                 </label>
-                <input type="file" id="fileUpload" style="display: none;">
-            </div>
-            <div class="profile-info">
-                <h2 id="profileName">Kullanıcı Adı</h2> <!-- ID eklendi -->
-                <span class="user-title" id="profileTitle">Kullanıcı Ünvanı</span> <!-- ID eklendi -->
-
-                <div class="info-item">
-                    <i class="fa-solid fa-envelope"></i>
-                    <span id="profileEmail"></span> <!-- ID eklendi -->
-                </div>
-                <div class="info-item">
-                    <i class="fa-solid fa-phone"></i>
-                    <span id="profilePhone"></span> <!-- ID eklendi -->
-                </div>
-                 <div class="info-item">
-                    <i class="fa-solid fa-building"></i>
-                    <span id="profileDepartment"></span> <!-- ID eklendi -->
-                </div>
-                <div class="info-item">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <span id="profileLocation"></span> <!-- ID eklendi -->
-                </div>
-                 <a href="#edit" class="profile-action-button" style="margin-top: 25px; width: auto; padding: 10px 20px; font-size: 0.9em;">
-                    <i class="fa-solid fa-pencil"></i> Profili Düzenle
-                </a>
-            </div>
-        </div>
-
-        <div class="profile-section">
-             <h3><i class="fa-solid fa-user-gear"></i>Hesap Ayarları</h3>
-             <ul class="settings-list">
-                 <li> <a href="#"> <i class="fa-solid fa-key"></i> Şifre Değiştir <i class="fa-solid fa-angle-right"></i> </a> </li>
-                 <li> <a href="#"> <i class="fa-solid fa-bell"></i> Bildirim Tercihleri <i class="fa-solid fa-angle-right"></i> </a> </li>
-                 <li> <a href="#"> <i class="fa-solid fa-shield-halved"></i> Güvenlik ve Gizlilik <i class="fa-solid fa-angle-right"></i> </a> </li>
-                  <li> <a href="#"> <i class="fa-solid fa-link"></i> Bağlı Hesaplar <i class="fa-solid fa-angle-right"></i> </a> </li>
-             </ul>
-        </div>
-
-        <div class="profile-section">
-            <h3><i class="fa-solid fa-timeline"></i>Son Aktiviteler</h3>
-            <ul class="activity-list">
-                <li><i class="fa-solid fa-file-pen"></i> "Portal'ı güncelledi. <span class="activity-time">1 saat önce</span></li>
-                <li><i class="fa-solid fa-right-to-bracket"></i> Sisteme giriş yaptı. <span class="activity-time">3 saat önce</span></li>
-                <li><i class="fa-solid fa-check"></i> "Görev X'i tamamladı. <span class="activity-time">Dün</span></li>
-                 <li><i class="fa-solid fa-comment"></i> "Proje Z'ye yorum ekledi. <span class="activity-time">Dün</span></li>
-            </ul>
-        </div>
+    <div id="tsparticles"></div>
+    <div class="page-controls">
+        <button id="theme-toggle" aria-label="Temayı Değiştir"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button>
     </div>
-
+    <main class="page-main-content">
+        <div class="page-container">
+            <div class="page-header">
+                <a href="profil.html" class="back-to-dashboard"><i class="fas fa-arrow-left"></i> Ana Panele Dön</a>
+                <h1 class="page-title">Profil Bilgilerim</h1>
+            </div>
+            <div class="profile-content">
+                <div class="profile-field">
+                    <span class="profile-field-label">Ad Soyad</span>
+                    <span id="user-fullname" class="profile-field-value">Yükleniyor...</span>
+                </div>
+                <div class="profile-field">
+                    <span class="profile-field-label">E-posta</span>
+                    <span id="user-email" class="profile-field-value">Yükleniyor...</span>
+                </div>
+                <div class="profile-field">
+                    <span class="profile-field-label">Kullanıcı Rolü</span>
+                    <span id="user-role" class="profile-field-value">Girişimci (Simülasyon)</span>
+                </div>
+                 <div class="profile-field">
+                    <span class="profile-field-label">Firma Adı</span>
+                    <span class="profile-field-value">Kayaak Tech (Simülasyon)</span>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
     <script>
-         // Tema yönetimi için eklenen kod
-         document.addEventListener('DOMContentLoaded', (event) => {
-             const themeToggleBtn = document.getElementById('theme-toggle');
-             const body = document.body;
-             const themeMeta = document.querySelector('meta[name="theme-color"]');
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!localStorage.getItem('loggedInUserName')) { window.location.href = 'login.html'; return; }
 
-             const savedTheme = localStorage.getItem('theme') || 'dark';
-             applyTheme(savedTheme);
-
-             if(themeToggleBtn) {
-                 themeToggleBtn.addEventListener('click', () => {
-                     const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark';
-                     applyTheme(newTheme);
-                 });
-             }
-
-             function applyTheme(theme) {
-                 if (theme === 'light') {
-                     body.classList.remove('dark-theme');
-                     body.classList.add('light-theme');
-                     if(themeMeta) themeMeta.setAttribute('content', '#ecf0f1'); // Light tema meta rengi
-                 } else {
-                     body.classList.remove('light-theme');
-                     body.classList.add('dark-theme');
-                      if(themeMeta) themeMeta.setAttribute('content', '#0f0f24'); // Dark tema meta rengi
-                 }
-                 localStorage.setItem('theme', theme);
-             }
-
-            // --- Profil Bilgilerini Yükleme ---
-            const profileNameEl = document.getElementById('profileName');
-            const profileTitleEl = document.getElementById('profileTitle');
-            const profileEmailEl = document.getElementById('profileEmail');
-            // Diğer ID'li elementleri de buraya ekleyin (profilePhone, profileDepartment, profileLocation)
-            // const profilePhoneEl = document.getElementById('profilePhone'); ...
-
-            const loggedInUserName = localStorage.getItem('loggedInUserName');
-            const loggedInUserType = localStorage.getItem('loggedInUserType'); // Kayıt sayfasından gelen tip
-
-            if (profileNameEl && loggedInUserName) {
-                profileNameEl.textContent = loggedInUserName; // Sadece adı gösteriyoruz şimdilik
+            const storedUser = JSON.parse(localStorage.getItem('platformUser'));
+            if (storedUser) {
+                document.getElementById('user-fullname').textContent = storedUser.name;
+                document.getElementById('user-email').textContent = storedUser.email;
             }
-            if (profileTitleEl && loggedInUserType) {
-                // UserType'a göre ünvan belirle (basit örnek)
-                let title = 'Kullanıcı';
-                if (loggedInUserType === 'girisimci') title = 'Girişimci';
-                else if (loggedInUserType === 'calisan') title = 'Firma Çalışanı';
-                else if (loggedInUserType === 'ekip') title = 'Teknopark Ekibi';
-                else if (loggedInUserType === 'yatirimci') title = 'Yatırımcı';
-                profileTitleEl.textContent = title;
+
+            const body = document.body;
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 70 }, color: { value: ["#ffffff", "#00BFFF", "#87CEFA", "#add8e6"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.5} }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 150, color: "#3a5f9b", opacity: 0.15, width: 1 }, move: { enable: true, speed: 0.7, direction: "none", random: true, straight: false, outModes: { default: "bounce" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 90 }, color: { value: ["#6A4A85", "#8A5A9E", "#3498db", "#5dade2"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.6} }, size: { value: {min: 1, max: 3.5} }, links: { enable: true, distance: 160, color: "#a0a0ff", opacity: 0.2, width: 1 }, move: { enable: true, speed: 0.8, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            
+            function applyTheme(theme) {
+                let config = theme === 'light' ? lightThemeParticlesConfig : darkThemeParticlesConfig;
+                if (theme === 'light') { body.classList.remove('dark-theme'); body.classList.add('light-theme'); } 
+                else { body.classList.remove('light-theme'); body.classList.add('dark-theme'); }
+                localStorage.setItem('theme', theme);
+                if (typeof tsParticles !== 'undefined' && document.getElementById('tsparticles')) { 
+                    tsParticles.load("tsparticles", config); 
+                }
             }
-            if (profileEmailEl) {
-                // Eposta gibi diğer bilgileri de gerekirse localStorage'dan alıp yazdırabilirsiniz.
-                // Şimdilik placeholder bırakıyorum.
-                profileEmailEl.textContent = loggedInUserName ? `${loggedInUserName.toLowerCase().replace(' ','_')}@teknopark.com` : 'eposta@example.com';
-            }
-            // Telefon, Departman, Lokasyon için de benzer şekilde localStorage'dan veri çekilebilir.
-
-            // --- Basit profil resmi önizleme ---
-             const fileUpload = document.getElementById('fileUpload');
-             const profilePic = document.getElementById('profilePic');
-
-             if (fileUpload && profilePic) {
-                 fileUpload.addEventListener('change', function(event) {
-                     const file = event.target.files[0];
-                     if (file && file.type.startsWith('image/')) { // Sadece resim dosyaları
-                         const reader = new FileReader();
-                         reader.onload = function(e) {
-                             profilePic.src = e.target.result;
-                             // İsteğe bağlı: Resmi localStorage'a base64 olarak kaydetme
-                             // try { localStorage.setItem('profilePicData', e.target.result); } catch(err) { console.error("Profil resmi kaydedilemedi:", err); }
-                         }
-                         reader.readAsDataURL(file);
-                     } else {
-                         alert("Lütfen geçerli bir resim dosyası seçin.");
-                         fileUpload.value = ''; // Seçimi temizle
-                     }
-                 });
-
-                 // Sayfa yüklendiğinde kaydedilmiş resmi yükle (isteğe bağlı)
-                 // const savedPic = localStorage.getItem('profilePicData');
-                 // if (savedPic) { profilePic.src = savedPic; }
-             }
-         });
+            themeToggleBtn.addEventListener('click', () => { const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark'; applyTheme(newTheme); });
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+        });
     </script>
-     <script> if ('serviceWorker'in navigator) { navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err)); } </script>
 </body>
 </html>

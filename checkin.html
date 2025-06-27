@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-in - Antalya OSB Teknopark</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #fff; background-color: #0b0f2b; }
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .checkin-container { text-align: center; padding: 20px; z-index: 1; }
+        .qr-scanner { width: 300px; height: 300px; background: #333; border: 5px solid #00BFFF; margin: 0 auto 30px auto; display: flex; justify-content: center; align-items: center; font-size: 5rem; color: #00BFFF; }
+        .checkin-title { font-size: 2rem; margin-bottom: 10px; }
+        .checkin-status { font-size: 1.2rem; opacity: 0.8; }
+        .checkin-success { display: none; color: #32CD32; font-size: 2.5rem; font-weight: bold; text-shadow: 0 0 15px limegreen; }
+        .back-link { display: block; margin-top: 30px; color: #87CEFA; }
+    </style>
+</head>
+<body>
+    <div id="tsparticles"></div>
+    <div class="checkin-container">
+        <div id="scanner-view">
+            <h1 class="checkin-title">Etkinlik Check-in</h1>
+            <div class="qr-scanner"><i class="fas fa-qrcode"></i></div>
+            <p class="checkin-status">Lütfen etkinlik alanındaki QR kodu okutun.</p>
+        </div>
+        <div id="success-view" class="checkin-success">
+            <i class="fas fa-check-circle"></i>
+            <p>Check-in yapıldı!</p>
+        </div>
+        <a href="profil.html" class="back-link">Ana Panele Dön</a>
+    </div>
+   <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Simülasyon için dark theme particles yükle
+        tsParticles.load("tsparticles", { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 70 }, color: { value: ["#ffffff", "#00BFFF", "#87CEFA", "#add8e6"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.5} }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 150, color: "#3a5f9b", opacity: 0.15, width: 1 }, move: { enable: true, speed: 0.7, direction: "none", random: true, straight: false, outModes: { default: "bounce" } } }, interactivity: { events: { resize: true } }, detectRetina: true });
+
+        // Bu sadece bir simülasyon. 3 saniye sonra başarılı gösterecek.
+        setTimeout(() => {
+            document.getElementById('scanner-view').style.display = 'none';
+            document.getElementById('success-view').style.display = 'block';
+
+            // localStorage'da check-in durumunu güncelle
+            let userRegistrations = JSON.parse(localStorage.getItem('userRegistrations')) || {};
+            
+            // Henüz check-in yapılmamış ilk kayıtlı etkinliği bul
+            const eventToCheckInId = Object.keys(userRegistrations).find(eventId => 
+                userRegistrations[eventId] && !userRegistrations[eventId].checkedIn
+            );
+            
+            if (eventToCheckInId) {
+                // Check-in durumunu 'true' yap
+                userRegistrations[eventToCheckInId].checkedIn = true;
+                
+                // YENİ: Başarılı check-in bilgisini hafızaya kaydet
+                // Bu bilgi, profil sayfasına döndüğümüzde mesajı göstermek için kullanılacak.
+                localStorage.setItem('lastCheckedInEventId', eventToCheckInId);
+
+                // Güncellenmiş kayıtları tekrar hafızaya yaz
+                localStorage.setItem('userRegistrations', JSON.stringify(userRegistrations));
+            }
+        }, 3000);
+    });
+</script>
+</body>
+</html>

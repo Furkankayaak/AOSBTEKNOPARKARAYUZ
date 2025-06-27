@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anketlerim - Antalya OSB Teknopark</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192.png">
+    <meta name="theme-color" content="#0b0f2b">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; transition: background-color 0.4s ease, color 0.4s ease; }
+        a { text-decoration: none; transition: color 0.3s ease; }
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        body.dark-theme { --bg-main: #0b0f2b; --bg-card: rgba(20, 30, 70, 0.75); --text-primary: #e8e8f8; --text-secondary: #a8b0d0; --text-title: #fff; --accent-primary: #00BFFF; --border-color: rgba(0, 191, 255, 0.3); }
+        body.light-theme { --bg-main: #f4f7fc; --bg-card: #ffffff; --text-primary: #2c3e50; --text-secondary: #566573; --text-title: #2c3e50; --accent-primary: #3498db; --border-color: rgba(0,0,0,0.1); }
+        body { color: var(--text-primary); background-color: var(--bg-main); }
+        .page-controls { position: absolute; top: 15px; right: 20px; display: flex; gap: 20px; z-index: 1000; }
+        #theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.4rem; padding: 5px; color: var(--text-secondary); }
+        #theme-toggle .fa-sun { display: none; }
+        .light-theme #theme-toggle .fa-sun { display: inline-block; }
+        .light-theme #theme-toggle .fa-moon { display: none; }
+        .page-main-content { flex-grow: 1; padding: 50px 25px; }
+        .page-container { max-width: 900px; margin: 0 auto; width: 100%; }
+        .page-header { position: relative; text-align: center; margin-bottom: 40px; }
+        .back-to-dashboard { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 8px; font-size: 1rem; color: var(--text-secondary); }
+        .back-to-dashboard:hover { color: var(--accent-primary); }
+        .page-title { font-size: 2.8rem; font-weight: 700; color: var(--text-title); }
+        .light-theme .page-title { color: var(--text-primary); }
+        .tabs { display: flex; justify-content: center; margin-bottom: 40px; border-bottom: 1px solid var(--border-color); }
+        .tab-button { padding: 15px 30px; cursor: pointer; background: none; border: none; color: var(--text-secondary); font-size: 1.1rem; font-weight: 500; position: relative; }
+        .tab-button.active { color: var(--accent-primary); }
+        .tab-button.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 3px; background-color: var(--accent-primary); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .survey-list { display: flex; flex-direction: column; gap: 20px; }
+        .survey-card { background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color); padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; }
+        .light-theme .survey-card { box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
+        .survey-info h3 { font-size: 1.2rem; color: var(--text-title); margin-bottom: 5px; }
+        .survey-info p { font-size: 0.9rem; color: var(--text-secondary); }
+        .btn-fill-survey { padding: 8px 20px; border: 1px solid var(--accent-primary); color: var(--accent-primary); background: transparent; border-radius: 20px; font-weight: 500; cursor: pointer; }
+        .completed-icon { color: #28a745; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+        .empty-state { text-align: center; padding: 50px; opacity: 0.7; }
+        .empty-state i { font-size: 3rem; margin-bottom: 15px; }
+        .survey-view { display: none; }
+        .survey-question { margin-bottom: 25px; padding: 20px; border: 1px solid var(--border-color); border-radius: 8px; }
+        .survey-question p { font-size: 1.2rem; font-weight: 500; margin-bottom: 15px; color: var(--text-title); }
+        .light-theme .survey-question p { color: var(--text-primary); }
+        .survey-options label { display: block; margin-bottom: 10px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 5px; cursor: pointer; }
+        .survey-options input { margin-right: 10px; }
+        @media (max-width: 768px) { .back-to-dashboard { display: none; } }
+    </style>
+</head>
+<body class="dark-theme">
+    <div id="tsparticles"></div>
+    <div class="page-controls">
+        <button id="theme-toggle" aria-label="Temayı Değiştir"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button>
+    </div>
+    <main class="page-main-content">
+        <div class="page-container">
+            <div id="survey-list-view">
+                <div class="page-header">
+                    <a href="profil.html" class="back-to-dashboard"><i class="fas fa-arrow-left"></i> Ana Panele Dön</a>
+                    <h1 class="page-title">Anketlerim</h1>
+                </div>
+                <div class="tabs">
+                    <button class="tab-button active" data-tab="pending">Doldurulacak Anketler</button>
+                    <button class="tab-button" data-tab="completed">Doldurulan Anketler</button>
+                </div>
+                <div id="pending" class="tab-content active"><div id="pending-surveys" class="survey-list"></div></div>
+                <div id="completed" class="tab-content"><div id="completed-surveys" class="survey-list"></div></div>
+            </div>
+            <div id="survey-fill-view" class="survey-view">
+                <div class="page-header">
+                    <a href="#" id="back-to-list" class="back-to-dashboard"><i class="fas fa-arrow-left"></i> Anket Listesine Dön</a>
+                    <h1 id="survey-title" class="page-title">Etkinlik Anketi</h1>
+                </div>
+                <div class="survey-questions">
+                    <div class="survey-question"><p>1. Etkinliğin genel içeriğini nasıl buldunuz?</p><div class="survey-options"><label><input type="radio" name="q1"> Çok Kötü</label><label><input type="radio" name="q1"> Kötü</label><label><input type="radio" name="q1"> Orta</label><label><input type="radio" name="q1"> İyi</label><label><input type="radio" name="q1"> Çok İyi</label></div></div>
+                    <div class="survey-question"><p>2. Konuşmacıların performansını nasıl değerlendirirsiniz?</p><div class="survey-options"><label><input type="radio" name="q2"> Çok Zayıf</label><label><input type="radio" name="q2"> Zayıf</label><label><input type="radio" name="q2"> Yeterli</label><label><input type="radio" name="q2"> Başarılı</label><label><input type="radio" name="q2"> Çok Başarılı</label></div></div>
+                    <button id="submit-survey-btn" class="btn-fill-survey" style="width: 100%; padding: 15px; margin-top: 20px;">Anketi Tamamla ve Gönder</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!localStorage.getItem('loggedInUserName')) { window.location.href = 'login.html'; return; }
+            
+            // --- ELEMENTLERİ SEÇME ---
+            const body = document.body;
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const eventsData = [{ id: 1, name: "Yapay Zeka Semineri" }, { id: 2, name: "Yatırımcı Buluşması" }, { id: 3, name: "Mobil Workshop" }];
+            const pendingSurveysContainer = document.getElementById('pending-surveys');
+            const completedSurveysContainer = document.getElementById('completed-surveys');
+            const tabs = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const surveyListView = document.getElementById('survey-list-view');
+            const surveyFillView = document.getElementById('survey-fill-view');
+            const backToListBtn = document.getElementById('back-to-list');
+            const surveyTitle = document.getElementById('survey-title');
+            const submitSurveyBtn = document.getElementById('submit-survey-btn');
+            let currentSurveyEventId = null;
+
+            // --- PARTICLES.JS ve TEMA KONFİGÜRASYONLARI ---
+            const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 70 }, color: { value: ["#ffffff", "#00BFFF", "#87CEFA", "#add8e6"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.5} }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 150, color: "#3a5f9b", opacity: 0.15, width: 1 }, move: { enable: true, speed: 0.7, direction: "none", random: true, straight: false, outModes: { default: "bounce" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 90 }, color: { value: ["#6A4A85", "#8A5A9E", "#3498db", "#5dade2"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.6} }, size: { value: {min: 1, max: 3.5} }, links: { enable: true, distance: 160, color: "#a0a0ff", opacity: 0.2, width: 1 }, move: { enable: true, speed: 0.8, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            
+            function applyTheme(theme) {
+                let config = theme === 'light' ? lightThemeParticlesConfig : darkThemeParticlesConfig;
+                if (theme === 'light') { body.classList.remove('dark-theme'); body.classList.add('light-theme'); } 
+                else { body.classList.remove('light-theme'); body.classList.add('dark-theme'); }
+                localStorage.setItem('theme', theme);
+                if (typeof tsParticles !== 'undefined' && document.getElementById('tsparticles')) { 
+                    tsParticles.load("tsparticles", config); 
+                }
+            }
+            
+            // --- ANKET FONKSİYONLARI ---
+            function renderSurveys() {
+                const userRegistrations = JSON.parse(localStorage.getItem('userRegistrations')) || {};
+                pendingSurveysContainer.innerHTML = ''; completedSurveysContainer.innerHTML = '';
+                let pendingCount = 0, completedCount = 0;
+                eventsData.forEach(event => {
+                    const registration = userRegistrations[event.id];
+                    if (registration && registration.checkedIn) {
+                        if (!registration.surveyCompleted) {
+                            pendingCount++;
+                            pendingSurveysContainer.insertAdjacentHTML('beforeend', `<div class="survey-card"><div class="survey-info"><h3>${event.name} Anketi</h3><p>Geri bildiriminiz bizim için değerli.</p></div><button class="btn-fill-survey" data-event-id="${event.id}" data-event-name="${event.name}">Anketi Doldur</button></div>`);
+                        } else {
+                            completedCount++;
+                            completedSurveysContainer.insertAdjacentHTML('beforeend', `<div class="survey-card"><div class="survey-info"><h3>${event.name} Anketi</h3><p>Bu anketi tamamladınız. Teşekkür ederiz!</p></div><div class="completed-icon"><i class="fas fa-check-circle"></i><span>Tamamlandı</span></div></div>`);
+                        }
+                    }
+                });
+                if (pendingCount === 0) { pendingSurveysContainer.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>Doldurulacak anketiniz bulunmuyor.</p></div>'; }
+                if (completedCount === 0) { completedSurveysContainer.innerHTML = '<div class="empty-state"><i class="fas fa-history"></i><p>Henüz bir anket doldurmadınız.</p></div>'; }
+            }
+
+            function showSurvey(eventId, eventName) { currentSurveyEventId = eventId; surveyTitle.textContent = `${eventName} Anketi`; surveyListView.style.display = 'none'; surveyFillView.style.display = 'block'; }
+            function showList() { surveyListView.style.display = 'block'; surveyFillView.style.display = 'none'; renderSurveys(); }
+
+            // --- OLAY DİNLEYİCİLERİ ---
+            tabs.forEach(tab => { tab.addEventListener('click', () => { tabs.forEach(t => t.classList.remove('active')); tab.classList.add('active'); tabContents.forEach(tc => tc.classList.remove('active')); document.getElementById(tab.dataset.tab).classList.add('active'); }); });
+            pendingSurveysContainer.addEventListener('click', (e) => { if (e.target.classList.contains('btn-fill-survey')) { showSurvey(e.target.dataset.eventId, e.target.dataset.eventName); } });
+            backToListBtn.addEventListener('click', (e) => { e.preventDefault(); showList(); });
+            submitSurveyBtn.addEventListener('click', () => {
+                alert('Anketiniz için teşekkür ederiz! (Bu bir simülasyondur)');
+                let userRegistrations = JSON.parse(localStorage.getItem('userRegistrations')) || {};
+                if (userRegistrations[currentSurveyEventId]) {
+                    userRegistrations[currentSurveyEventId].surveyCompleted = true;
+                    localStorage.setItem('userRegistrations', JSON.stringify(userRegistrations));
+                }
+                showList();
+            });
+            themeToggleBtn.addEventListener('click', () => { const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark'; applyTheme(newTheme); });
+
+            // --- İLK YÜKLEME ---
+            renderSurveys();
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+        });
+    </script>
+</body>
+</html>

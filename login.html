@@ -5,290 +5,228 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giriş Yap - Antalya OSB Teknopark</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="icons/icon-192.png">
-    <meta name="theme-color" content="#1a1f3c">
-
     <style>
+        /* ================================================================ */
+        /* == TEMEL SAYFA YAPISI VE KESİN ORTALAMA == */
+        /* ================================================================ */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            overflow-x: hidden;
             transition: background-color 0.4s ease, color 0.4s ease;
-        }
-        a { text-decoration: none; transition: color 0.3s ease; }
-        ul { list-style: none; }
-        img, svg, iframe { max-width: 100%; height: auto; vertical-align: middle; display: block; }
-        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-
-        body.dark-theme {
-            color: #e8e8e8;
-            background-color: #0a0d1e;
-        }
-        .dark-theme .main-header { background-color: rgba(10, 15, 43, 0.85); box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5); }
-        .dark-theme #theme-toggle { color: #f0f0f0; }
-        .dark-theme a { color: #a0a0ff; }
-        .dark-theme a:hover { color: #c0c0ff; text-decoration: underline;}
-        .dark-theme .form-face { background-color: rgba(20, 25, 60, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); border-radius: 12px; }
-        .dark-theme .form-face h1 { color: #fff; }
-        .dark-theme .form-group label { color: #bbb; }
-        .dark-theme .form-group input { border: 1px solid #4a4f8b; background-color: rgba(10, 15, 43, 0.9); color: #e0e0e0; border-radius: 6px; }
-        .dark-theme .form-group input::placeholder { color: #777; opacity: 1;}
-        .dark-theme .form-group input:focus { border-color: #8f94fb; box-shadow: 0 0 0 3px rgba(143, 148, 251, 0.3); }
-        .dark-theme .form-options { color: #ccc; }
-        .dark-theme .form-options input[type="checkbox"] { accent-color: #8f94fb;}
-        .dark-theme .form-options a { color: #a0a0ff; }
-        .dark-theme .submit-btn { background: linear-gradient(45deg, #8A2BE2, #DC143C); color: white; border: none; border-radius: 25px; }
-        .dark-theme .submit-btn:hover { background: linear-gradient(45deg, #7B1FA2, #C2185B); box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4); }
-        .dark-theme .switch-form-link { color: #bbb; }
-        .dark-theme .switch-form-link a { color: #a0a0ff;}
-        .dark-theme .forgot-password-form p { color: #ccc; }
-
-
-        body.light-theme {
-            color: #2c3e50;
-            background-color: #ecf0f1;
-        }
-        .light-theme .main-header { background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
-        .light-theme #theme-toggle { color: #34495e; }
-        .light-theme a { color: #2980b9; }
-        .light-theme a:hover { color: #1f6fa0; text-decoration: underline;}
-        .light-theme .form-face {
-            background: linear-gradient(135deg, rgba(106, 17, 203, 0.65) 0%, rgba(199, 21, 133, 0.7) 60%, rgba(238, 130, 238, 0.65) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(6px);
-            border-radius: 12px;
-        }
-        .light-theme .form-face h1 { color: #ffffff; text-shadow: 1px 1px 3px rgba(0,0,0,0.35); }
-        .light-theme .form-group label { color: #f0f0f0; font-weight: 500; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
-        .light-theme .form-group input {
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            background-color: rgba(255, 255, 255, 0.18);
-            color: #ffffff;
-            border-radius: 6px;
-        }
-        .light-theme .form-group input::placeholder { color: rgba(255, 255, 255, 0.7); opacity: 1;}
-        .light-theme .form-group input:focus {
-            border-color: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
-            background-color: rgba(255, 255, 255, 0.25);
-        }
-        .light-theme .form-options { color: #f0f0f0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
-        .light-theme .form-options input[type="checkbox"] { accent-color: #EE82EE;}
-        .light-theme .form-options a { color: #f5d5ff; font-weight: 500; }
-        .light-theme .form-options a:hover { color: #ffffff; }
-        .light-theme .submit-btn {
-            background: linear-gradient(45deg, #3498db, #2980b9);
-            color: white;
-            border: none;
-            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
-            border-radius: 25px;
-        }
-        .light-theme .submit-btn:hover {
-            background: linear-gradient(45deg, #2980b9, #1f6fa0);
-            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
-        }
-        .light-theme .switch-form-link { color: #f0f0f0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
-        .light-theme .switch-form-link a { color: #f5d5ff; font-weight: 600; }
-        .light-theme .switch-form-link a:hover { color: #ffffff; }
-        .light-theme .forgot-password-form p { color: #f0f0f0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
-
-
-        .main-header {
-            padding: 10px 20px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
+            position: relative;
             display: flex;
-            justify-content: flex-end;
             align-items: center;
+            justify-content: center;
         }
+        a { text-decoration: none; color: inherit; }
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .header-controls { position: absolute; top: 10px; right: 20px; display: flex; gap: 15px; align-items: center; z-index: 10; }
+        #home-link { font-size: 1.5rem; }
+        #theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.6rem; }
 
-        #theme-toggle {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.6rem;
-            padding: 8px 12px;
-            transition: transform 0.3s ease, color 0.4s ease;
-        }
-        #theme-toggle:hover {
-            transform: scale(1.1) rotate(15deg);
-        }
+        /* ================================================================ */
+        /* == TEMA RENKLERİ == */
+        /* ================================================================ */
+        body.dark-theme { color: #e8e8e8; background-color: #0a0d1e; }
+        .dark-theme .form-container { background-color: rgba(26, 32, 53, 0.8); border: 1px solid rgba(138, 43, 226, 0.25); }
+        .dark-theme .form-title { color: #ffffff; }
+        .dark-theme .form-subtitle { color: #a0a8c0; }
+        .dark-theme .form-label { color: #ccc; }
+        .dark-theme .form-input { background-color: rgba(10, 15, 43, 0.85); border: 1px solid #4a4f8b; color: #e8e8e8; }
+        .dark-theme .form-input:focus { border-color: #9370DB; box-shadow: 0 0 8px rgba(147, 112, 219, 0.4); }
+        .dark-theme .btn-submit { background: linear-gradient(45deg, #8A2BE2, #DC143C); color: white; }
+        .dark-theme .link { color: #f0a0ff; }
+        .dark-theme #theme-toggle { color: #f0f0f0; }
+        .dark-theme .forgot-password a, .dark-theme .back-to-login a { color: #a1b9ff; }
+        body.light-theme { color: #2c3e50; background-color: #ecf0f1; }
+        .light-theme .form-container { background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 5px 25px rgba(0,0,0,0.1); }
+        .light-theme .form-title { color: #2c3e50; }
+        .light-theme .form-subtitle { color: #65676b; }
+        .light-theme .form-label { color: #555; }
+        .light-theme .form-input { background-color: #f8f9fa; border: 1px solid #bdc3c7; color: #2c3e50; }
+        .light-theme .form-input:focus { border-color: #3498db; box-shadow: 0 0 8px rgba(52, 152, 219, 0.3); }
+        .light-theme .btn-submit { background: linear-gradient(45deg, #3498db, #2980b9); color: white; }
+        .light-theme .link { color: #2980b9; }
+        .light-theme #theme-toggle { color: #34495e; }
+        .light-theme .forgot-password a, .light-theme .back-to-login a { color: #2980b9; }
         #theme-toggle .fa-sun { display: none; }
         .light-theme #theme-toggle .fa-sun { display: inline-block; }
         .light-theme #theme-toggle .fa-moon { display: none; }
 
-        .auth-main { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 80px 20px 40px 20px; position: relative; z-index: 1; width: 100%; min-height: calc(100vh - 50px); }
-        .auth-container { background-color: transparent; width: 100%; max-width: 400px; min-height: 550px; perspective: 1200px; }
-        .flip-card-inner { position: relative; width: 100%; height: 100%; min-height: 550px; transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); transform-style: preserve-3d; }
-        .auth-container.is-flipped .flip-card-inner { transform: rotateY(180deg); }
-        .form-face { position: absolute; top: 0; left: 0; width: 100%; height: 100%; min-height: 550px; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; padding: 35px 30px; }
-        .login-form { }
-        .forgot-password-form { transform: rotateY(180deg); min-height: 460px; }
-        .forgot-password-form .form-face-content { display: flex; flex-direction: column; justify-content: center; height: 100%;}
-        .form-face h1 { text-align: center; font-size: 2rem; margin-bottom: 25px; font-weight: 600; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-size: 0.85rem; }
-        .form-group input { width: 100%; padding: 10px 12px; font-size: 1rem; outline: none; transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; }
-        .form-options { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-bottom: 20px; }
-        .form-options label { display: flex; align-items: center; cursor: pointer; }
-        .form-options input[type="checkbox"] { margin-right: 5px; cursor: pointer; }
-        .form-options a { font-size: 0.8rem; }
-        .submit-btn { display: block; width: 100%; padding: 11px; font-size: 1.05rem; font-weight: 500; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease; margin-bottom: 18px; }
-        .submit-btn:hover { transform: translateY(-2px); }
-        .switch-form-link { text-align: center; font-size: 0.85rem; }
-        .switch-form-link a { font-weight: 500; }
-        .forgot-password-form p { font-size: 0.9rem; margin-bottom: 20px; text-align: center;}
-
-        @media (max-width: 480px) {
-            .main-header { padding: 10px 15px; }
-            #theme-toggle { font-size: 1.5rem; padding: 6px 10px;}
-            .auth-main { padding: 70px 15px 30px 15px; }
-            .auth-container { max-width: 95%; min-height: 520px;}
-            .form-face { padding: 30px 25px; min-height: 520px; border-radius: 12px; }
-            .form-face h1 { font-size: 1.7rem; margin-bottom: 20px; }
-            .form-options { font-size: 0.75rem; flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 15px;}
-            .form-options a { font-size: 0.75rem; }
-            .submit-btn { font-size: 1rem; padding: 10px; margin-bottom: 15px; border-radius: 25px; }
-            .switch-form-link { font-size: 0.8rem; }
-            .forgot-password-form { min-height: 440px; }
-            .forgot-password-form p { margin-bottom: 20px; }
+        /* ================================================================ */
+        /* == DÖNME EFEKTİ VE FORM STİLLERİ - GÜNCELLENDİ == */
+        /* ================================================================ */
+        .flip-card-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
         }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            transition: transform 0.8s, height 0.6s ease; /* Yüksekliğe de transition ekle */
+            transform-style: preserve-3d;
+        }
+        .flip-card-inner.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute; /* Bu kalmalı */
+            width: 100%;
+            top: 0; left: 0;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        .form-container { padding: 40px; border-radius: 10px; z-index: 1; }
+        .form-title { text-align: center; font-size: 2rem; font-weight: 600; margin-bottom: 10px; }
+        .form-subtitle { text-align: center; font-size: 1rem; margin-bottom: 30px; opacity: 0.8; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem; }
+        .form-input { width: 100%; padding: 12px 15px; border-radius: 6px; font-size: 1rem; transition: all 0.3s ease; outline: none; }
+        .forgot-password, .back-to-login { text-align: right; font-size: 0.9rem; margin-top: -10px; margin-bottom: 20px; }
+        .forgot-password a, .back-to-login a { cursor: pointer; text-decoration: underline; }
+        .btn-submit { width: 100%; padding: 14px; border: none; border-radius: 6px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; margin-top: 10px; }
+        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .bottom-link { text-align: center; margin-top: 20px; font-size: 0.9rem; }
+        .bottom-link a { font-weight: 600; }
+        .bottom-link a:hover { text-decoration: underline; }
     </style>
 </head>
 <body class="dark-theme">
-
     <div id="tsparticles"></div>
-
-    <header class="main-header">
-        <button id="theme-toggle" aria-label="Temayı Değiştir">
-            <i class="fas fa-sun"></i>
-            <i class="fas fa-moon"></i>
-        </button>
-    </header>
-
-    <main class="auth-main">
-        <div class="auth-container" id="authContainer">
-            <div class="flip-card-inner">
-                <div class="form-face login-form">
-                    <h1>Giriş Yap</h1>
-                    <form id="loginForm">
-                        <div class="form-group">
-                            <label for="login-name">Adınız</label>
-                            <input type="text" id="login-name" name="name" placeholder="Adınızı girin">
-                        </div>
-                        <div class="form-group">
-                            <label for="login-surname">Soyadınız</label>
-                            <input type="text" id="login-surname" name="surname" placeholder="Soyadınızı girin">
-                        </div>
-                        <div class="form-group">
-                            <label for="login-email">E-posta Adresi</label>
-                            <input type="email" id="login-email" name="email" required placeholder="ornek@eposta.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="login-password">Şifre</label>
-                            <input type="password" id="login-password" name="password" required placeholder="••••••••">
-                        </div>
-                        <div class="form-options">
-                            <label><input type="checkbox" name="remember"> Beni Hatırla</label>
-                            <a href="#" id="forgotPasswordLink">Şifremi Unuttum?</a>
-                        </div>
-                        <button type="submit" class="submit-btn">Giriş Yap</button>
-                        <p class="switch-form-link">Hesabın yok mu? <a href="register.html">Hemen Kayıt Ol</a></p>
+    <div class="header-controls">
+        <a href="index.html" id="home-link" aria-label="Ana Sayfa"><i class="fas fa-home"></i></a>
+        <button id="theme-toggle" aria-label="Temayı Değiştir"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button>
+    </div>
+    
+    <div class="flip-card-container">
+        <div class="flip-card-inner" id="flip-card-inner">
+            <div class="flip-card-front">
+                <div class="form-container">
+                    <h1 class="form-title">Giriş Yap</h1>
+                    <p class="form-subtitle">Ekosisteme yeniden hoş geldiniz.</p>
+                    <form id="login-form">
+                        <div class="form-group"><label for="email" class="form-label">E-posta Adresiniz</label><input type="email" id="email" class="form-input" required></div>
+                        <div class="form-group"><label for="password" class="form-label">Şifre</label><input type="password" id="password" class="form-input" required></div>
+                        <div class="forgot-password"><a id="forgot-password-link">Şifremi Unuttum</a></div>
+                        <button type="submit" class="btn-submit">Giriş Yap</button>
                     </form>
+                    <p class="bottom-link">Hesabınız yok mu? <a href="register.html" class="link">Kayıt Olun</a></p>
                 </div>
-                <div class="form-face forgot-password-form">
-                     <div class="form-face-content">
-                        <h1>Şifremi Unuttum</h1>
-                        <form id="forgotPasswordForm">
-                            <p>Şifrenizi sıfırlamak için kayıtlı e-posta adresinizi girin.</p>
-                            <div class="form-group"> <label for="forgot-email">E-posta Adresi</label> <input type="email" id="forgot-email" name="email" required placeholder="ornek@eposta.com"> </div>
-                            <button type="submit" class="submit-btn">Sıfırlama Linki Gönder</button>
-                            <p class="switch-form-link"> <a href="#" id="backToLoginLink">Giriş Yap'a Dön</a> </p>
-                        </form>
-                     </div>
+            </div>
+            <div class="flip-card-back">
+                <div class="form-container">
+                    <h1 class="form-title">Şifre Sıfırla</h1>
+                    <p class="form-subtitle">Kayıtlı e-posta adresinize bir sıfırlama bağlantısı göndereceğiz.</p>
+                    <form id="reset-form">
+                        <div class="form-group"><label for="reset-email" class="form-label">E-posta Adresiniz</label><input type="email" id="reset-email" class="form-input" required></div>
+                        <button type="submit" class="btn-submit">Sıfırlama Bağlantısı Gönder</button>
+                    </form>
+                    <p class="bottom-link"><a id="back-to-login-link" class="link">Giriş Ekranına Geri Dön</a></p>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
     <script>
-         document.addEventListener('DOMContentLoaded', (event) => {
+        document.addEventListener('DOMContentLoaded', () => {
+            const flipCardInner = document.getElementById('flip-card-inner');
+            const frontCard = document.querySelector('.flip-card-front');
+            const backCard = document.querySelector('.flip-card-back');
+            const forgotPasswordLink = document.getElementById('forgot-password-link');
+            const backToLoginLink = document.getElementById('back-to-login-link');
+            
+            // YENİ: Yükseklik hesaplama fonksiyonu
+            function setCardHeight() {
+                const frontHeight = frontCard.offsetHeight;
+                const backHeight = backCard.offsetHeight;
+                
+                if (flipCardInner.classList.contains('is-flipped')) {
+                    flipCardInner.style.height = `${backHeight}px`;
+                } else {
+                    flipCardInner.style.height = `${frontHeight}px`;
+                }
+            }
+            
+            // İlk yüklemede ve pencere boyutu değiştiğinde yüksekliği ayarla
+            setCardHeight();
+            window.addEventListener('resize', setCardHeight);
 
-             const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25, width: 1 }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
-             const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 130, density: { enable: true, area: 900 } }, color: { value: ["#555555", "#8B008B", "#3498db", "#2c3e50"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.7}, animation: { enable: true, speed: 0.6, minimumValue: 0.2, sync: false } }, size: { value: {min: 1, max: 4} }, links: { enable: true, distance: 140, color: "#8B008B", opacity: 0.35, width: 1.5 }, move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
-             let currentParticlesConfig = darkThemeParticlesConfig;
+            // Kartı Döndürme Olayları
+            forgotPasswordLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                flipCardInner.classList.add('is-flipped');
+                setCardHeight(); // Döndükten sonra yüksekliği yeniden ayarla
+            });
+            backToLoginLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                flipCardInner.classList.remove('is-flipped');
+                setCardHeight(); // Döndükten sonra yüksekliği yeniden ayarla
+            });
 
-             const themeToggleBtn = document.getElementById('theme-toggle');
-             const body = document.body;
-             const themeMeta = document.querySelector('meta[name="theme-color"]');
+            // Geri kalan tüm JavaScript kodu aynı, değişiklik yok
+            const loginForm = document.getElementById('login-form');
+            const resetForm = document.getElementById('reset-form');
+            const body = document.body;
+            const themeToggleBtn = document.getElementById('theme-toggle');
 
-             const savedTheme = localStorage.getItem('theme') || 'dark';
-             applyTheme(savedTheme);
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const emailInput = document.getElementById('email').value.trim();
+                const passwordInput = document.getElementById('password').value;
+                const storedUserJSON = localStorage.getItem('platformUser');
+                if (!storedUserJSON) { alert('Kayıtlı kullanıcı bulunamadı. Lütfen önce kayıt olun.'); return; }
+                const storedUser = JSON.parse(storedUserJSON);
+                if (emailInput.toLowerCase() === storedUser.email.toLowerCase() && passwordInput === storedUser.password) {
+                    const submitButton = loginForm.querySelector('.btn-submit');
+                    submitButton.textContent = 'Giriş Yapılıyor...';
+                    submitButton.disabled = true;
+                    localStorage.setItem('loggedInUserName', storedUser.name);
+                    localStorage.removeItem('userRegistrations');
+                    localStorage.removeItem('lastCheckedInEventId');
+                    setTimeout(() => { window.location.href = 'profil.html'; }, 1500);
+                } else {
+                    alert('E-posta veya şifre hatalı.');
+                }
+            });
 
-             themeToggleBtn.addEventListener('click', () => {
-                 const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark';
-                 applyTheme(newTheme);
-             });
+            resetForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const resetEmail = document.getElementById('reset-email').value;
+                if(resetEmail) {
+                    alert(`Şifre sıfırlama bağlantısı ${resetEmail} adresine gönderildi. (Bu bir simülasyondur)`);
+                    flipCardInner.classList.remove('is-flipped');
+                    setCardHeight();
+                } else {
+                    alert('Lütfen e-posta adresinizi girin.');
+                }
+            });
 
-             function applyTheme(theme) {
-                 const isParticlesPage = typeof tsParticles !== 'undefined' && document.getElementById('tsparticles');
-
-                 if (theme === 'light') {
-                     body.classList.remove('dark-theme');
-                     body.classList.add('light-theme');
-                     if(themeMeta) themeMeta.setAttribute('content', '#ecf0f1');
-                     if (isParticlesPage) currentParticlesConfig = lightThemeParticlesConfig;
-                 } else {
-                     body.classList.remove('light-theme');
-                     body.classList.add('dark-theme');
-                      if(themeMeta) themeMeta.setAttribute('content', '#0a0d1e');
-                      if (isParticlesPage) currentParticlesConfig = darkThemeParticlesConfig;
-                 }
-                 localStorage.setItem('theme', theme);
-
-                 if (isParticlesPage) {
-                     tsParticles.load("tsparticles", currentParticlesConfig);
-                 }
-             }
-
-             const authContainer = document.getElementById('authContainer');
-             const forgotPasswordLink = document.getElementById('forgotPasswordLink');
-             const backToLoginLink = document.getElementById('backToLoginLink');
-             const loginForm = document.getElementById('loginForm');
-             const loginNameInput = document.getElementById('login-name');
-
-             if(authContainer && forgotPasswordLink && backToLoginLink) {
-                 forgotPasswordLink.addEventListener('click', (e) => {
-                     e.preventDefault();
-                     authContainer.classList.add('is-flipped');
-                 });
-                 backToLoginLink.addEventListener('click', (e) => {
-                     e.preventDefault();
-                     authContainer.classList.remove('is-flipped');
-                 });
-             }
-
-             if (loginForm && loginNameInput) {
-                 loginForm.addEventListener('submit', function(e) {
-                     e.preventDefault();
-                     const userName = loginNameInput.value.trim() || 'Kullanıcı';
-                     localStorage.setItem('loggedInUserName', userName);
-                     window.location.href = 'profil.html';
-                 });
-             }
-         });
+            const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25, width: 1 }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 130, density: { enable: true, area: 900 } }, color: { value: ["#555555", "#8B008B", "#3498db", "#c3e50"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.7}, animation: { enable: true, speed: 0.6, minimumValue: 0.2, sync: false } }, size: { value: {min: 1, max: 4} }, links: { enable: true, distance: 140, color: "#8B008B", opacity: 0.35, width: 1.5 }, move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            
+            function applyTheme(theme) {
+                let config;
+                if (theme === 'light') { body.classList.remove('dark-theme'); body.classList.add('light-theme'); config = lightThemeParticlesConfig;
+                } else { body.classList.remove('light-theme'); body.classList.add('dark-theme'); config = darkThemeParticlesConfig; }
+                localStorage.setItem('theme', theme);
+                tsParticles.load("tsparticles", config);
+            }
+            themeToggleBtn.addEventListener('click', () => { const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark'; applyTheme(newTheme); });
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+        });
     </script>
-    <script> if ('serviceWorker'in navigator) { navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err)); } </script>
 </body>
 </html>
