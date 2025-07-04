@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anket Doldur - Antalya OSB Teknopark</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192.png">
+    <meta name="theme-color" content="#0b0f2b">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; transition: background-color 0.4s ease, color 0.4s ease; }
+        a { text-decoration: none; }
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        body.dark-theme { --bg-main: #0b0f2b; --bg-header: rgba(11, 15, 43, 0.9); --bg-card: rgba(20, 30, 70, 0.75); --text-primary: #e8e8f8; --text-secondary: #a8b0d0; --text-title: #fff; --accent-primary: #00BFFF; --border-color: rgba(0, 191, 255, 0.3); --floating-btn-bg: rgba(30, 45, 90, 0.8); --floating-btn-text: #87CEFA; --btn-action-border: var(--accent-primary); --btn-action-text: var(--accent-primary); --btn-action-bg-hover: var(--accent-primary); --btn-action-text-hover: var(--bg-main); }
+        body.light-theme { --bg-main: #f4f7fc; --bg-header: rgba(255, 255, 255, 0.95); --bg-card: #ffffff; --text-primary: #2c3e50; --text-secondary: #566573; --text-title: #2c3e50; --accent-primary: #c3143c; --border-color: rgba(0,0,0,0.1); --floating-btn-bg: rgba(255, 255, 255, 0.9); --floating-btn-text: var(--accent-primary); --btn-action-border: var(--accent-primary); --btn-action-text: var(--accent-primary); --btn-action-bg-hover: var(--accent-primary); --btn-action-text-hover: #fff; }
+        body { color: var(--text-primary); background-color: var(--bg-main); }
+        .main-header { background-color: var(--bg-header); padding: 5px 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); min-height: 70px; }
+        .header-left { display: flex; align-items: center; } .header-logo { height: 60px; width: auto; } .header-right { display: flex; align-items: center; gap: 5px; }
+        #theme-toggle, .header-link, .logout-button { display: flex; align-items: center; gap: 6px; padding: 8px; font-size: 0.95rem; color: var(--text-secondary); background: none; border: none; cursor: pointer; }
+        #theme-toggle { font-size: 1.4rem; }
+        .logout-button { border: 1px solid var(--text-secondary); border-radius: 20px; padding: 8px 15px; }
+        #theme-toggle .fa-sun, .light-theme #theme-toggle .fa-moon { display: none; }
+        .light-theme #theme-toggle .fa-sun { display: inline-block; }
+        .page-main-content { display: flex; align-items: center; justify-content: center; flex-grow: 1; padding: 50px 25px; }
+        .form-container { width: 100%; max-width: 800px; background: var(--bg-card); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        .light-theme .form-container { box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+        .survey-title { font-size: 1.8rem; margin-bottom: 30px; color: var(--text-title); line-height: 1.3; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        .light-theme .survey-title { color: var(--text-primary); }
+        .survey-question { margin-bottom: 35px; }
+        .survey-question label.q-title { font-size: 1.2rem; font-weight: 600; color: var(--text-title); display: block; margin-bottom: 20px; }
+        .light-theme .survey-question label.q-title { color: var(--text-primary); }
+        .radio-group { display: flex; flex-wrap: wrap; gap: 25px; }
+        .radio-group label { display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--text-secondary); font-size: 1rem; }
+        textarea.form-input { min-height: 120px; resize: vertical; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: var(--text-primary); padding: 10px; width: 100%; border-radius: 5px; font-size: 1rem; }
+        .light-theme textarea.form-input { background: #f4f7fc; color: var(--text-primary); }
+        .btn-submit { display: block; margin-left: auto; margin-top: 20px; padding: 12px 30px; border: 1px solid var(--btn-action-border); color: var(--btn-action-text); background: transparent; border-radius: 20px; font-weight: 600; cursor: pointer; font-size: 1rem; }
+        .btn-submit:hover { background-color: var(--btn-action-bg-hover); color: var(--btn-action-text-hover); }
+        .floating-back-button { position: fixed; bottom: 20px; left: 20px; width: 50px; height: 50px; background-color: var(--floating-btn-bg); backdrop-filter: blur(5px); color: var(--floating-btn-text); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; z-index: 999; }
+        @media (max-width: 768px) { .header-link span, .logout-button span { display: none; } .form-container { padding: 30px; } }
+    </style>
+</head>
+<body class="dark-theme">
+    <div id="tsparticles"></div>
+    <header class="main-header">
+        <div class="header-left"><a href="profil.html"><img src="logom.png" alt="Teknopark Logo" class="header-logo"></a></div>
+        <div class="header-right">
+             <button id="theme-toggle" aria-label="Temayı Değiştir"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button>
+             <a href="Pro.html" class="header-link"> <i class="fas fa-user-circle"></i> <span>Profil</span> </a>
+             <a href="ayarlar.html" class="header-link"> <i class="fas fa-cog"></i> <span>Ayarlar</span> </a>
+             <button id="logoutLinkSimple" class="logout-button"> <i class="fas fa-sign-out-alt"></i> <span>Çıkış Yap</span> </button>
+        </div>
+    </header>
+    <main class="page-main-content">
+        <div class="form-container">
+            <h1 id="survey-title" class="survey-title">Yatırımcının Perspektifinden: Erken Aşama Girişimlerde Değer Yaratan Unsurlar Geri Bildirim Formu</h1>
+            <form id="survey-form">
+                <div class="survey-question">
+                    <label class="q-title">1. Genel olarak bu etkinliği nasıl değerlendirirsiniz?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="q1" value="5" required> Çok iyi</label>
+                        <label><input type="radio" name="q1" value="4"> İyi</label>
+                        <label><input type="radio" name="q1" value="3"> Tatmin edici</label>
+                        <label><input type="radio" name="q1" value="2"> Zayıf</label>
+                    </div>
+                </div>
+                <div class="survey-question">
+                    <label class="q-title">2. Etkinlik sizin için faydalı oldu mu?</label>
+                    <div class="radio-group">
+                         <label><input type="radio" name="q2" value="5" required> Çok iyi</label>
+                         <label><input type="radio" name="q2" value="4"> İyi</label>
+                         <label><input type="radio" name="q2" value="3"> Tatmin edici</label>
+                         <label><input type="radio" name="q2" value="2"> Zayıf</label>
+                    </div>
+                </div>
+                <div class="survey-question">
+                    <label class="q-title">3. Etkinliğin süresini nasıl tanımlarsınız?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="q3" value="5" required> Çok iyi</label>
+                        <label><input type="radio" name="q3" value="4"> İyi</label>
+                        <label><input type="radio" name="q3" value="3"> Tatmin edici</label>
+                        <label><input type="radio" name="q3" value="2"> Zayıf</label>
+                    </div>
+                </div>
+                <div class="survey-question">
+                    <label class="q-title">4. Gelecekte benzer etkinliklere katılma olasılığınız nedir?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="q4" value="5" required> Kesinlikle katılırım</label>
+                        <label><input type="radio" name="q4" value="4"> Katılırım</label>
+                        <label><input type="radio" name="q4" value="3"> Belki katılırım</label>
+                        <label><input type="radio" name="q4" value="2"> Katılmam</label>
+                    </div>
+                </div>
+                <div class="survey-question">
+                    <label class="q-title">5. Etkinlikle ilgili görüş ve önerileriniz? (İsteğe Bağlı)</label>
+                    <textarea class="form-input" placeholder="Görüşlerinizi buraya yazabilirsiniz..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Anketi Gönder</button>
+            </form>
+        </div>
+    </main>
+    <a href="javascript:history.back()" class="floating-back-button" style="display:flex;"><i class="fas fa-arrow-left"></i></a>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!localStorage.getItem('loggedInUserName')) { window.location.href = 'login.html'; return; }
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventId = urlParams.get('eventId');
+            if (!eventId) {
+                alert('Geçersiz anket linki.');
+                window.location.href='profil.html';
+                return;
+            }
+
+            const surveyForm = document.getElementById('survey-form');
+            surveyForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                let userRegistrations = JSON.parse(localStorage.getItem('userRegistrations')) || {};
+                if (userRegistrations[eventId]) {
+                    userRegistrations[eventId].surveyCompleted = true;
+                    localStorage.setItem('userRegistrations', JSON.stringify(userRegistrations));
+                }
+                localStorage.setItem('lastSurveyCompletedEventId', eventId);
+                alert('Geri bildiriminiz için teşekkür ederiz!');
+                window.location.href = 'profil.html';
+            });
+            
+            const body = document.body;
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const logoutSimple = document.getElementById('logoutLinkSimple');
+            if(logoutSimple) { logoutSimple.addEventListener('click', (e) => { e.preventDefault(); localStorage.clear(); window.location.href = 'login.html'; }); }
+            
+            // ANİMASYONUN ÇALIŞMASI İÇİN GEREKLİ TÜM KODLAR
+            const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 70 }, color: { value: ["#ffffff", "#00BFFF", "#87CEFA", "#add8e6"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.5} }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 150, color: "#3a5f9b", opacity: 0.15, width: 1 }, move: { enable: true, speed: 0.7, direction: "none", random: true, straight: false, outModes: { default: "bounce" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 90 }, color: { value: ["#6A4A85", "#8A5A9E", "#c3143c", "#d73b8d"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.6} }, size: { value: {min: 1, max: 3.5} }, links: { enable: true, distance: 160, color: "#a0a0ff", opacity: 0.2, width: 1 }, move: { enable: true, speed: 0.8, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            
+            function applyTheme(theme) {
+                const isParticlesPage = typeof tsParticles !== 'undefined' && document.getElementById('tsparticles');
+                let config = theme === 'light' ? lightThemeParticlesConfig : darkThemeParticlesConfig;
+                if (theme === 'light') { body.classList.remove('dark-theme'); body.classList.add('light-theme'); } else { body.classList.remove('light-theme'); body.classList.add('dark-theme'); }
+                localStorage.setItem('theme', theme);
+                if (isParticlesPage) { tsParticles.load("tsparticles", config); }
+            }
+
+            if (themeToggleBtn) { themeToggleBtn.addEventListener('click', () => { const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark'; applyTheme(newTheme); }); }
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+        });
+    </script>
+</body>
+</html>

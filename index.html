@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anasayfa - Hoş Geldiniz</title>
+    <title>Giriş Yap - Antalya OSB Teknopark</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icons/icon-192.png">
-    <meta name="theme-color" content="#1a1f3c">
-
+    <meta name="theme-color" content="#ecf0f1">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
@@ -20,292 +19,191 @@
             min-height: 100vh;
             overflow-x: hidden;
             transition: background-color 0.4s ease, color 0.4s ease;
-            overflow-y: hidden;
+            overflow-y: hidden; /* Animasyon sırasında kaydırmayı engelle */
         }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
         img, svg { max-width: 100%; height: auto; vertical-align: middle; }
-        
-        /* Karşılama Ekranı Stilleri (Değişiklik yok) */
-        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 10000; transition: opacity 1.5s ease-out; }
-        #splash-logo { width: clamp(150px, 30vw, 200px); opacity: 0; transform: scale(0.8); animation: fadeInAndSettle 3.5s ease-in-out forwards; }
-        @keyframes fadeInAndSettle { 0% { opacity: 0; transform: scale(0.8) translateY(20px); } 50% { opacity: 1; transform: scale(1.05) translateY(0); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
-        .content-hidden { opacity: 0; visibility: hidden; transition: opacity 1.5s ease-in; }
 
-        /* Tema Renkleri */
+        /* KARŞILAMA EKRANI STİLLERİ */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 10000; transition: opacity 1.5s ease-out;
+        }
+        #splash-logo {
+            width: clamp(150px, 30vw, 200px); opacity: 0; transform: scale(0.8);
+            animation: fadeInAndSettle 3.5s ease-in-out forwards;
+        }
+        @keyframes fadeInAndSettle {
+            0% { opacity: 0; transform: scale(0.8) translateY(20px); }
+            50% { opacity: 1; transform: scale(1.05) translateY(0); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .content-hidden {
+            opacity: 0; visibility: hidden; transition: opacity 1.5s ease-in;
+        }
+
+        /* TEMA RENKLERİ */
         body.dark-theme { color: #e8e8e8; background-color: #0a0d1e; }
-        .dark-theme .main-header { background-color: rgba(10, 15, 43, 0.85); box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5); }
         .dark-theme #splash-screen { background-color: #0a0d1e; }
-        .dark-theme .auth-buttons { border-left: 1px solid #666; }
-        .dark-theme .btn-login { background: linear-gradient(45deg, #8A2BE2, #DC143C); color: white; border: 1px solid transparent; }
-        .dark-theme .btn-login:hover { background: linear-gradient(45deg, #7B1FA2, #C2185B); }
+        .dark-theme .btn-login { background: linear-gradient(45deg, #8A2BE2, #DC143C); color: white; }
         .dark-theme .btn-register { background-color: transparent; color: #f0a0ff; border: 1px solid #a060f0; }
-        .dark-theme .btn-register:hover { background-color: rgba(160, 96, 240, 0.15); color: #ffc0ff; border-color: #c080ff; }
         .dark-theme .btn-google { background-color: #ffffff; color: #3c4043; border: 1px solid #dadce0; }
-        .dark-theme .btn-google:hover { background-color: #f8f9fa; border-color: #c6cacc; }
         .dark-theme #theme-toggle { color: #f0f0f0; }
         .dark-theme .animated-logo { filter: drop-shadow(0 0 18px rgba(200, 180, 255, 0.4)); }
-        
+        .dark-theme .auth-buttons { border-left-color: #666; }
+
         body.light-theme { color: #2c3e50; background-color: #ecf0f1; }
-        .light-theme .main-header { background-color: rgba(255, 255, 255, 0.9); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
         .light-theme #splash-screen { background-color: #ecf0f1; }
-        .light-theme .auth-buttons { border-left: 1px solid #bdc3c7; }
-        .light-theme .btn-login { background: linear-gradient(45deg, #3498db, #2980b9); color: white; border: 1px solid transparent; }
-        .light-theme .btn-login:hover { background: linear-gradient(45deg, #2980b9, #1f6fa0); }
-        .light-theme .btn-register { background-color: #ffffff; color: #3498db; border: 1px solid #bdc3c7; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-weight: 500; }
-        .light-theme .btn-register:hover { background-color: #f8f9f9; border-color: #95a5a6; color: #2980b9; box-shadow: 0 2px 4px rgba(0,0,0,0.08); }
-        .light-theme .btn-google { background-color: #ffffff; color: #3c4043; border: 1px solid #dadce0; box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1); }
-        .light-theme .btn-google:hover { background-color: #f8f9fa; border-color: #c6cacc; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+        .light-theme .btn-login { background: linear-gradient(45deg, #3498db, #2980b9); color: white; }
+        .light-theme .btn-register { background-color: #ffffff; color: #3498db; border: 1px solid #bdc3c7; }
+        .light-theme .btn-google { background-color: #ffffff; color: #3c4043; border: 1px solid #dadce0; }
         .light-theme #theme-toggle { color: #34495e; }
         .light-theme .animated-logo { filter: drop-shadow(0 0 12px rgba(52, 73, 94, 0.2)); }
+        .light-theme .auth-buttons { border-left-color: #bdc3c7; }
         
-        /* Ana Sayfa Stilleri (Değişiklik yok) */
+        /* Arka Plan ve Ana Yapı */
         #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-        .main-header { padding: 10px 20px; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: flex-end; align-items: center; }
-        #theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.6rem; padding: 8px 12px; transition: transform 0.3s ease, color 0.4s ease; }
-        #theme-toggle:hover { transform: scale(1.1) rotate(15deg); }
-        #theme-toggle .fa-sun { display: none; }
+        .main-wrapper {
+            display: flex; flex-direction: column; flex-grow: 1;
+        }
+        .main-header { 
+            padding: 10px 20px; position: absolute; top: 0; right: 0; z-index: 1000; 
+        }
+        .home-main { 
+            flex-grow: 1; display: flex; justify-content: center; align-items: center;    
+            padding: 20px; position: relative; z-index: 1; 
+        }
+        #theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.6rem; padding: 8px 12px; }
+        #theme-toggle .fa-sun, .light-theme #theme-toggle .fa-moon { display: none; }
         .light-theme #theme-toggle .fa-sun { display: inline-block; }
-        .light-theme #theme-toggle .fa-moon { display: none; }
-        .home-main { flex-grow: 1; display: flex; flex-direction: column; align-items: center; padding: 0 20px; } /* GÜNCELLENDİ: Padding üstten kalktı, flex-direction column oldu */
         
-        .hero-section { /* YENİ EKLENDİ: Logo ve butonları kapsayan bölüm */
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            width: 100%; 
-            max-width: 1140px; 
-            gap: 70px; 
-            min-height: calc(100vh - 60px); /* GÜNCELLENDİ: Header yüksekliği hariç ekranı kapla */
-            padding: 40px 0;
+        /* Tüm ekranlar için ortak stil */
+        .content-container {
+            display: flex;
+            justify-content: center; align-items: center;
         }
-
-        .logo-wrapper { flex-shrink: 0; }
-        .animated-logo { width: 170px; height: auto; animation: floatAnimation 3.5s ease-in-out infinite; }
+        .animated-logo {
+            width: 170px; /* *** DEĞİŞİKLİK BURADA: Logo boyutu her zaman 170px olarak ayarlandı *** */
+            height: auto;
+            animation: floatAnimation 3.5s ease-in-out infinite;
+        }
         @keyframes floatAnimation { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        .auth-buttons { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; padding-left: 35px; }
-        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 13px 20px; border: 1px solid transparent; border-radius: 30px; font-size: 1.05rem; font-weight: 500; cursor: pointer; width: 245px; text-align: center; transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); overflow: hidden; white-space: nowrap; }
-        .btn:hover { transform: translateY(-4px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25); }
-        .btn i, .btn .google-logo-img { margin-right: 10px; vertical-align: middle; flex-shrink: 0; }
-        .btn i { font-size: 1.1em; }
-        .google-logo-img { width: 18px; height: 18px; }
-
-        /* ===================================================================== */
-        /* YENİ EKLENEN STİLLER: Tanıtım Bölümleri */
-        /* ===================================================================== */
-        .info-section {
-            width: 100%;
-            max-width: 1140px;
-            padding: 80px 20px;
-            margin: 0 auto;
+        
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 13px 20px; border: 1px solid transparent; border-radius: 30px;
+            font-size: 1.05rem; font-weight: 500; cursor: pointer;
             text-align: center;
-            border-top: 1px solid;
+            transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            overflow: hidden; white-space: nowrap;
         }
-        .dark-theme .info-section { border-color: rgba(255, 255, 255, 0.1); }
-        .light-theme .info-section { border-color: rgba(0, 0, 0, 0.1); }
+        .btn:hover { transform: translateY(-4px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25); }
+        .btn .google-logo-img { margin-right: 12px; width: 18px; height: 18px; }
 
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 600;
-            margin-bottom: 20px;
+        /* MOBİL GÖRÜNÜM (VARSAYILAN - Dikey ve Ortalanmış) */
+        .content-container {
+            flex-direction: column;
+            width: 100%; max-width: 320px; gap: 50px;
         }
-        .dark-theme .section-title { color: #ffffff; }
-        .light-theme .section-title { color: #2c3e50; }
-        
-        .section-subtitle {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 50px auto;
-            opacity: 0.9;
+        .auth-buttons {
+            display: flex; flex-direction: column;
+            align-items: center; gap: 20px; width: 100%;
         }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            text-align: left;
-        }
-
-        .feature-card {
-            padding: 30px;
-            border-radius: 10px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .dark-theme .feature-card { background-color: rgba(26, 32, 53, 0.7); border: 1px solid rgba(138, 43, 226, 0.2); }
-        .light-theme .feature-card { background-color: #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.07); }
-        
-        .feature-card:hover {
-            transform: translateY(-8px);
-        }
-        .dark-theme .feature-card:hover { box-shadow: 0 10px 25px rgba(138, 43, 226, 0.2); }
-        .light-theme .feature-card:hover { box-shadow: 0 10px 25px rgba(52, 152, 219, 0.2); }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-        .dark-theme .feature-icon { color: #9370DB; } /* MediumPurple */
-        .light-theme .feature-icon { color: #3498db; } /* Peter River */
-        
-        .feature-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 10px;
+        .btn {
+            width: 100%; max-width: 280px;
         }
         
-        .feature-description {
-            font-size: 1rem;
-            opacity: 0.8;
+        /* MASAÜSTÜ GÖRÜNÜM (Ekran 769px ve daha geniş olduğunda) */
+        @media (min-width: 769px) {
+            .content-container {
+                width: auto;
+                flex-direction: row;
+                max-width: none;
+                gap: 70px;
+            }
+            .auth-buttons {
+                align-items: flex-start;
+                padding-left: 35px;
+                border-left: 1px solid;
+            }
+            .btn { width: 245px; }
         }
-
-        /* Responsive Stiller */
-        @media (max-width: 768px) {
-            .hero-section { flex-direction: column; gap: 50px; min-height: auto; padding-top: 80px; padding-bottom: 80px; }
-            .auth-buttons { align-items: center; width: 100%; max-width: 320px; border-left: none; padding-left: 0; }
-            .dark-theme .auth-buttons, .light-theme .auth-buttons { border-left: none; }
-            .btn { width: 100%; max-width: 320px; padding: 12px 20px; }
-            .main-header { padding: 10px 15px; }
-            #theme-toggle { font-size: 1.5rem; padding: 6px 10px;}
-            .section-title { font-size: 2rem; }
-            .section-subtitle { font-size: 1.1rem; }
-            .info-section { padding: 60px 15px; }
-        }
-
     </style>
 </head>
-<body class="dark-theme">
-
+<body class="light-theme">
     <div id="splash-screen">
         <img src="logom.png" alt="Yükleniyor..." id="splash-logo" />
     </div>
 
-    <div id="tsparticles" class="content-hidden"></div>
-
-    <header class="main-header content-hidden">
-        <button id="theme-toggle" aria-label="Temayı Değiştir">
-            <i class="fas fa-sun"></i>
-            <i class="fas fa-moon"></i>
-        </button>
-    </header>
-
-    <main class="home-main content-hidden">
-        
-        <!-- BÖLÜM 1: HERO (Logo ve Butonlar) -->
-        <section class="hero-section">
-            <div class="logo-wrapper">
-                <img src="logom.png" alt="Antalya OSB Teknopark Logosu" class="animated-logo" />
-            </div>
-            <div class="auth-buttons">
-                <a href="login.html" class="btn btn-login">Giriş Yap</a>
-                <a href="register.html" class="btn btn-register">Kayıt Ol</a>
-                <a href="google_login_demo_tr.html" class="btn btn-google">
-                    <img src="google-logo.png" alt="Google logo" class="google-logo-img">
-                    Google ile devam et
-                </a>
-            </div>
-        </section>
-
-        <!-- ====================================================== -->
-        <!-- YENİ EKLENEN BÖLÜM: Platform Tanıtımı                  -->
-        <!-- ====================================================== -->
-        <section id="about" class="info-section">
-            <h2 class="section-title">Tek Bir Platform, Sonsuz Olanak</h2>
-            <p class="section-subtitle">
-                Antalya OSB Teknopark ekosisteminde yer alan girişimcileri, yatırımcıları ve mentorları dijital bir çatıda buluşturuyoruz. Etkinlikleri yönetin, etkileşimi artırın ve geleceğin teknolojisini birlikte şekillendirin.
-            </p>
-        </section>
-
-        <!-- ====================================================== -->
-        <!-- YENİ EKLENEN BÖLÜM: Temel Özellikler                   -->
-        <!-- ====================================================== -->
-        <section id="features" class="info-section">
-            <h2 class="section-title">Öne Çıkan Özellikler</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <i class="fas fa-calendar-check feature-icon"></i>
-                    <h3 class="feature-title">Merkezi Etkinlik Yönetimi</h3>
-                    <p class="feature-description">Tüm seminer, buluşma ve eğitimleri tek bir takvimden takip edin, tek tuşla kaydolun ve hiçbir fırsatı kaçırmayın.</p>
+    <div class="main-wrapper content-hidden">
+        <header class="main-header">
+            <button id="theme-toggle" aria-label="Temayı Değiştir">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </button>
+        </header>
+        <main class="home-main">
+            <div class="content-container">
+                <div class="logo-wrapper">
+                    <img src="logom.png" alt="Antalya OSB Teknopark Logosu" class="animated-logo" />
                 </div>
-                <div class="feature-card">
-                    <i class="fas fa-qrcode feature-icon"></i>
-                    <h3 class="feature-title">Dijital ve Temassız Check-in</h3>
-                    <p class="feature-description">Etkinliklere katılımınızı uygulama üzerinden QR kod okutarak saniyeler içinde, temassız bir şekilde gerçekleştirin.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-poll feature-icon"></i>
-                    <h3 class="feature-title">Anlık Geri Bildirim ve Anketler</h3>
-                    <p class="feature-description">Etkinlikler sonrası dijital anketlerle değerli görüşlerinizi paylaşın, ekosistemin gelişimine doğrudan katkıda bulunun.</p>
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-login">Giriş Yap</a>
+                    <a href="register.html" class="btn btn-register">Kayıt Ol</a>
+                    <a href="google_login_demo_tr.html" class="btn btn-google">
+                        <img src="google-logo.png" alt="Google logo" class="google-logo-img">
+                        Google ile devam et
+                    </a>
                 </div>
             </div>
-        </section>
+        </main>
+    </div>
 
-         <!-- ====================================================== -->
-        <!-- YENİ EKLENEN BÖLÜM: Hedef Kitle (Kimler İçin?)         -->
-        <!-- ====================================================== -->
-        <section id="for-whom" class="info-section">
-            <h2 class="section-title">Bu Platform Kimler İçin?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <i class="fas fa-rocket feature-icon"></i>
-                    <h3 class="feature-title">Girişimciler</h3>
-                    <p class="feature-description">Yatırımcılarla tanışın, mentorluk alın ve projenizi bir sonraki seviyeye taşıyacak etkinliklere kolayca erişin.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-hand-holding-usd feature-icon"></i>
-                    <h3 class="feature-title">Yatırımcılar</h3>
-                    <p class="feature-description">Bölgenin en parlak ve yenilikçi start-up'larını keşfedin, potansiyel yatırımları ilk siz duyun.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-users feature-icon"></i>
-                    <h3 class="feature-title">Tüm Ekosistem</h3>
-                    <p class="feature-description">Sanayiciler, akademisyenler ve mentorlar... Güçlü bir network içinde yerinizi alın, bilgi ve deneyim paylaşımının merkezi olun.</p>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- JavaScript bölümü (Değişiklik yok) -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             const splashScreen = document.getElementById('splash-screen');
-            const header = document.querySelector('.main-header');
-            const main = document.querySelector('.home-main');
-            const particlesContainer = document.getElementById('tsparticles');
+            const mainWrapper = document.querySelector('.main-wrapper');
 
             setTimeout(() => {
                 if (splashScreen) {
                     splashScreen.style.opacity = '0';
-                    splashScreen.addEventListener('transitionend', () => {
-                        splashScreen.remove();
-                    });
+                    splashScreen.addEventListener('transitionend', () => { splashScreen.remove(); });
                 }
-                
-                if (header) header.classList.remove('content-hidden');
-                if (main) main.classList.remove('content-hidden');
-                if (particlesContainer) particlesContainer.classList.remove('content-hidden');
-
+                if (mainWrapper) mainWrapper.classList.remove('content-hidden');
                 document.body.style.overflowY = 'auto';
+            }, 4000);
 
-            }, 4000); 
-
-            // Geri kalan tüm JavaScript kodunuz burada... (Değişiklik yok)
-            const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.6}, animation: { enable: true, speed: 0.5, minimumValue: 0.1, sync: false } }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25, width: 1 }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
-            const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 130, density: { enable: true, area: 900 } }, color: { value: ["#555555", "#8B008B", "#3498db", "#2c3e50"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.7}, animation: { enable: true, speed: 0.6, minimumValue: 0.2, sync: false } }, size: { value: {min: 1, max: 4} }, links: { enable: true, distance: 140, color: "#8B008B", opacity: 0.35, width: 1.5 }, move: { enable: true, speed: 1.2, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
-            let currentParticlesConfig = darkThemeParticlesConfig;
+            const darkThemeParticlesConfig = { fpsLimit: 60, particles: { number: { value: 160, density: { enable: true, area: 800 } }, color: { value: ["#ffffff", "#8A2BE2", "#6a6ff1", "#c0c0ff"] }, links: { enable: true, distance: 130, color: "#4a4f8b", opacity: 0.25 }, move: { enable: true, speed: 1 } } };
+            const lightThemeParticlesConfig = { fpsLimit: 60, particles: { number: { value: 130, density: { enable: true, area: 900 } }, color: { value: ["#555555", "#8B008B", "#3498db", "#2c3e50"] }, links: { enable: true, distance: 140, color: "#8B008B", opacity: 0.35 }, move: { enable: true, speed: 1 } } };
+            
             const themeToggleBtn = document.getElementById('theme-toggle');
             const body = document.body;
             const themeMeta = document.querySelector('meta[name="theme-color"]');
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            applyTheme(savedTheme, true);
-            themeToggleBtn.addEventListener('click', () => { const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark'; applyTheme(newTheme, false); });
-            function applyTheme(theme, isInitialLoad) { if (theme === 'light') { body.classList.remove('dark-theme'); body.classList.add('light-theme'); currentParticlesConfig = lightThemeParticlesConfig; if(themeMeta) themeMeta.setAttribute('content', '#ecf0f1'); } else { body.classList.remove('light-theme'); body.classList.add('dark-theme'); currentParticlesConfig = darkThemeParticlesConfig; if(themeMeta) themeMeta.setAttribute('content', '#0a0d1e'); } localStorage.setItem('theme', theme); if (isInitialLoad) { setTimeout(() => { tsParticles.load("tsparticles", currentParticlesConfig); }, 4000); } else { tsParticles.load("tsparticles", currentParticlesConfig); } }
+
+            function applyTheme(theme) {
+                const particleOptions = theme === 'light' ? lightThemeParticlesConfig : darkThemeParticlesConfig;
+                body.className = `${theme}-theme`;
+                if(themeMeta) themeMeta.setAttribute('content', theme === 'light' ? '#ecf0f1' : '#0a0d1e');
+                localStorage.setItem('theme', theme);
+                tsParticles.load("tsparticles", particleOptions);
+            }
+            
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            applyTheme(savedTheme);
+
+            themeToggleBtn.addEventListener('click', () => {
+                const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark';
+                applyTheme(newTheme);
+            });
         });
     </script>
     <script>
-        if ('serviceWorker'in navigator) { navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err)); }
+        if ('serviceWorker'in navigator) {
+          navigator.serviceWorker.register('service-worker.js').then(reg => console.log('SW Registered!', reg)).catch(err => console.log('SW Error:', err));
+        }
     </script>
-
 </body>
 </html>

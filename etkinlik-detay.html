@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etkinlik Detayı - Antalya OSB Teknopark</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; transition: background-color 0.4s ease, color 0.4s ease; }
+        body.overlay-active { overflow: hidden; }
+        a { text-decoration: none; transition: color 0.3s ease; }
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        body.dark-theme { --bg-main: #0b0f2b; --bg-header: rgba(11, 15, 43, 0.9); --bg-card: rgba(20, 30, 70, 0.75); --text-primary: #e8e8f8; --text-secondary: #a8b0d0; --text-title: #fff; --accent-primary: #00BFFF; --border-color: rgba(0, 191, 255, 0.3); --floating-btn-bg: rgba(30, 45, 90, 0.8); --floating-btn-text: #87CEFA; }
+        body.light-theme { --bg-main: #f4f7fc; --bg-header: rgba(255, 255, 255, 0.95); --bg-card: #ffffff; --text-primary: #2c3e50; --text-secondary: #566573; --text-title: #2c3e50; --accent-primary: #c3143c; --border-color: rgba(0,0,0,0.1); --floating-btn-bg: rgba(255, 255, 255, 0.9); --floating-btn-text: var(--accent-primary); }
+        body { color: var(--text-primary); background-color: var(--bg-main); }
+        .main-header { background-color: var(--bg-header); padding: 5px 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); min-height: 70px; }
+        .header-left { display: flex; align-items: center; }
+        .header-logo { height: 60px; width: auto; }
+        .header-right { display: flex; align-items: center; gap: 5px; }
+        #theme-toggle, .header-link, .logout-button { display: flex; align-items: center; gap: 6px; padding: 8px; font-size: 0.95rem; color: var(--text-secondary); background: none; border: none; cursor: pointer; }
+        #theme-toggle { font-size: 1.4rem; }
+        .logout-button { border: 1px solid var(--text-secondary); border-radius: 20px; padding: 8px 15px; }
+        #theme-toggle .fa-sun, .light-theme #theme-toggle .fa-moon { display: none; }
+        .light-theme #theme-toggle .fa-sun { display: inline-block; }
+        .page-main-content { flex-grow: 1; padding: 50px 25px; }
+        .page-container { max-width: 900px; margin: 0 auto; width: 100%; }
+        .event-detail-card { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color); padding: 40px; }
+        .light-theme .event-detail-card { box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+        .event-date { font-weight: 600; color: var(--accent-primary); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .countdown { font-size: 0.9rem; color: var(--text-secondary); }
+        .event-title { font-size: 2.5rem; color: var(--text-title); margin-bottom: 20px; line-height: 1.2; }
+        .light-theme .event-title { color: var(--text-primary); }
+        .event-description { color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem; }
+        .action-area { margin-top: 30px; padding-top: 30px; border-top: 1px solid var(--border-color); text-align: center; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .btn-action { display: inline-block; text-align: center; padding: 12px 30px; border: 1px solid; border-radius: 25px; font-weight: 600; cursor: pointer; font-size: 1.1rem; transition: all 0.3s ease; }
+        .btn-action.register { border-color: var(--accent-primary); color: var(--accent-primary); }
+        .btn-action.register:hover { background-color: var(--accent-primary); color: #0b0f2b; }
+        .light-theme .btn-action.register:hover { color: #fff; }
+        .btn-action.checkin { background-color: rgba(255, 0, 0, 0.15); border-color: rgba(255, 0, 0, 0.5); color: #ffc0cb; }
+        .light-theme .btn-action.checkin { background-color: rgba(231, 76, 60, 0.1); border-color: #e74c3c; color: #c0392b; }
+        .btn-action.checked-in { background: #28a745; color: white; border-color: #28a745; cursor: default; }
+        .btn-action.survey { background-color: rgba(255, 165, 0, 0.15); border-color: rgba(255, 165, 0, 0.6); color: #FFA500; }
+        .light-theme .btn-action.survey { background-color: rgba(215, 59, 141, 0.1); border-color: #d73b8d; color: #c3143c; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 2000; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--bg-main); padding: 30px; border-radius: 8px; text-align: center; border: 1px solid var(--border-color); }
+        .modal-content input { width: 100px; padding: 8px; text-align: center; font-size: 1rem; margin: 15px 0; }
+        .floating-back-button { position: fixed; bottom: 20px; left: 20px; width: 50px; height: 50px; background-color: var(--floating-btn-bg); backdrop-filter: blur(5px); color: var(--floating-btn-text); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; z-index: 999; }
+        @media (max-width: 768px) { .header-link span, .logout-button span { display: none; } }
+    </style>
+</head>
+<body class="dark-theme">
+    <div id="tsparticles"></div>
+    <header class="main-header">
+        <div class="header-left"><a href="profil.html"><img src="logom.png" alt="Teknopark Logo" class="header-logo"></a></div>
+        <div class="header-right">
+             <button id="theme-toggle" aria-label="Temayı Değiştir"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button>
+             <a href="Pro.html" class="header-link"> <i class="fas fa-user-circle"></i> <span>Profil</span> </a>
+             <a href="ayarlar.html" class="header-link"> <i class="fas fa-cog"></i> <span>Ayarlar</span> </a>
+             <button id="logoutLinkSimple" class="logout-button"> <i class="fas fa-sign-out-alt"></i> <span>Çıkış Yap</span> </button>
+        </div>
+    </header>
+    <main class="page-main-content">
+        <div class="page-container">
+            <div id="event-detail-container" class="event-detail-card">
+                <p>Yükleniyor...</p>
+            </div>
+        </div>
+    </main>
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-event-title">Etkinliğe Kaydol</h3>
+            <p>Bu etkinliğe kaç kişi olarak katılacaksınız?</p>
+            <input type="number" id="attendee-count" min="1" value="1">
+            <div class="modal-actions">
+                <button id="confirm-registration" class="btn-action register">Kaydı Tamamla</button>
+                <button id="cancel-registration" class="btn-action" style="background:transparent; border-color:#888; color:#888;">İptal</button>
+            </div>
+        </div>
+    </div>
+    <a href="javascript:history.back()" class="floating-back-button"><i class="fas fa-arrow-left"></i></a>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!localStorage.getItem('loggedInUserName')) { window.location.href = 'login.html'; return; }
+            
+            const eventsData = [{ id: 1, name: "Yapay Zeka Semineri", date: "2024-10-25T14:00:00", description: "Yapay zekanın iş dünyasına etkilerini ve gelecekteki trendleri keşfedin." },{ id: 2, name: "Yatırımcı Buluşması", date: "2024-11-15T10:00:00", description: "Gelecek vaat eden girişimcilerle potansiyel yatırımcıları bir araya getiren özel bir network etkinliği." },{ id: 3, name: "Mobil Workshop", date: "2024-12-05T09:30:00", description: "Sıfırdan-uzmanlığa mobil uygulama geliştirmenin inceliklerini öğrenin." }];
+            let userRegistrations = JSON.parse(localStorage.getItem('userRegistrations')) || {};
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventId = urlParams.get('eventId');
+            const event = eventsData.find(e => e.id == eventId);
+            const container = document.getElementById('event-detail-container');
+            const body = document.body;
+            
+            if (!event) { container.innerHTML = `<h1>Etkinlik Bulunamadı</h1>`; return; }
+
+            function renderEventDetail() {
+                const registration = userRegistrations[event.id];
+                let actionButtonsHTML = '';
+                if (registration) {
+                    if (registration.checkedIn) {
+                        actionButtonsHTML = `<button class="btn-action checked-in" disabled><i class="fas fa-check"></i> Check-in Yapıldı</button>`;
+                        if (!registration.surveyCompleted) {
+                            actionButtonsHTML += `<a href="anket-doldur.html?eventId=${event.id}" class="btn-action survey">Anketi Doldur</a>`;
+                        }
+                    } else {
+                        actionButtonsHTML = `<a href="checkin.html" class="btn-action checkin">Check-in Yap</a>`;
+                    }
+                } else {
+                    actionButtonsHTML = `<button class="btn-action register">Kayıt Ol</button>`;
+                }
+                
+                container.innerHTML = `
+                    <div class="event-date">
+                        <span>${new Date(event.date).toLocaleDateString('tr-TR', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
+                        <span class="countdown" id="countdown-${event.id}"></span>
+                    </div>
+                    <h1 class="event-title">${event.name}</h1>
+                    <p class="event-description">${event.description}</p>
+                    <div class="action-area">${actionButtonsHTML}</div>
+                `;
+                startCountdown(event.date, `countdown-${event.id}`);
+                const registerBtn = container.querySelector('.btn-action.register');
+                if (registerBtn) { registerBtn.addEventListener('click', () => openRegistrationModal()); }
+            }
+
+            function startCountdown(targetDateStr, elementId) {
+                const countdownElement = document.getElementById(elementId);
+                if (!countdownElement) return;
+                const targetDate = new Date(targetDateStr).getTime();
+                const interval = setInterval(() => {
+                    const now = new Date().getTime();
+                    const distance = targetDate - now;
+                    if (distance < 0) { clearInterval(interval); countdownElement.innerHTML = "Etkinlik başladı!"; return; }
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    countdownElement.innerHTML = `(${days}g ${hours}s kaldı)`;
+                }, 1000);
+            }
+
+            const modal = document.getElementById('register-modal');
+            function openRegistrationModal() {
+                document.getElementById('modal-event-title').textContent = `${event.name} - Kaydol`;
+                modal.classList.add('active');
+                body.classList.add('overlay-active');
+            }
+            function closeModal() { modal.classList.remove('active'); body.classList.remove('overlay-active'); }
+            document.getElementById('cancel-registration').addEventListener('click', closeModal);
+            document.getElementById('confirm-registration').addEventListener('click', () => {
+                const count = document.getElementById('attendee-count').value;
+                if (count < 1) { alert("Lütfen geçerli bir kişi sayısı girin."); return; }
+                userRegistrations[event.id] = { count: count, checkedIn: false, surveyCompleted: false };
+                localStorage.setItem('userRegistrations', JSON.stringify(userRegistrations));
+                closeModal();
+                renderEventDetail();
+            });
+
+            renderEventDetail();
+            
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const logoutSimple = document.getElementById('logoutLinkSimple');
+            if(logoutSimple) { logoutSimple.addEventListener('click', (e) => { e.preventDefault(); localStorage.clear(); window.location.href = 'index.html'; }); }
+            
+            const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 70 }, color: { value: ["#ffffff", "#00BFFF", "#87CEFA", "#add8e6"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.5} }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 150, color: "#3a5f9b", opacity: 0.15, width: 1 }, move: { enable: true, speed: 0.7, direction: "none", random: true, straight: false, outModes: { default: "bounce" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 90 }, color: { value: ["#6A4A85", "#8A5A9E", "#c3143c", "#d73b8d"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.6} }, size: { value: {min: 1, max: 3.5} }, links: { enable: true, distance: 160, color: "#a0a0ff", opacity: 0.2, width: 1 }, move: { enable: true, speed: 0.8, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            
+            function applyTheme(theme) {
+                const isParticlesPage = typeof tsParticles !== 'undefined' && document.getElementById('tsparticles');
+                let config = theme === 'light' ? lightThemeParticlesConfig : darkThemeParticlesConfig;
+                if (theme === 'light') { body.classList.remove('dark-theme'); body.classList.add('light-theme'); } else { body.classList.remove('light-theme'); body.classList.add('dark-theme'); }
+                localStorage.setItem('theme', theme);
+                if (isParticlesPage) { tsParticles.load("tsparticles", config); }
+            }
+            if (themeToggleBtn) { themeToggleBtn.addEventListener('click', () => { const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark'; applyTheme(newTheme); }); }
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+        });
+    </script>
+</body>
+</html>

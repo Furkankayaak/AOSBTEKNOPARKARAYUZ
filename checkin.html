@@ -7,17 +7,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #fff; background-color: #0b0f2b; }
+        body { font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; transition: background-color 0.4s ease, color 0.4s ease; }
         #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        
+        /* Dark Tema */
+        body.dark-theme { background-color: #0b0f2b; color: #fff; --qr-border-color: #00BFFF; --qr-icon-color: #00BFFF; --back-link-color: #87CEFA; }
+        
+        /* Light Tema */
+        body.light-theme { background-color: #f4f7fc; color: #2c3e50; --qr-border-color: #c3143c; --qr-icon-color: #c3143c; --back-link-color: #c3143c; }
+        
         .checkin-container { text-align: center; padding: 20px; z-index: 1; }
-        .qr-scanner { width: 300px; height: 300px; background: #333; border: 5px solid #00BFFF; margin: 0 auto 30px auto; display: flex; justify-content: center; align-items: center; font-size: 5rem; color: #00BFFF; }
+        .qr-scanner { width: 300px; height: 300px; background: rgba(0,0,0,0.1); border: 5px solid var(--qr-border-color); margin: 0 auto 30px auto; display: flex; justify-content: center; align-items: center; font-size: 5rem; color: var(--qr-icon-color); border-radius: 10px; }
         .checkin-title { font-size: 2rem; margin-bottom: 10px; }
         .checkin-status { font-size: 1.2rem; opacity: 0.8; }
         .checkin-success { display: none; color: #32CD32; font-size: 2.5rem; font-weight: bold; text-shadow: 0 0 15px limegreen; }
-        .back-link { display: block; margin-top: 30px; color: #87CEFA; }
+        .back-link { display: block; margin-top: 30px; color: var(--back-link-color); font-weight: 600; }
     </style>
 </head>
-<body>
+<body class="dark-theme">
     <div id="tsparticles"></div>
     <div class="checkin-container">
         <div id="scanner-view">
@@ -31,38 +38,38 @@
         </div>
         <a href="profil.html" class="back-link">Ana Panele Dön</a>
     </div>
-   <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Simülasyon için dark theme particles yükle
-        tsParticles.load("tsparticles", { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 70 }, color: { value: ["#ffffff", "#00BFFF", "#87CEFA", "#add8e6"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.5} }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 150, color: "#3a5f9b", opacity: 0.15, width: 1 }, move: { enable: true, speed: 0.7, direction: "none", random: true, straight: false, outModes: { default: "bounce" } } }, interactivity: { events: { resize: true } }, detectRetina: true });
-
-        // Bu sadece bir simülasyon. 3 saniye sonra başarılı gösterecek.
-        setTimeout(() => {
-            document.getElementById('scanner-view').style.display = 'none';
-            document.getElementById('success-view').style.display = 'block';
-
-            // localStorage'da check-in durumunu güncelle
-            let userRegistrations = JSON.parse(localStorage.getItem('userRegistrations')) || {};
-            
-            // Henüz check-in yapılmamış ilk kayıtlı etkinliği bul
-            const eventToCheckInId = Object.keys(userRegistrations).find(eventId => 
-                userRegistrations[eventId] && !userRegistrations[eventId].checkedIn
-            );
-            
-            if (eventToCheckInId) {
-                // Check-in durumunu 'true' yap
-                userRegistrations[eventToCheckInId].checkedIn = true;
-                
-                // YENİ: Başarılı check-in bilgisini hafızaya kaydet
-                // Bu bilgi, profil sayfasına döndüğümüzde mesajı göstermek için kullanılacak.
-                localStorage.setItem('lastCheckedInEventId', eventToCheckInId);
-
-                // Güncellenmiş kayıtları tekrar hafızaya yaz
-                localStorage.setItem('userRegistrations', JSON.stringify(userRegistrations));
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // TEMA YÖNETİMİ KODU
+            const body = document.body;
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            if (savedTheme === 'light') {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
             }
-        }, 3000);
-    });
-</script>
+            // PARTICLES.JS ANİMASYONU BAŞLATMA
+            const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 70 }, color: { value: ["#ffffff", "#00BFFF", "#87CEFA", "#add8e6"] }, links: { enable: true, distance: 150, color: "#3a5f9b", opacity: 0.15 } } };
+            const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 90 }, color: { value: ["#6A4A85", "#8A5A9E", "#c3143c", "#d73b8d"] }, links: { enable: true, distance: 160, color: "#a0a0ff", opacity: 0.2 } } };
+            let config = savedTheme === 'light' ? lightThemeParticlesConfig : darkThemeParticlesConfig;
+            tsParticles.load("tsparticles", config);
+
+
+            // CHECK-IN SİMÜLASYONU
+            setTimeout(() => {
+                document.getElementById('scanner-view').style.display = 'none';
+                document.getElementById('success-view').style.display = 'block';
+
+                let userRegistrations = JSON.parse(localStorage.getItem('userRegistrations')) || {};
+                const eventToCheckInId = Object.keys(userRegistrations).find(eventId => userRegistrations[eventId] && !userRegistrations[eventId].checkedIn);
+                
+                if (eventToCheckInId) {
+                    userRegistrations[eventToCheckInId].checkedIn = true;
+                    localStorage.setItem('lastCheckedInEventId', eventToCheckInId);
+                    localStorage.setItem('userRegistrations', JSON.stringify(userRegistrations));
+                }
+            }, 3000);
+        });
+    </script>
 </body>
 </html>

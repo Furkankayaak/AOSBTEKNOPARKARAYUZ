@@ -181,25 +181,36 @@
             const body = document.body;
             const themeToggleBtn = document.getElementById('theme-toggle');
 
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const emailInput = document.getElementById('email').value.trim();
-                const passwordInput = document.getElementById('password').value;
-                const storedUserJSON = localStorage.getItem('platformUser');
-                if (!storedUserJSON) { alert('Kayıtlı kullanıcı bulunamadı. Lütfen önce kayıt olun.'); return; }
-                const storedUser = JSON.parse(storedUserJSON);
-                if (emailInput.toLowerCase() === storedUser.email.toLowerCase() && passwordInput === storedUser.password) {
-                    const submitButton = loginForm.querySelector('.btn-submit');
-                    submitButton.textContent = 'Giriş Yapılıyor...';
-                    submitButton.disabled = true;
-                    localStorage.setItem('loggedInUserName', storedUser.name);
-                    localStorage.removeItem('userRegistrations');
-                    localStorage.removeItem('lastCheckedInEventId');
-                    setTimeout(() => { window.location.href = 'profil.html'; }, 1500);
-                } else {
-                    alert('E-posta veya şifre hatalı.');
-                }
-            });
+          
+loginForm.addEventListener('submit', (e) => {
+    
+
+    e.preventDefault();
+    const emailInput = document.getElementById('email').value.trim();
+    const passwordInput = document.getElementById('password').value;
+
+    const allUsers = JSON.parse(localStorage.getItem('platformUsers')) || [];
+    
+    const foundUser = allUsers.find(user => 
+        user.email.toLowerCase() === emailInput.toLowerCase() && 
+        user.password === passwordInput
+    );
+
+    if (foundUser) {
+        const submitButton = loginForm.querySelector('.btn-submit');
+        submitButton.textContent = 'Giriş Yapılıyor...';
+        submitButton.disabled = true;
+        
+        // DEĞİŞİKLİK: Bulunan kullanıcının SADECE ADINI kaydediyoruz.
+        localStorage.setItem('loggedInUserName', foundUser.firstName);
+
+        setTimeout(() => { 
+            window.location.href = 'profil.html'; 
+        }, 1500);
+    } else {
+        alert('E-posta veya şifre hatalı.');
+    }
+});
 
             resetForm.addEventListener('submit', (e) => {
                 e.preventDefault();

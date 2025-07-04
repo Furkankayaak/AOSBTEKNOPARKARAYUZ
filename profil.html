@@ -12,84 +12,78 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; transition: background-color 0.4s ease, color 0.4s ease; }
-        body.overlay-active { overflow: hidden; }
         a { text-decoration: none; transition: color 0.3s ease; }
-        ul { list-style: none; }
-        img, svg, iframe { max-width: 100%; height: auto; vertical-align: middle; display: block; }
         #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-        body.dark-theme { --bg-main: #0b0f2b; --bg-header: rgba(11, 15, 43, 0.9); --bg-card: rgba(20, 30, 70, 0.75); --bg-card-hover: rgba(30, 45, 90, 0.88); --text-primary: #e8e8f8; --text-secondary: #a8b0d0; --text-title: #fff; --accent-primary: #00BFFF; --accent-secondary: #87CEFA; --accent-hover: #add8e6; --border-color: rgba(0, 191, 255, 0.3); --border-color-hover: rgba(0, 191, 255, 0.7); --glow-color-primary: rgba(0, 191, 255, 0.6); --glow-color-secondary: rgba(135, 206, 250, 0.5); --shadow-color: rgba(0, 0, 0, 0.6); --button-logout-border: var(--text-secondary); --button-logout-text: var(--text-secondary); --button-logout-bg-hover: var(--accent-primary); --button-logout-text-hover: var(--bg-main); --card-button-border: var(--accent-primary); --card-button-text: var(--accent-primary); --card-button-bg-hover: var(--accent-primary); --card-button-text-hover: var(--bg-main); --welcome-text-shadow: 0 0 5px var(--accent-hover), 0 0 10px var(--accent-hover), 0 0 20px var(--glow-color-primary), 0 0 40px var(--glow-color-primary), 0 0 70px rgba(0, 191, 255, 0.5); --welcome-text-shadow-hover: 0 0 8px var(--accent-hover), 0 0 16px var(--accent-hover), 0 0 30px var(--glow-color-primary), 0 0 50px var(--glow-color-primary), 0 0 80px rgba(0, 191, 255, 0.6); --card-shadow: 0 6px 20px var(--shadow-color), 0 0 10px var(--glow-color-secondary); --card-shadow-hover: 0 12px 35px rgba(0,0,0,0.7), 0 0 18px var(--glow-color-primary), 0 0 35px var(--glow-color-primary); --card-icon-bg: linear-gradient(145deg, rgba(0, 191, 255, 0.1), rgba(0, 191, 255, 0.2)); --card-icon-shadow-hover: 0 0 15px var(--glow-color-primary); }
-        body.light-theme { --bg-main: #f4f7fc; --bg-header: rgba(255, 255, 255, 0.95); --bg-card: #ffffff; --bg-card-hover: #fdfdfd; --text-primary: #2c3e50; --text-secondary: #566573; --text-title: #2c3e50; --accent-primary: #3498db; --accent-secondary: #5dade2; --accent-hover: #2980b9; --border-color: rgba(0,0,0,0.1); --border-color-hover: rgba(0,0,0,0.2); --glow-color-primary: rgba(52, 152, 219, 0.4); --glow-color-secondary: rgba(93, 173, 226, 0.3); --shadow-color: rgba(0, 0, 0, 0.15); --button-logout-border: var(--accent-primary); --button-logout-text: var(--accent-primary); --button-logout-bg-hover: var(--accent-primary); --button-logout-text-hover: #fff; --card-button-border: var(--accent-primary); --card-button-text: var(--accent-primary); --card-button-bg-hover: var(--accent-primary); --card-button-text-hover: #fff; --welcome-text-shadow: 0 1px 2px rgba(0,0,0,0.1); --welcome-text-shadow-hover: 0 2px 4px rgba(0,0,0,0.15); --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); --card-shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.15); --card-icon-bg: linear-gradient(145deg, #e3f2fd, #e8f5e9); --card-icon-shadow-hover: 0 0 15px rgba(52, 152, 219, 0.5); }
+        
+        body.dark-theme { --bg-main: #0b0f2b; --bg-header: rgba(11, 15, 43, 0.9); --bg-card: rgba(20, 30, 70, 0.75); --text-primary: #e8e8f8; --text-secondary: #a8b0d0; --text-title: #fff; --accent-primary: #00BFFF; --accent-secondary: #87CEFA; --border-color: rgba(0, 191, 255, 0.3); --toast-bg: rgba(26, 32, 53, 0.9); --toast-border: var(--accent-primary); --toast-text: #fff; }
+        body.light-theme { --bg-main: #f4f7fc; --bg-header: rgba(255, 255, 255, 0.95); --bg-card: #ffffff; --text-primary: #2c3e50; --text-secondary: #566573; --text-title: #2c3e50; --accent-primary: #c3143c; --accent-secondary: #d73b8d; --border-color: rgba(0,0,0,0.1); --toast-bg: rgba(255, 255, 255, 0.95); --toast-border: var(--accent-primary); --toast-text: #2c3e50; }
+        
         body { color: var(--text-primary); background-color: var(--bg-main); }
-        a { color: var(--accent-secondary); }
-        a:hover { color: var(--accent-hover); }
-        .main-header { background-color: var(--bg-header); backdrop-filter: blur(10px); padding: 10px 25px; box-shadow: 0 4px 15px var(--shadow-color); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); min-height: 70px; }
-        .header-left { display: flex; align-items: center; gap: 12px; flex-shrink: 1; min-width: 0; }
-        .header-logo { height: 85px; width: auto; flex-shrink: 0; }
-        .header-right { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
-        #theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.4rem; padding: 5px; color: var(--text-secondary); transition: transform 0.3s ease, color 0.4s ease; }
-        #theme-toggle:hover { color: var(--accent-primary); }
-        #theme-toggle .fa-sun { display: none; }
+        .main-header { background-color: var(--bg-header); padding: 5px 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); min-height: 70px; }
+        .header-left { display: flex; align-items: center; }
+        .header-logo { height: 60px; width: auto; }
+        .header-right { display: flex; align-items: center; gap: 5px; }
+        #theme-toggle, .header-link, .logout-button { display: flex; align-items: center; gap: 6px; padding: 8px; font-size: 0.95rem; color: var(--text-secondary); background: none; border: none; cursor: pointer; }
+        #theme-toggle { font-size: 1.4rem; }
+        .logout-button { border: 1px solid var(--text-secondary); border-radius: 20px; padding: 8px 15px; }
+        #theme-toggle .fa-sun, .light-theme #theme-toggle .fa-moon { display: none; }
         .light-theme #theme-toggle .fa-sun { display: inline-block; }
-        .light-theme #theme-toggle .fa-moon { display: none; }
-        .header-link { display: flex; align-items: center; gap: 6px; font-size: 0.95rem; color: var(--text-secondary); }
-        .logout-button { display: flex; align-items: center; gap: 8px; background-color: transparent; border: 1px solid var(--button-logout-border); color: var(--button-logout-text); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; font-weight: 500; cursor: pointer; }
-        .profile-main { flex-grow: 1; padding: 50px 25px; position: relative; z-index: 1; }
+        
+        .profile-main { flex-grow: 1; padding: 50px 25px; }
         .profile-container { max-width: 1300px; margin: 0 auto; width: 100%; }
         .welcome-section { text-align: center; margin-bottom: 60px; }
-        .welcome-section h1 { font-size: 3.5rem; font-weight: 700; color: var(--text-title); margin-bottom: 10px; }
-        body.light-theme .welcome-section h1 { color: var(--text-primary); }
+        .welcome-section h1 { font-size: 3.5rem; color: var(--text-title); }
+        .light-theme .welcome-section h1 { color: var(--text-primary); }
+        .welcome-section h1 span { color: var(--accent-secondary); }
+        
         .dashboard-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 35px; }
-        .dashboard-card { background: var(--bg-card); border-radius: 12px; padding: 25px 30px; border: 1px solid var(--border-color); box-shadow: var(--card-shadow); display: flex; flex-direction: column; width: 100%; max-width: 380px; }
-        .card-icon { font-size: 2rem; color: var(--accent-primary); margin-bottom: 18px; width: 55px; height: 55px; background: var(--card-icon-bg); border-radius: 10px; display: flex; justify-content: center; align-items: center; }
-        .light-theme .card-icon { color: var(--accent-primary); }
+        .dashboard-card { background: var(--bg-card); border-radius: 12px; padding: 25px 30px; border: 1px solid var(--border-color); display: flex; flex-direction: column; width: 100%; max-width: 380px; }
+        .card-icon { font-size: 2rem; margin-bottom: 18px; width: 55px; height: 55px; background: linear-gradient(145deg, #d73b8d, #c3143c); color: #fff; border-radius: 10px; display: flex; justify-content: center; align-items: center; }
+        .dark-theme .card-icon { background: linear-gradient(145deg, rgba(0, 191, 255, 0.1), rgba(0, 191, 255, 0.2)); color: var(--text-primary); }
         .card-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 10px; color: var(--text-title); }
-        .light-theme .card-title { color: var(--text-primary); }
+        .light-theme .card-title { color: #2c3e50; }
         .card-description { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 20px; flex-grow: 1; }
-        .light-theme .card-description { color: var(--text-secondary); }
+        .light-theme .card-description { color: #566573; }
         .card-button-wrapper { margin-top: auto; }
-        .card-button { display: inline-block; text-align: center; padding: 9px 22px; border: 1px solid var(--card-button-border, var(--accent-primary)); color: var(--card-button-text, var(--accent-primary)); border-radius: 20px; font-weight: 500; }
-        .card-button:hover { background-color: var(--accent-primary); color: #0b0f2b; }
-        .light-theme .card-button:hover { background-color: var(--accent-primary); color: #fff; }
-        .checkin-link { display: none; margin-left: 20px; padding: 8px 15px; background-color: rgba(255, 0, 0, 0.15); border: 1px solid rgba(255, 0, 0, 0.5); color: #ffc0cb; border-radius: 20px; font-weight: 600; font-size: 0.9rem; animation: pulse-red 2s infinite; }
-        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); } 70% { box-shadow: 0 0 10px 15px rgba(255, 0, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); } }
-        .success-notification { display: none; margin-left: 20px; padding: 8px 15px; background-color: rgba(50, 205, 50, 0.15); border: 1px solid rgba(50, 205, 50, 0.5); color: #98FB98; border-radius: 20px; animation: fadeInOut 5s ease-in-out forwards; }
-        @keyframes fadeInOut { 0% { opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { opacity: 0; } }
-        .mobile-menu-toggle { display: none; background: none; border: none; color: var(--text-secondary); font-size: 1.5rem; cursor: pointer; z-index: 1001; }
-        .mobile-nav { display: none; position: fixed; top: 70px; right: 0; background-color: var(--bg-header); backdrop-filter: blur(10px); border: 1px solid var(--border-color); border-top: none; padding: 15px; border-radius: 0 0 0 10px; flex-direction: column; gap: 15px; z-index: 1000; }
-        .mobile-nav a { color: var(--text-secondary); font-size: 1.1rem; padding: 10px; }
-        @media (max-width: 850px) { .mobile-hide { display: none !important; } .mobile-menu-toggle { display: block; } .header-right { gap: 15px; } }
-        @media (max-width: 768px) { .profile-main { padding: 40px 15px; } .welcome-section h1 { font-size: 2.5rem; } }
+        .card-button { display: inline-block; text-align: center; padding: 9px 22px; border: 1px solid var(--accent-primary); color: var(--accent-primary); border-radius: 20px; font-weight: 500; }
+        .card-button:hover { background-color: var(--accent-primary); color: #fff; }
+
+        /* KAYAN UYARI (TOAST) SİSTEMİ - DÜZELTİLMİŞ */
+        .toast-container { position: fixed; top: 90px; /* Header'dan daha aşağıda */ right: 20px; z-index: 1001; display: flex; flex-direction: column; gap: 10px; max-width: calc(100% - 40px); }
+        .toast { display: flex; align-items: center; gap: 15px; background: var(--toast-bg); color: var(--toast-text); border-left: 5px solid; padding: 15px 20px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); backdrop-filter: blur(5px); transform: translateX(120%); opacity: 0; transition: transform 0.5s ease, opacity 0.5s ease; }
+        .toast.show { transform: translateX(0); opacity: 1; }
+        .toast.hide { transform: translateX(120%); opacity: 0; }
+        .toast-icon { font-size: 1.5rem; }
+        .toast-message { font-size: 0.95rem; font-weight: 500; }
+        .toast.checkin { border-color: #e74c3c; } .toast.checkin .toast-icon { color: #e74c3c; }
+        .toast.success { border-color: #2ecc71; } .toast.success .toast-icon { color: #2ecc71; }
+        .toast.survey { border-color: #f39c12; } .toast.survey .toast-icon { color: #f39c12; }
+        
+        @media (max-width: 768px) { .header-link span, .logout-button span { display: none; } }
+        @media (max-width: 480px) { .toast-container { left: 10px; right: 10px; max-width: calc(100% - 20px); top: 80px; } }
     </style>
 </head>
 <body class="dark-theme">
     <div id="tsparticles"></div>
+    <div id="toast-container" class="toast-container"></div>
     <header class="main-header">
         <div class="header-left">
-             <a href="profil.html" style="display: flex; align-items: center; gap: 12px;"><img src="logom.png" alt="Teknopark Logo" class="header-logo"></a>
-             <a href="checkin.html" id="checkin-notification" class="checkin-link">Lütfen <span id="checkin-event-name">Etkinlik Adı</span> için Check-in yapınız!</a>
-             <div id="success-notification" class="success-notification"><i class="fas fa-check-circle" style="margin-right: 8px;"></i><span id="success-event-name">Etkinlik Adı</span> için check-in yapıldı!</div>
+             <img src="logom.png" alt="Teknopark Logo" class="header-logo">
         </div>
         <div class="header-right">
-            <a href="Pro.html" class="header-link mobile-hide"> <i class="fas fa-user-circle"></i> <span>Profil</span> </a>
-            <a href="bildirimler.html" class="header-link mobile-hide"><i class="fa-solid fa-bell"></i> <span>Bildirimler</span> </a>
-            <a href="ayarlar.html" class="header-link mobile-hide"> <i class="fas fa-cog"></i> <span>Ayarlar</span> </a>
             <button id="theme-toggle" aria-label="Temayı Değiştir"><i class="fas fa-sun"></i><i class="fas fa-moon"></i></button>
-            <button id="logoutLinkSimple" class="logout-button mobile-hide"> <i class="fas fa-sign-out-alt"></i> <span>Çıkış Yap</span> </button>
-            <button id="mobile-menu-toggle" class="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+            <a href="Pro.html" class="header-link"> <i class="fas fa-user-circle"></i> <span>Profil</span> </a>
+            <a href="ayarlar.html" class="header-link"> <i class="fas fa-cog"></i> <span>Ayarlar</span> </a>
+            <button id="logoutLinkSimple" class="logout-button"> <i class="fas fa-sign-out-alt"></i> <span>Çıkış Yap</span> </button>
         </div>
-        <nav id="mobile-nav" class="mobile-nav">
-             <a href="Pro.html">Profil</a>
-             <a href="bildirimler.html">Bildirimler</a>
-             <a href="ayarlar.html">Ayarlar</a>
-             <a href="#" id="logoutLinkMobile">Çıkış Yap</a>
-        </nav>
     </header>
     <main class="profile-main">
         <div class="profile-container">
-            <div class="welcome-section"><h1 id="welcomeHeading">Hoşgeldin, <span>Kullanıcı</span>!</h1></div>
+            <div class="welcome-section">
+                <h1 id="welcomeHeading">Hoşgeldin, <span>Kullanıcı</span>!</h1>
+            </div>
             <div class="dashboard-grid">
-                <div class="dashboard-card"><div class="card-icon"><i class="fas fa-calendar-days"></i></div><h3 class="card-title">Etkinlik Takvimi</h3><p class="card-description">Yaklaşan etkinlikleri ve kayıt durumunuzu takip edin.</p><div class="card-button-wrapper"><a href="etkinlikler.html" class="card-button">Takvime Bak</a></div></div>
-                <div class="dashboard-card"><div class="card-icon"><i class="fas fa-poll"></i></div><h3 class="card-title">Anketler</h3><p class="card-description">Katıldığınız etkinlikler sonrası geri bildirim anketlerinizi doldurun.</p><div class="card-button-wrapper"><a href="anketler.html" class="card-button">Anketleri Görüntüle</a></div></div>
+                <div class="dashboard-card" id="card-etkinlikler"><div class="card-icon"><i class="fas fa-calendar-days"></i></div><h3 class="card-title">Etkinlik Takvimi</h3><p class="card-description">Yaklaşan etkinlikleri, kayıt durumunuzu ve görevlerinizi takip edin.</p><div class="card-button-wrapper"><a href="etkinlikler.html" class="card-button">Tüm Etkinlikleri Gör</a></div></div>
             </div>
         </div>
     </main>
@@ -98,44 +92,51 @@
         document.addEventListener('DOMContentLoaded', () => {
             if (!localStorage.getItem('loggedInUserName')) { window.location.href = 'login.html'; return; }
             
-            const welcomeHeadingName = document.querySelector('#welcomeHeading span');
-            welcomeHeadingName.textContent = localStorage.getItem('loggedInUserName');
+            document.querySelector('#welcomeHeading span').textContent = localStorage.getItem('loggedInUserName');
             
-            function handleLogout(e) { e.preventDefault(); localStorage.clear(); window.location.href = 'login.html'; }
-            document.getElementById('logoutLinkSimple').addEventListener('click', handleLogout);
-            document.getElementById('logoutLinkMobile').addEventListener('click', handleLogout);
+            const logoutSimple = document.getElementById('logoutLinkSimple');
+            if(logoutSimple) { logoutSimple.addEventListener('click', (e) => { e.preventDefault(); localStorage.clear(); window.location.href = 'index.html'; }); }
 
-            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-            const mobileNav = document.getElementById('mobile-nav');
-            mobileMenuToggle.addEventListener('click', () => { mobileNav.style.display = mobileNav.style.display === 'flex' ? 'none' : 'flex'; });
-            
+            const toastContainer = document.getElementById('toast-container');
+            function showToast(message, type = 'checkin', duration = 6000) {
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                const iconClass = { success: 'fa-check-circle', checkin: 'fa-bell', survey: 'fa-file-alt' }[type];
+                toast.innerHTML = `<div class="toast-icon"><i class="fas ${iconClass}"></i></div><div class="toast-message">${message}</div>`;
+                toastContainer.appendChild(toast);
+                setTimeout(() => { toast.classList.add('show'); }, 100);
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    toast.addEventListener('transitionend', () => toast.remove());
+                }, duration);
+            }
+
             function checkNotifications() {
                 const eventsData = [{ id: 1, name: "Yapay Zeka Semineri"}, { id: 2, name: "Yatırımcı Buluşması"}, { id: 3, name: "Mobil Workshop"}];
-                const successNotification = document.getElementById('success-notification');
-                const successEventNameSpan = document.getElementById('success-event-name');
                 const lastCheckedInId = localStorage.getItem('lastCheckedInEventId');
                 
                 if (lastCheckedInId) {
                     const eventDetails = eventsData.find(event => event.id == lastCheckedInId);
                     if (eventDetails) {
-                        successEventNameSpan.textContent = `"${eventDetails.name}"`;
-                        successNotification.style.display = 'inline-flex';
+                        showToast(`"${eventDetails.name}" için check-in yapıldı!`, 'success');
                         localStorage.removeItem('lastCheckedInEventId');
-                        setTimeout(() => { successNotification.style.display = 'none'; }, 5000);
                     }
-                    return; 
                 }
-                
-                const notification = document.getElementById('checkin-notification');
-                const eventNameSpan = document.getElementById('checkin-event-name');
                 const userRegistrations = JSON.parse(localStorage.getItem('userRegistrations')) || {};
                 const eventToCheckInId = Object.keys(userRegistrations).find(eventId => userRegistrations[eventId] && !userRegistrations[eventId].checkedIn);
                 
                 if (eventToCheckInId) {
                     const eventDetails = eventsData.find(event => event.id == eventToCheckInId);
                     if (eventDetails) {
-                        eventNameSpan.textContent = `"${eventDetails.name}"`;
-                        notification.style.display = 'inline-flex';
+                        showToast(`Check-in Bekleniyor: "${eventDetails.name}"`, 'checkin');
+                    }
+                }
+
+                const pendingSurvey = Object.keys(userRegistrations).find(eventId => userRegistrations[eventId].checkedIn && !userRegistrations[eventId].surveyCompleted);
+                if(pendingSurvey){
+                    const eventDetails = eventsData.find(event => event.id == pendingSurvey);
+                    if (eventDetails) {
+                        showToast(`"${eventDetails.name}" için anketinizi doldurun.`, 'survey');
                     }
                 }
             }
@@ -144,14 +145,17 @@
             const body = document.body;
             const themeToggleBtn = document.getElementById('theme-toggle');
             const darkThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 70 }, color: { value: ["#ffffff", "#00BFFF", "#87CEFA", "#add8e6"] }, shape: { type: "circle" }, opacity: { value: {min: 0.1, max: 0.5} }, size: { value: {min: 1, max: 3} }, links: { enable: true, distance: 150, color: "#3a5f9b", opacity: 0.15, width: 1 }, move: { enable: true, speed: 0.7, direction: "none", random: true, straight: false, outModes: { default: "bounce" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
-            const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 90 }, color: { value: ["#6A4A85", "#8A5A9E", "#3498db", "#5dade2"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.6} }, size: { value: {min: 1, max: 3.5} }, links: { enable: true, distance: 160, color: "#a0a0ff", opacity: 0.2, width: 1 }, move: { enable: true, speed: 0.8, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            const lightThemeParticlesConfig = { fpsLimit: 60, background: { color: "transparent" }, particles: { number: { value: 90 }, color: { value: ["#6A4A85", "#8A5A9E", "#c3143c", "#d73b8d"] }, shape: { type: "circle" }, opacity: { value: {min: 0.2, max: 0.6} }, size: { value: {min: 1, max: 3.5} }, links: { enable: true, distance: 160, color: "#a0a0ff", opacity: 0.2, width: 1 }, move: { enable: true, speed: 0.8, direction: "none", random: true, straight: false, outModes: { default: "out" } } }, interactivity: { events: { resize: true } }, detectRetina: true };
+            
             function applyTheme(theme) {
+                const isParticlesPage = typeof tsParticles !== 'undefined' && document.getElementById('tsparticles');
                 let config = theme === 'light' ? lightThemeParticlesConfig : darkThemeParticlesConfig;
                 if (theme === 'light') { body.classList.remove('dark-theme'); body.classList.add('light-theme'); } else { body.classList.remove('light-theme'); body.classList.add('dark-theme'); }
                 localStorage.setItem('theme', theme);
-                if (typeof tsParticles !== 'undefined' && document.getElementById('tsparticles')) { tsParticles.load("tsparticles", config); }
+                if (isParticlesPage) { tsParticles.load("tsparticles", config); }
             }
-            themeToggleBtn.addEventListener('click', () => { const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark'; applyTheme(newTheme); });
+            
+            if (themeToggleBtn) { themeToggleBtn.addEventListener('click', () => { const newTheme = body.classList.contains('dark-theme') ? 'light' : 'dark'; applyTheme(newTheme); }); }
             const savedTheme = localStorage.getItem('theme') || 'dark';
             applyTheme(savedTheme);
         });
